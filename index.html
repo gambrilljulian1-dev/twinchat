@@ -23,7 +23,7 @@
     }
     .app {
       min-height: 100vh;
-      max-width: 700px;
+      max-width: 900px;
       margin: auto;
       background: white;
       display: flex;
@@ -32,22 +32,24 @@
     header {
       background: #111827;
       color: white;
-      padding: 20px;
+      padding: 18px 20px;
     }
     header h1 {
       margin: 0;
-      font-size: 26px;
+      font-size: 25px;
     }
     header p {
       margin: 5px 0 0;
       color: #d1d5db;
-      font-size: 14px;
+      font-size: 13px;
+    }
+    .hidden {
+      display: none !important;
     }
     .screen {
       padding: 20px;
     }
     .card {
-      background: white;
       border: 1px solid #e5e7eb;
       border-radius: 16px;
       padding: 20px;
@@ -65,51 +67,90 @@
       border-color: #111827;
     }
     button {
+      width: 100%;
       border: 0;
       border-radius: 10px;
-      padding: 13px 16px;
+      padding: 13px;
       margin-top: 10px;
       background: #111827;
       color: white;
-      width: 100%;
     }
     button.secondary {
       background: #e5e7eb;
       color: #111827;
     }
-    button:hover {
-      opacity: 0.9;
-    }
-    .hidden {
-      display: none !important;
-    }
     .status {
       margin-top: 12px;
-      color: #6b7280;
       font-size: 14px;
+      color: #6b7280;
       word-break: break-word;
     }
-    #chatScreen {
+    /* APP */
+    #mainScreen {
+      display: flex;
+      flex: 1;
+      min-height: calc(100vh - 80px);
+    }
+    .sidebar {
+      width: 300px;
+      border-right: 1px solid #e5e7eb;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+    }
+    .user-search {
+      display: flex;
+      gap: 6px;
+    }
+    .user-search input {
+      flex: 1;
+      margin: 0;
+    }
+    .user-search button {
+      width: 90px;
+      margin: 0;
+    }
+    .results {
+      margin-top: 12px;
+    }
+    .user-result,
+    .conversation {
+      width: 100%;
+      text-align: left;
+      background: #f9fafb;
+      color: #111827;
+      margin-top: 7px;
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+    }
+    .user-result:hover,
+    .conversation:hover {
+      background: #e5e7eb;
+    }
+    .chat {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      min-height: calc(100vh - 90px);
+      min-width: 0;
     }
-    .chat-top {
-      padding: 18px 20px;
+    .chat-header {
+      padding: 16px;
       border-bottom: 1px solid #e5e7eb;
     }
-    .chat-top h2 {
+    .chat-header h2 {
       margin: 0;
     }
     #messages {
       flex: 1;
+      min-height: 400px;
       padding: 18px;
       overflow-y: auto;
-      min-height: 350px;
       background: #f9fafb;
     }
     .message {
-      max-width: 80%;
+      max-width: 75%;
       padding: 11px 14px;
       border-radius: 15px;
       margin: 8px 0;
@@ -127,17 +168,11 @@
       color: #111827;
       border-bottom-left-radius: 4px;
     }
-    .sender {
-      font-size: 11px;
-      opacity: 0.65;
-      margin-bottom: 4px;
-    }
     .composer {
       display: flex;
       gap: 8px;
       padding: 12px;
       border-top: 1px solid #e5e7eb;
-      background: white;
     }
     .composer input {
       margin: 0;
@@ -148,12 +183,25 @@
       margin: 0;
     }
     .logout {
-      padding: 12px 20px 20px;
-      background: white;
+      padding: 12px 16px 16px;
     }
     .logout button {
       background: #e5e7eb;
       color: #111827;
+    }
+    @media (max-width: 700px) {
+      #mainScreen {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: 0;
+        border-bottom: 1px solid #e5e7eb;
+        max-height: 300px;
+      }
+      .chat {
+        min-height: 500px;
+      }
     }
   </style>
 </head>
@@ -163,7 +211,7 @@
     <h1>TwinChat</h1>
     <p>Private messaging made simple.</p>
   </header>
-  <!-- LOGIN / SIGNUP -->
+  <!-- AUTH SCREEN -->
   <section id="authScreen" class="screen">
 <div class="card">
   <h2>Welcome to TwinChat</h2>
@@ -172,13 +220,11 @@
     id="email"
     type="email"
     placeholder="Email address"
-    autocomplete="email"
   >
   <input
     id="password"
     type="password"
     placeholder="Password"
-    autocomplete="current-password"
   >
   <button id="signupBtn">
     Create Account
@@ -189,29 +235,57 @@
   <div id="authStatus" class="status"></div>
 </div>
   </section>
-  <!-- CHAT -->
-  <section id="chatScreen" class="hidden">
-<div class="chat-top">
-  <h2>Chat</h2>
-  <div id="userStatus" class="status"></div>
-</div>
-<div id="messages"></div>
-<div class="composer">
-  <input
-    id="messageInput"
-    type="text"
-    placeholder="Type a message..."
-    autocomplete="off"
-  >
-  <button id="sendBtn">
-    Send
-  </button>
-</div>
-<div class="logout">
-  <button id="logoutBtn">
-    Log Out
-  </button>
-</div>
+  <!-- MAIN APP -->
+  <section id="mainScreen" class="hidden">
+<aside class="sidebar">
+  <h2>Chats</h2>
+  <div class="user-search">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Find a user..."
+    >
+    <button id="searchBtn">
+      Search
+    </button>
+  </div>
+  <div id="searchResults" class="results"></div>
+  <h3>Conversations</h3>
+  <div id="conversationList"></div>
+  <div class="logout">
+    <button id="logoutBtn">
+      Log Out
+    </button>
+  </div>
+</aside>
+<main class="chat">
+  <div class="chat-header">
+    <h2 id="chatTitle">
+      Select a conversation
+    </h2>
+    <div
+      id="chatStatus"
+      class="status"
+    >
+      Search for a user to start chatting.
+    </div>
+  </div>
+  <div id="messages"></div>
+  <div class="composer">
+    <input
+      id="messageInput"
+      type="text"
+      placeholder="Type a message..."
+      disabled
+    >
+    <button
+      id="sendBtn"
+      disabled
+    >
+      Send
+    </button>
+  </div>
+</main>
   </section>
 </div>
 <script type="module">
@@ -227,19 +301,19 @@
   import {
     getFirestore,
     collection,
-    addDoc,
     doc,
     setDoc,
+    addDoc,
+    getDocs,
     query,
+    where,
     orderBy,
     onSnapshot,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-  /* =========================
-     FIREBASE CONFIG
-  ========================= */
   const firebaseConfig = {
-    apiKey: "AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
+    apiKey:
+      "AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
     authDomain:
       "twinchat-e77f1.firebaseapp.com",
     projectId:
@@ -251,19 +325,16 @@
     appId:
       "1:739355722602:web:a77a2d1638459ee0e8db13"
   };
-  /* =========================
-     INITIALIZE FIREBASE
-  ========================= */
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  /* =========================
-     ELEMENTS
-  ========================= */
+  const app =
+    initializeApp(firebaseConfig);
+  const auth =
+    getAuth(app);
+  const db =
+    getFirestore(app);
   const authScreen =
     document.getElementById("authScreen");
-  const chatScreen =
-    document.getElementById("chatScreen");
+  const mainScreen =
+    document.getElementById("mainScreen");
   const emailInput =
     document.getElementById("email");
   const passwordInput =
@@ -276,150 +347,417 @@
     document.getElementById("logoutBtn");
   const authStatus =
     document.getElementById("authStatus");
-  const userStatus =
-    document.getElementById("userStatus");
+  const searchInput =
+    document.getElementById("searchInput");
+  const searchBtn =
+    document.getElementById("searchBtn");
+  const searchResults =
+    document.getElementById("searchResults");
+  const conversationList =
+    document.getElementById("conversationList");
+  const chatTitle =
+    document.getElementById("chatTitle");
+  const chatStatus =
+    document.getElementById("chatStatus");
   const messagesDiv =
     document.getElementById("messages");
   const messageInput =
     document.getElementById("messageInput");
   const sendBtn =
     document.getElementById("sendBtn");
+  let currentConversationId = null;
+  let currentOtherUser = null;
+  let unsubscribeMessages = null;
   /* =========================
      CREATE ACCOUNT
   ========================= */
-  signupBtn.addEventListener("click", async () => {
-    const email =
-      emailInput.value.trim();
-    const password =
-      passwordInput.value;
-    if (!email || !password) {
-      authStatus.textContent =
-        "Enter an email and password.";
-      return;
-    }
-    if (password.length < 6) {
-      authStatus.textContent =
-        "Password must be at least 6 characters.";
-      return;
-    }
-    try {
-      const userCredential =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
+  signupBtn.addEventListener(
+    "click",
+    async () => {
+      const email =
+        emailInput.value.trim();
+      const password =
+        passwordInput.value;
+      if (!email || !password) {
+        authStatus.textContent =
+          "Enter an email and password.";
+        return;
+      }
+      if (password.length < 6) {
+        authStatus.textContent =
+          "Password must be at least 6 characters.";
+        return;
+      }
+      try {
+        const result =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+        const user =
+          result.user;
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            email:
+              user.email,
+            displayName:
+              email.split("@")[0],
+            createdAt:
+              serverTimestamp()
+          }
         );
-      const user =
-        userCredential.user;
-      /*
-        Automatically create
-        the user's profile.
-      */
-      await setDoc(
-        doc(db, "users", user.uid),
-        {
-          email: user.email,
-          displayName:
-            email.split("@")[0],
-          createdAt:
-            serverTimestamp()
-        }
-      );
-      authStatus.textContent =
-        "Account created!";
-    } catch (error) {
-      authStatus.textContent =
-        getFriendlyError(error);
+        authStatus.textContent =
+          "Account created!";
+      } catch (error) {
+        authStatus.textContent =
+          friendlyError(error);
+      }
     }
-  });
+  );
   /* =========================
-     LOG IN
+     LOGIN
   ========================= */
-  loginBtn.addEventListener("click", async () => {
-    const email =
-      emailInput.value.trim();
-    const password =
-      passwordInput.value;
-    if (!email || !password) {
-      authStatus.textContent =
-        "Enter your email and password.";
-      return;
+  loginBtn.addEventListener(
+    "click",
+    async () => {
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          emailInput.value.trim(),
+          passwordInput.value
+        );
+      } catch (error) {
+        authStatus.textContent =
+          friendlyError(error);
+      }
     }
-    try {
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      authStatus.textContent =
-        "Logged in!";
-    } catch (error) {
-      authStatus.textContent =
-        getFriendlyError(error);
-    }
-  });
+  );
   /* =========================
-     LOG OUT
+     LOGOUT
   ========================= */
-  logoutBtn.addEventListener("click", async () => {
-    try {
+  logoutBtn.addEventListener(
+    "click",
+    async () => {
       await signOut(auth);
-    } catch (error) {
-      console.error(error);
     }
-  });
+  );
   /* =========================
      AUTH STATE
   ========================= */
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      authScreen.classList.add("hidden");
-      chatScreen.classList.remove("hidden");
-      userStatus.textContent =
-        "Logged in as " + user.email;
-      listenForMessages();
-    } else {
-      authScreen.classList.remove("hidden");
-      chatScreen.classList.add("hidden");
-      messagesDiv.innerHTML = "";
+  onAuthStateChanged(
+    auth,
+    (user) => {
+      if (user) {
+        authScreen.classList.add(
+          "hidden"
+        );
+        mainScreen.classList.remove(
+          "hidden"
+        );
+        loadConversations();
+      } else {
+        authScreen.classList.remove(
+          "hidden"
+        );
+        mainScreen.classList.add(
+          "hidden"
+        );
+        currentConversationId =
+          null;
+        currentOtherUser =
+          null;
+      }
     }
-  });
+  );
   /* =========================
-     SEND MESSAGE
+     SEARCH USERS
   ========================= */
-  async function sendMessage() {
+  searchBtn.addEventListener(
+    "click",
+    searchUsers
+  );
+  searchInput.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key === "Enter") {
+        searchUsers();
+      }
+    }
+  );
+  async function searchUsers() {
     const text =
-      messageInput.value.trim();
+      searchInput.value.trim()
+        .toLowerCase();
+    searchResults.innerHTML = "";
+    if (!text) {
+      return;
+    }
+    try {
+      const usersSnapshot =
+        await getDocs(
+          collection(db, "users")
+        );
+      usersSnapshot.forEach(
+        (userDoc) => {
+          const user =
+            userDoc.data();
+          const currentUser =
+            auth.currentUser;
+          if (
+            currentUser &&
+            userDoc.id ===
+            currentUser.uid
+          ) {
+            return;
+          }
+          const email =
+            (user.email || "")
+              .toLowerCase();
+          const name =
+            (user.displayName || "")
+              .toLowerCase();
+          if (
+            email.includes(text) ||
+            name.includes(text)
+          ) {
+            const button =
+              document.createElement(
+                "button"
+              );
+            button.className =
+              "user-result";
+            button.textContent =
+              user.displayName ||
+              user.email;
+            button.addEventListener(
+              "click",
+              () => {
+                startConversation(
+                  userDoc.id,
+                  user
+                );
+              }
+            );
+            searchResults.appendChild(
+              button
+            );
+          }
+        }
+      );
+      if (
+        searchResults.children.length === 0
+      ) {
+        searchResults.textContent =
+          "No users found.";
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  /* =========================
+     START CONVERSATION
+  ========================= */
+  async function startConversation(
+    otherUserId,
+    otherUser
+  ) {
+    const currentUser =
+      auth.currentUser;
+    if (!currentUser) {
+      return;
+    }
+    const participants = [
+      currentUser.uid,
+      otherUserId
+    ].sort();
+    const conversationId =
+      participants.join("_");
+    await setDoc(
+      doc(
+        db,
+        "conversations",
+        conversationId
+      ),
+      {
+        participants:
+          participants,
+        updatedAt:
+          serverTimestamp()
+      },
+      {
+        merge: true
+      }
+    );
+    currentConversationId =
+      conversationId;
+    currentOtherUser =
+      otherUser;
+    chatTitle.textContent =
+      otherUser.displayName ||
+      otherUser.email;
+    chatStatus.textContent =
+      otherUser.email;
+    messageInput.disabled =
+      false;
+    sendBtn.disabled =
+      false;
+    searchResults.innerHTML = "";
+    searchInput.value = "";
+    listenForMessages();
+    loadConversations();
+  }
+  /* =========================
+     LOAD CONVERSATIONS
+  ========================= */
+  function loadConversations() {
     const user =
       auth.currentUser;
     if (!user) {
       return;
     }
-    if (!text) {
+    const conversationsQuery =
+      query(
+        collection(
+          db,
+          "conversations"
+        ),
+        where(
+          "participants",
+          "array-contains",
+          user.uid
+        ),
+        orderBy("updatedAt", "desc")
+      );
+    onSnapshot(
+      conversationsQuery,
+      async (snapshot) => {
+        conversationList.innerHTML = "";
+        for (
+          const conversationDoc
+          of snapshot.docs
+        ) {
+          const conversation =
+            conversationDoc.data();
+          const otherId =
+            conversation.participants
+              .find(
+                id =>
+                  id !== user.uid
+              );
+          if (!otherId) {
+            continue;
+          }
+          const otherDoc =
+            await getDocs(
+              query(
+                collection(
+                  db,
+                  "users"
+                ),
+                where(
+                  "__name__",
+                  "==",
+                  otherId
+                )
+              )
+            );
+          if (otherDoc.empty) {
+            continue;
+          }
+          const otherUser =
+            otherDoc.docs[0].data();
+          const button =
+            document.createElement(
+              "button"
+            );
+          button.className =
+            "conversation";
+          button.textContent =
+            otherUser.displayName ||
+            otherUser.email;
+          button.addEventListener(
+            "click",
+            () => {
+              startConversation(
+                otherId,
+                otherUser
+              );
+            }
+          );
+          conversationList.appendChild(
+            button
+          );
+        }
+      }
+    );
+  }
+  /* =========================
+     REAL-TIME MESSAGES
+  ========================= */
+  function listenForMessages() {
+    if (!currentConversationId) {
       return;
     }
-    try {
-      await addDoc(
-        collection(db, "messages"),
-        {
-          text: text,
-          sender:
-            user.email,
-          senderId:
-            user.uid,
-          createdAt:
-            serverTimestamp()
+    if (unsubscribeMessages) {
+      unsubscribeMessages();
+    }
+    const messagesQuery =
+      query(
+        collection(
+          db,
+          "conversations",
+          currentConversationId,
+          "messages"
+        ),
+        orderBy("createdAt")
+      );
+    unsubscribeMessages =
+      onSnapshot(
+        messagesQuery,
+        (snapshot) => {
+          messagesDiv.innerHTML =
+            "";
+          snapshot.forEach(
+            (messageDoc) => {
+              const message =
+                messageDoc.data();
+              const box =
+                document.createElement(
+                  "div"
+                );
+              const mine =
+                message.senderId ===
+                auth.currentUser.uid;
+              box.className =
+                "message " +
+                (
+                  mine
+                    ? "mine"
+                    : "theirs"
+                );
+              box.textContent =
+                message.text || "";
+              messagesDiv.appendChild(
+                box
+              );
+            }
+          );
+          messagesDiv.scrollTop =
+            messagesDiv.scrollHeight;
+        },
+        (error) => {
+          console.error(
+            "Message listener error:",
+            error
+          );
         }
       );
-      messageInput.value = "";
-      messageInput.focus();
-    } catch (error) {
-      console.error(error);
-      alert(
-        "Message could not be sent."
-      );
-    }
   }
+  /* =========================
+     SEND MESSAGE
+  ========================= */
   sendBtn.addEventListener(
     "click",
     sendMessage
@@ -432,64 +770,62 @@
       }
     }
   );
-  /* =========================
-     REAL-TIME MESSAGES
-  ========================= */
-  function listenForMessages() {
-    const messagesQuery =
-      query(
-        collection(db, "messages"),
-        orderBy("createdAt")
+  async function sendMessage() {
+    const text =
+      messageInput.value.trim();
+    const user =
+      auth.currentUser;
+    if (
+      !text ||
+      !user ||
+      !currentConversationId
+    ) {
+      return;
+    }
+    try {
+      await addDoc(
+        collection(
+          db,
+          "conversations",
+          currentConversationId,
+          "messages"
+        ),
+        {
+          text:
+            text,
+          senderId:
+            user.uid,
+          createdAt:
+            serverTimestamp()
+        }
       );
-    onSnapshot(
-      messagesQuery,
-      (snapshot) => {
-        messagesDiv.innerHTML = "";
-        snapshot.forEach((messageDoc) => {
-          const message =
-            messageDoc.data();
-          const messageBox =
-            document.createElement("div");
-          const isMine =
-            auth.currentUser &&
-            message.senderId ===
-            auth.currentUser.uid;
-          messageBox.className =
-            "message " +
-            (isMine
-              ? "mine"
-              : "theirs");
-          const sender =
-            document.createElement("div");
-          sender.className =
-            "sender";
-          sender.textContent =
-            message.sender || "User";
-          const text =
-            document.createElement("div");
-          text.textContent =
-            message.text || "";
-          messageBox.appendChild(sender);
-          messageBox.appendChild(text);
-          messagesDiv.appendChild(
-            messageBox
-          );
-        });
-        messagesDiv.scrollTop =
-          messagesDiv.scrollHeight;
-      },
-      (error) => {
-        console.error(
-          "Message listener error:",
-          error
-        );
-      }
-    );
+      await setDoc(
+        doc(
+          db,
+          "conversations",
+          currentConversationId
+        ),
+        {
+          updatedAt:
+            serverTimestamp()
+        },
+        {
+          merge: true
+        }
+      );
+      messageInput.value = "";
+      messageInput.focus();
+    } catch (error) {
+      console.error(error);
+      alert(
+        "Message could not be sent."
+      );
+    }
   }
   /* =========================
-     FRIENDLY ERRORS
+     ERROR MESSAGES
   ========================= */
-  function getFriendlyError(error) {
+  function friendlyError(error) {
     switch (error.code) {
       case "auth/email-already-in-use":
         return "That email already has an account.";
