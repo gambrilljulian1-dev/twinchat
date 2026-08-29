@@ -5,98 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TwinChat</title>
   <style>
-    * { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #171717;
-}
-.app {
-  max-width: 600px;
-  min-height: 100vh;
-  margin: auto;
-  background: white;
-  display: flex;
-  flex-direction: column;
-}
-header {
-  padding: 18px;
-  background: #171717;
-  color: white;
-}
-header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-header p {
-  margin: 5px 0 0;
-  opacity: .7;
-  font-size: 13px;
-}
-.screen {
-  padding: 20px;
-}
-input, button {
-  width: 100%;
-  padding: 13px;
-  margin-top: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-button {
-  background: #171717;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-button:hover {
-  opacity: .9;
-}
-.message {
-  padding: 12px 15px;
-  margin: 8px 0;
-  border-radius: 15px;
-  max-width: 80%;
-}
-.mine {
-  background: #171717;
-  color: white;
-  margin-left: auto;
-}
-.theirs {
-  background: #eeeeee;
-  margin-right: auto;
-}
-#messages {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  min-height: 400px;
-}
-.composer {
-  display: flex;
-  gap: 8px;
-  padding: 12px;
-  border-top: 1px solid #ddd;
-}
-.composer input {
-  margin: 0;
-  flex: 1;
-}
-.composer button {
-  width: 80px;
-  margin: 0;
-}
-.hidden {
-  display: none;
-}
-.status {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #666;
-}
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
+    }
+    button,
+    input {
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    .app {
+      min-height: 100vh;
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #111827;
+      color: white;
+      padding: 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+    header p {
+      margin: 5px 0 0;
+      color: #d1d5db;
+      font-size: 14px;
+    }
+    .screen {
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      outline: none;
+    }
+    input:focus {
+      border-color: #111827;
+    }
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 13px 16px;
+      margin-top: 10px;
+      background: #111827;
+      color: white;
+      width: 100%;
+    }
+    button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
+    button:hover {
+      opacity: 0.9;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .status {
+      margin-top: 12px;
+      color: #6b7280;
+      font-size: 14px;
+      word-break: break-word;
+    }
+    #chatScreen {
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100vh - 90px);
+    }
+    .chat-top {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .chat-top h2 {
+      margin: 0;
+    }
+    #messages {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      min-height: 350px;
+      background: #f9fafb;
+    }
+    .message {
+      max-width: 80%;
+      padding: 11px 14px;
+      border-radius: 15px;
+      margin: 8px 0;
+      word-wrap: break-word;
+    }
+    .mine {
+      margin-left: auto;
+      background: #111827;
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .theirs {
+      margin-right: auto;
+      background: #e5e7eb;
+      color: #111827;
+      border-bottom-left-radius: 4px;
+    }
+    .sender {
+      font-size: 11px;
+      opacity: 0.65;
+      margin-bottom: 4px;
+    }
+    .composer {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+    }
+    .composer input {
+      margin: 0;
+      flex: 1;
+    }
+    .composer button {
+      width: 80px;
+      margin: 0;
+    }
+    .logout {
+      padding: 12px 20px 20px;
+      background: white;
+    }
+    .logout button {
+      background: #e5e7eb;
+      color: #111827;
+    }
   </style>
 </head>
 <body>
@@ -105,31 +163,60 @@ button:hover {
     <h1>TwinChat</h1>
     <p>Private messaging made simple.</p>
   </header>
+  <!-- LOGIN / SIGNUP -->
   <section id="authScreen" class="screen">
-    <h2>Welcome to TwinChat</h2>
-<input id="email" type="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button id="signupBtn">Create Account</button>
-<button id="loginBtn">Log In</button>
-<div id="authStatus" class="status"></div>
+<div class="card">
+  <h2>Welcome to TwinChat</h2>
+  <p>Create an account or log in.</p>
+  <input
+    id="email"
+    type="email"
+    placeholder="Email address"
+    autocomplete="email"
+  >
+  <input
+    id="password"
+    type="password"
+    placeholder="Password"
+    autocomplete="current-password"
+  >
+  <button id="signupBtn">
+    Create Account
+  </button>
+  <button id="loginBtn" class="secondary">
+    Log In
+  </button>
+  <div id="authStatus" class="status"></div>
+</div>
   </section>
+  <!-- CHAT -->
   <section id="chatScreen" class="hidden">
-<div class="screen">
+<div class="chat-top">
   <h2>Chat</h2>
   <div id="userStatus" class="status"></div>
 </div>
 <div id="messages"></div>
 <div class="composer">
-  <input id="messageInput" type="text" placeholder="Type a message...">
-  <button id="sendBtn">Send</button>
+  <input
+    id="messageInput"
+    type="text"
+    placeholder="Type a message..."
+    autocomplete="off"
+  >
+  <button id="sendBtn">
+    Send
+  </button>
 </div>
-<div class="screen">
-  <button id="logoutBtn">Log Out</button>
+<div class="logout">
+  <button id="logoutBtn">
+    Log Out
+  </button>
 </div>
   </section>
 </div>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
   import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -141,61 +228,149 @@ button:hover {
     getFirestore,
     collection,
     addDoc,
+    doc,
+    setDoc,
     query,
     orderBy,
     onSnapshot,
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  /* =========================
+     FIREBASE CONFIG
+  ========================= */
   const firebaseConfig = {
     apiKey: "AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
-    authDomain: "twinchat-e77f1.firebaseapp.com",
-    projectId: "twinchat-e77f1",
-    storageBucket: "twinchat-e77f1.firebasestorage.app",
-    messagingSenderId: "739355722602",
-    appId: "1:739355722602:web:a77a2d1638459ee0e8db13"
+    authDomain:
+      "twinchat-e77f1.firebaseapp.com",
+    projectId:
+      "twinchat-e77f1",
+    storageBucket:
+      "twinchat-e77f1.firebasestorage.app",
+    messagingSenderId:
+      "739355722602",
+    appId:
+      "1:739355722602:web:a77a2d1638459ee0e8db13"
   };
+  /* =========================
+     INITIALIZE FIREBASE
+  ========================= */
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const authScreen = document.getElementById("authScreen");
-  const chatScreen = document.getElementById("chatScreen");
-  const emailInput = document.getElementById("email");
-  const passwordInput = document.getElementById("password");
-  const signupBtn = document.getElementById("signupBtn");
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const authStatus = document.getElementById("authStatus");
-  const userStatus = document.getElementById("userStatus");
-  const messagesDiv = document.getElementById("messages");
-  const messageInput = document.getElementById("messageInput");
-  const sendBtn = document.getElementById("sendBtn");
-  signupBtn.onclick = async () => {
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        emailInput.value,
-        passwordInput.value
-      );
-      authStatus.textContent = "Account created!";
-    } catch (error) {
-      authStatus.textContent = error.message;
+  /* =========================
+     ELEMENTS
+  ========================= */
+  const authScreen =
+    document.getElementById("authScreen");
+  const chatScreen =
+    document.getElementById("chatScreen");
+  const emailInput =
+    document.getElementById("email");
+  const passwordInput =
+    document.getElementById("password");
+  const signupBtn =
+    document.getElementById("signupBtn");
+  const loginBtn =
+    document.getElementById("loginBtn");
+  const logoutBtn =
+    document.getElementById("logoutBtn");
+  const authStatus =
+    document.getElementById("authStatus");
+  const userStatus =
+    document.getElementById("userStatus");
+  const messagesDiv =
+    document.getElementById("messages");
+  const messageInput =
+    document.getElementById("messageInput");
+  const sendBtn =
+    document.getElementById("sendBtn");
+  /* =========================
+     CREATE ACCOUNT
+  ========================= */
+  signupBtn.addEventListener("click", async () => {
+    const email =
+      emailInput.value.trim();
+    const password =
+      passwordInput.value;
+    if (!email || !password) {
+      authStatus.textContent =
+        "Enter an email and password.";
+      return;
     }
-  };
-  loginBtn.onclick = async () => {
+    if (password.length < 6) {
+      authStatus.textContent =
+        "Password must be at least 6 characters.";
+      return;
+    }
+    try {
+      const userCredential =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+      const user =
+        userCredential.user;
+      /*
+        Automatically create
+        the user's profile.
+      */
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          email: user.email,
+          displayName:
+            email.split("@")[0],
+          createdAt:
+            serverTimestamp()
+        }
+      );
+      authStatus.textContent =
+        "Account created!";
+    } catch (error) {
+      authStatus.textContent =
+        getFriendlyError(error);
+    }
+  });
+  /* =========================
+     LOG IN
+  ========================= */
+  loginBtn.addEventListener("click", async () => {
+    const email =
+      emailInput.value.trim();
+    const password =
+      passwordInput.value;
+    if (!email || !password) {
+      authStatus.textContent =
+        "Enter your email and password.";
+      return;
+    }
     try {
       await signInWithEmailAndPassword(
         auth,
-        emailInput.value,
-        passwordInput.value
+        email,
+        password
       );
-      authStatus.textContent = "Logged in!";
+      authStatus.textContent =
+        "Logged in!";
     } catch (error) {
-      authStatus.textContent = error.message;
+      authStatus.textContent =
+        getFriendlyError(error);
     }
-  };
-  logoutBtn.onclick = async () => {
-    await signOut(auth);
-  };
+  });
+  /* =========================
+     LOG OUT
+  ========================= */
+  logoutBtn.addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  /* =========================
+     AUTH STATE
+  ========================= */
   onAuthStateChanged(auth, (user) => {
     if (user) {
       authScreen.classList.add("hidden");
@@ -206,44 +381,130 @@ button:hover {
     } else {
       authScreen.classList.remove("hidden");
       chatScreen.classList.add("hidden");
-    }
-  });
-  async function sendMessage() {
-    const text = messageInput.value.trim();
-    if (!text || !auth.currentUser) return;
-    await addDoc(collection(db, "messages"), {
-      text: text,
-      sender: auth.currentUser.email,
-      senderId: auth.currentUser.uid,
-      createdAt: serverTimestamp()
-    });
-    messageInput.value = "";
-  }
-  sendBtn.onclick = sendMessage;
-  messageInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      sendMessage();
-    }
-  });
-  function listenForMessages() {
-    const messagesQuery = query(
-      collection(db, "messages"),
-      orderBy("createdAt")
-    );
-    onSnapshot(messagesQuery, (snapshot) => {
       messagesDiv.innerHTML = "";
-      snapshot.forEach((doc) => {
-        const message = doc.data();
-        const div = document.createElement("div");
-        div.className = "message " +
-          (message.senderId === auth.currentUser.uid
-            ? "mine"
-            : "theirs");
-        div.textContent = message.text;
-        messagesDiv.appendChild(div);
-      });
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    });
+    }
+  });
+  /* =========================
+     SEND MESSAGE
+  ========================= */
+  async function sendMessage() {
+    const text =
+      messageInput.value.trim();
+    const user =
+      auth.currentUser;
+    if (!user) {
+      return;
+    }
+    if (!text) {
+      return;
+    }
+    try {
+      await addDoc(
+        collection(db, "messages"),
+        {
+          text: text,
+          sender:
+            user.email,
+          senderId:
+            user.uid,
+          createdAt:
+            serverTimestamp()
+        }
+      );
+      messageInput.value = "";
+      messageInput.focus();
+    } catch (error) {
+      console.error(error);
+      alert(
+        "Message could not be sent."
+      );
+    }
+  }
+  sendBtn.addEventListener(
+    "click",
+    sendMessage
+  );
+  messageInput.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    }
+  );
+  /* =========================
+     REAL-TIME MESSAGES
+  ========================= */
+  function listenForMessages() {
+    const messagesQuery =
+      query(
+        collection(db, "messages"),
+        orderBy("createdAt")
+      );
+    onSnapshot(
+      messagesQuery,
+      (snapshot) => {
+        messagesDiv.innerHTML = "";
+        snapshot.forEach((messageDoc) => {
+          const message =
+            messageDoc.data();
+          const messageBox =
+            document.createElement("div");
+          const isMine =
+            auth.currentUser &&
+            message.senderId ===
+            auth.currentUser.uid;
+          messageBox.className =
+            "message " +
+            (isMine
+              ? "mine"
+              : "theirs");
+          const sender =
+            document.createElement("div");
+          sender.className =
+            "sender";
+          sender.textContent =
+            message.sender || "User";
+          const text =
+            document.createElement("div");
+          text.textContent =
+            message.text || "";
+          messageBox.appendChild(sender);
+          messageBox.appendChild(text);
+          messagesDiv.appendChild(
+            messageBox
+          );
+        });
+        messagesDiv.scrollTop =
+          messagesDiv.scrollHeight;
+      },
+      (error) => {
+        console.error(
+          "Message listener error:",
+          error
+        );
+      }
+    );
+  }
+  /* =========================
+     FRIENDLY ERRORS
+  ========================= */
+  function getFriendlyError(error) {
+    switch (error.code) {
+      case "auth/email-already-in-use":
+        return "That email already has an account.";
+      case "auth/invalid-email":
+        return "Please enter a valid email.";
+      case "auth/invalid-credential":
+        return "Incorrect email or password.";
+      case "auth/weak-password":
+        return "Password must be at least 6 characters.";
+      case "auth/too-many-requests":
+        return "Too many attempts. Try again later.";
+      default:
+        return error.message ||
+          "Something went wrong.";
+    }
   }
 </script>
 </body>
