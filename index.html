@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TwinChat</title>
+  <style>
+    * { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #171717;
+}
+.app {
+  max-width: 600px;
+  min-height: 100vh;
+  margin: auto;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  padding: 18px;
+  background: #171717;
+  color: white;
+}
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+header p {
+  margin: 5px 0 0;
+  opacity: .7;
+  font-size: 13px;
+}
+.screen {
+  padding: 20px;
+}
+input, button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+button {
+  background: #171717;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  opacity: .9;
+}
+.message {
+  padding: 12px 15px;
+  margin: 8px 0;
+  border-radius: 15px;
+  max-width: 80%;
+}
+.mine {
+  background: #171717;
+  color: white;
+  margin-left: auto;
+}
+.theirs {
+  background: #eeeeee;
+  margin-right: auto;
+}
+#messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  min-height: 400px;
+}
+.composer {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #ddd;
+}
+.composer input {
+  margin: 0;
+  flex: 1;
+}
+.composer button {
+  width: 80px;
+  margin: 0;
+}
+.hidden {
+  display: none;
+}
+.status {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>TwinChat</h1>
+    <p>Private messaging made simple.</p>
+  </header>
+  <section id="authScreen" class="screen">
+    <h2>Welcome to TwinChat</h2>
+<input id="email" type="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button id="signupBtn">Create Account</button>
+<button id="loginBtn">Log In</button>
+<div id="authStatus" class="status"></div>
+  </section>
+  <section id="chatScreen" class="hidden">
+<div class="screen">
+  <h2>Chat</h2>
+  <div id="userStatus" class="status"></div>
+</div>
+<div id="messages"></div>
+<div class="composer">
+  <input id="messageInput" type="text" placeholder="Type a message...">
+  <button id="sendBtn">Send</button>
+</div>
+<div class="screen">
+  <button id="logoutBtn">Log Out</button>
+</div>
+  </section>
+</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    onSnapshot,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
+    authDomain: "twinchat-e77f1.firebaseapp.com",
+    projectId: "twinchat-e77f1",
+    storageBucket: "twinchat-e77f1.firebasestorage.app",
+    messagingSenderId: "739355722602",
+    appId: "1:739355722602:web:a77a2d1638459ee0e8db13"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const authScreen = document.getElementById("authScreen");
+  const chatScreen = document.getElementById("chatScreen");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const signupBtn = document.getElementById("signupBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const authStatus = document.getElementById("authStatus");
+  const userStatus = document.getElementById("userStatus");
+  const messagesDiv = document.getElementById("messages");
+  const messageInput = document.getElementById("messageInput");
+  const sendBtn = document.getElementById("sendBtn");
+  signupBtn.onclick = async () => {
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        emailInput.value,
+        passwordInput.value
+      );
+      authStatus.textContent = "Account created!";
+    } catch (error) {
+      authStatus.textContent = error.message;
+    }
+  };
+  loginBtn.onclick = async () => {
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        emailInput.value,
+        passwordInput.value
+      );
+      authStatus.textContent = "Logged in!";
+    } catch (error) {
+      authStatus.textContent = error.message;
+    }
+  };
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+  };
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      authScreen.classList.add("hidden");
+      chatScreen.classList.remove("hidden");
+      userStatus.textContent =
+        "Logged in as " + user.email;
+      listenForMessages();
+    } else {
+      authScreen.classList.remove("hidden");
+      chatScreen.classList.add("hidden");
+    }
+  });
+  async function sendMessage() {
+    const text = messageInput.value.trim();
+    if (!text || !auth.currentUser) return;
+    await addDoc(collection(db, "messages"), {
+      text: text,
+      sender: auth.currentUser.email,
+      senderId: auth.currentUser.uid,
+      createdAt: serverTimestamp()
+    });
+    messageInput.value = "";
+  }
+  sendBtn.onclick = sendMessage;
+  messageInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  });
+  function listenForMessages() {
+    const messagesQuery = query(
+      collection(db, "messages"),
+      orderBy("createdAt")
+    );
+    onSnapshot(messagesQuery, (snapshot) => {
+      messagesDiv.innerHTML = "";
+      snapshot.forEach((doc) => {
+        const message = doc.data();
+        const div = document.createElement("div");
+        div.className = "message " +
+          (message.senderId === auth.currentUser.uid
+            ? "mine"
+            : "theirs");
+        div.textContent = message.text;
+        messagesDiv.appendChild(div);
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+  }
+</script>
+</body>
+</html>
