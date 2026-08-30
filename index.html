@@ -500,20 +500,16 @@ input:focus{
 
   </div>
 
-
   <div class="conversations-title">
     Your chats
   </div>
 
   <div id="conversationList" class="conversations"></div>
 
-
   <div class="logout">
-
     <button id="logoutBtn">
       Log Out
     </button>
-
   </div>
 
 </aside>
@@ -555,10 +551,7 @@ input:focus{
     </div>
 
 
-    <div
-      id="messages"
-      class="messages"
-    ></div>
+    <div id="messages" class="messages"></div>
 
 
     <div class="composer">
@@ -627,9 +620,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-
 const db = getFirestore(app);
 
 
@@ -637,38 +628,21 @@ const db = getFirestore(app);
    ELEMENTS
 ========================= */
 
-const authScreen =
-  document.getElementById("authScreen");
+const authScreen = document.getElementById("authScreen");
+const mainScreen = document.getElementById("mainScreen");
 
-const mainScreen =
-  document.getElementById("mainScreen");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
 
-const emailInput =
-  document.getElementById("email");
+const signupBtn = document.getElementById("signupBtn");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
-const passwordInput =
-  document.getElementById("password");
+const authStatus = document.getElementById("authStatus");
 
-const signupBtn =
-  document.getElementById("signupBtn");
-
-const loginBtn =
-  document.getElementById("loginBtn");
-
-const logoutBtn =
-  document.getElementById("logoutBtn");
-
-const authStatus =
-  document.getElementById("authStatus");
-
-const searchInput =
-  document.getElementById("searchInput");
-
-const searchBtn =
-  document.getElementById("searchBtn");
-
-const searchResults =
-  document.getElementById("searchResults");
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const searchResults = document.getElementById("searchResults");
 
 const conversationList =
   document.getElementById("conversationList");
@@ -709,11 +683,9 @@ const headerAvatar =
 ========================= */
 
 let currentConversationId = null;
-
 let currentOtherUser = null;
 
 let unsubscribeMessages = null;
-
 let unsubscribeConversations = null;
 
 
@@ -732,7 +704,6 @@ function setAvatar(element,user){
 
   element.textContent =
     name.charAt(0).toUpperCase();
-
 }
 
 
@@ -740,201 +711,165 @@ function setAvatar(element,user){
    AUTH
 ========================= */
 
-signupBtn.addEventListener(
-  "click",
-  async()=>{
+signupBtn.addEventListener("click", async()=>{
 
-    const email =
-      emailInput.value
-        .trim()
-        .toLowerCase();
+  const email =
+    emailInput.value.trim().toLowerCase();
 
-    const password =
-      passwordInput.value;
+  const password =
+    passwordInput.value;
 
-    if(!email || !password){
+  if(!email || !password){
 
-      authStatus.textContent =
-        "Enter an email and password.";
+    authStatus.textContent =
+      "Enter an email and password.";
 
-      return;
-    }
-
-    try{
-
-      const result =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-      const user =
-        result.user;
-
-      await setDoc(
-        doc(db,"users",user.uid),
-        {
-          uid:user.uid,
-          email:email,
-          displayName:email.split("@")[0],
-          createdAt:serverTimestamp()
-        }
-      );
-
-      authStatus.textContent = "";
-
-    }catch(error){
-
-      console.error(
-        "SIGNUP ERROR:",
-        error
-      );
-
-      authStatus.textContent =
-        friendlyError(error);
-
-    }
-
+    return;
   }
-);
 
+  try{
 
-loginBtn.addEventListener(
-  "click",
-  async()=>{
-
-    const email =
-      emailInput.value
-        .trim()
-        .toLowerCase();
-
-    const password =
-      passwordInput.value;
-
-    if(!email || !password){
-
-      authStatus.textContent =
-        "Enter an email and password.";
-
-      return;
-    }
-
-    try{
-
-      await signInWithEmailAndPassword(
+    const result =
+      await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-      authStatus.textContent = "";
+    const user = result.user;
 
-    }catch(error){
+    await setDoc(
+      doc(db,"users",user.uid),
+      {
+        uid:user.uid,
+        email:email,
+        displayName:email.split("@")[0],
+        createdAt:serverTimestamp()
+      }
+    );
 
-      console.error(
-        "LOGIN ERROR:",
-        error
-      );
+    authStatus.textContent = "";
 
-      authStatus.textContent =
-        friendlyError(error);
+  }catch(error){
 
-    }
+    console.error("SIGNUP ERROR:",error);
 
-  }
-);
-
-
-logoutBtn.addEventListener(
-  "click",
-  async()=>{
-
-    try{
-
-      await signOut(auth);
-
-    }catch(error){
-
-      console.error(
-        "LOGOUT ERROR:",
-        error
-      );
-
-    }
+    authStatus.textContent =
+      friendlyError(error);
 
   }
-);
+
+});
+
+
+loginBtn.addEventListener("click", async()=>{
+
+  const email =
+    emailInput.value.trim().toLowerCase();
+
+  const password =
+    passwordInput.value;
+
+  if(!email || !password){
+
+    authStatus.textContent =
+      "Enter an email and password.";
+
+    return;
+  }
+
+  try{
+
+    await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    authStatus.textContent = "";
+
+  }catch(error){
+
+    console.error("LOGIN ERROR:",error);
+
+    authStatus.textContent =
+      friendlyError(error);
+
+  }
+
+});
+
+
+logoutBtn.addEventListener("click", async()=>{
+
+  try{
+
+    await signOut(auth);
+
+  }catch(error){
+
+    console.error("LOGOUT ERROR:",error);
+
+  }
+
+});
 
 
 /* =========================
    AUTH STATE
 ========================= */
 
-onAuthStateChanged(
-  auth,
-  async(user)=>{
+onAuthStateChanged(auth, async(user)=>{
 
-    if(!user){
+  if(!user){
 
-      if(unsubscribeMessages){
-        unsubscribeMessages();
-        unsubscribeMessages = null;
-      }
-
-      if(unsubscribeConversations){
-        unsubscribeConversations();
-        unsubscribeConversations = null;
-      }
-
-      currentConversationId = null;
-      currentOtherUser = null;
-
-      authScreen.classList.remove("hidden");
-
-      mainScreen.classList.add("hidden");
-
-      emptyChat.classList.remove("hidden");
-
-      chatArea.classList.add("hidden");
-
-      conversationList.innerHTML = "";
-
-      messagesDiv.innerHTML = "";
-
-      headerName.textContent = "";
-
-      headerAvatar.textContent = "";
-
-      return;
+    if(unsubscribeMessages){
+      unsubscribeMessages();
+      unsubscribeMessages = null;
     }
 
+    if(unsubscribeConversations){
+      unsubscribeConversations();
+      unsubscribeConversations = null;
+    }
 
-    authScreen.classList.add("hidden");
+    currentConversationId = null;
+    currentOtherUser = null;
 
-    mainScreen.classList.remove("hidden");
+    authScreen.classList.remove("hidden");
+    mainScreen.classList.add("hidden");
 
+    emptyChat.classList.remove("hidden");
+    chatArea.classList.add("hidden");
 
-    const profile =
-      await getUserProfile(user.uid);
+    conversationList.innerHTML = "";
+    messagesDiv.innerHTML = "";
 
+    headerName.textContent = "";
+    headerAvatar.textContent = "";
 
-    headerName.textContent =
-      profile?.displayName ||
-      user.email ||
-      "User";
-
-
-    setAvatar(
-      headerAvatar,
-      profile || user
-    );
-
-
-    loadConversations();
-
+    return;
   }
-);
+
+  authScreen.classList.add("hidden");
+  mainScreen.classList.remove("hidden");
+
+  const profile =
+    await getUserProfile(user.uid);
+
+  headerName.textContent =
+    profile?.displayName ||
+    user.email ||
+    "User";
+
+  setAvatar(
+    headerAvatar,
+    profile || user
+  );
+
+  loadConversations();
+
+});
 
 
 /* =========================
@@ -961,10 +896,7 @@ async function getUserProfile(uid){
 
   }catch(error){
 
-    console.error(
-      "PROFILE ERROR:",
-      error
-    );
+    console.error("PROFILE ERROR:",error);
 
     return null;
 
@@ -974,14 +906,13 @@ async function getUserProfile(uid){
 
 
 /* =========================
-   SEARCH
+   SEARCH USERS
 ========================= */
 
 searchBtn.addEventListener(
   "click",
   searchUsers
 );
-
 
 searchInput.addEventListener(
   "keydown",
@@ -1012,14 +943,12 @@ async function searchUsers(){
     return;
   }
 
-
-  const currentUser =
+  const user =
     auth.currentUser;
 
-  if(!currentUser){
+  if(!user){
     return;
   }
-
 
   try{
 
@@ -1029,10 +958,8 @@ async function searchUsers(){
         where("email","==",search)
       );
 
-
     const snapshot =
       await getDocs(q);
-
 
     if(snapshot.empty){
 
@@ -1043,22 +970,18 @@ async function searchUsers(){
 
     }
 
-
-    let foundUser = false;
-
+    let found = false;
 
     snapshot.forEach(userDoc=>{
 
-      if(userDoc.id === currentUser.uid){
+      if(userDoc.id === user.uid){
         return;
       }
 
-      foundUser = true;
+      found = true;
 
-
-      const user =
+      const otherUser =
         userDoc.data();
-
 
       const button =
         document.createElement("button");
@@ -1066,26 +989,22 @@ async function searchUsers(){
       button.className =
         "user-result";
 
-
       const avatar =
         document.createElement("div");
 
       avatar.className =
         "avatar";
 
-
       setAvatar(
         avatar,
-        user
+        otherUser
       );
-
 
       const info =
         document.createElement("div");
 
       info.className =
         "user-result-info";
-
 
       const name =
         document.createElement("div");
@@ -1094,9 +1013,8 @@ async function searchUsers(){
         "user-result-name";
 
       name.textContent =
-        user.displayName ||
+        otherUser.displayName ||
         "User";
-
 
       const email =
         document.createElement("div");
@@ -1105,48 +1023,40 @@ async function searchUsers(){
         "user-result-email";
 
       email.textContent =
-        user.email ||
+        otherUser.email ||
         "";
 
-
       info.appendChild(name);
-
       info.appendChild(email);
 
       button.appendChild(avatar);
-
       button.appendChild(info);
-
 
       button.addEventListener(
         "click",
         async()=>{
 
           searchResults.innerHTML = "";
-
           searchInput.value = "";
 
           await startConversation(
             userDoc.id,
-            user
+            otherUser
           );
 
         }
       );
 
-
       searchResults.appendChild(button);
 
     });
 
-
-    if(!foundUser){
+    if(!found){
 
       searchResults.textContent =
         "No user found.";
 
     }
-
 
   }catch(error){
 
@@ -1166,21 +1076,6 @@ async function searchUsers(){
 
 /* =========================
    START CONVERSATION
-   =========================
-
-   IMPORTANT FIX:
-
-   We DO NOT blindly assume the
-   conversation ID.
-
-   First we search for an existing
-   conversation between these two
-   users.
-
-   This means old conversations
-   created with different IDs can
-   still be opened.
-
 ========================= */
 
 async function startConversation(
@@ -1191,17 +1086,13 @@ async function startConversation(
   const user =
     auth.currentUser;
 
-
   if(!user){
 
-    alert(
-      "You are not logged in."
-    );
+    alert("You are not logged in.");
 
     return;
 
   }
-
 
   if(
     !otherUserId ||
@@ -1212,17 +1103,18 @@ async function startConversation(
 
   }
 
-
   try{
 
     /*
-      STEP 1
+      First look for an existing
+      conversation containing this user.
 
-      Look for an existing conversation
-      containing the current user.
+      Because the query itself uses
+      array-contains with the current UID,
+      it matches the Firestore rule.
     */
 
-    const conversationsQuery =
+    const q =
       query(
         collection(db,"conversations"),
         where(
@@ -1232,54 +1124,39 @@ async function startConversation(
         )
       );
 
-
     const snapshot =
-      await getDocs(
-        conversationsQuery
-      );
-
+      await getDocs(q);
 
     let existingConversationId = null;
 
 
-    snapshot.forEach(
-      conversationDoc=>{
+    snapshot.forEach(conversationDoc=>{
 
-        if(existingConversationId){
-          return;
-        }
+      if(existingConversationId){
+        return;
+      }
 
+      const data =
+        conversationDoc.data();
 
-        const data =
-          conversationDoc.data();
+      if(
+        Array.isArray(data.participants) &&
+        data.participants.includes(otherUserId)
+      ){
 
-
-        if(
-          Array.isArray(
-            data.participants
-          ) &&
-          data.participants.includes(
-            otherUserId
-          )
-        ){
-
-          existingConversationId =
-            conversationDoc.id;
-
-        }
+        existingConversationId =
+          conversationDoc.id;
 
       }
-    );
+
+    });
 
 
     /*
-      STEP 2
+      If an old conversation was found,
+      use its old ID.
 
-      If an old conversation exists,
-      use its ORIGINAL ID.
-
-      Otherwise create a new
-      deterministic ID.
+      Otherwise make a predictable ID.
     */
 
     let conversationId =
@@ -1294,10 +1171,8 @@ async function startConversation(
           otherUserId
         ].sort();
 
-
       conversationId =
         participants.join("_");
-
 
       const conversationRef =
         doc(
@@ -1306,14 +1181,13 @@ async function startConversation(
           conversationId
         );
 
-
-      const conversationSnap =
+      const existing =
         await getDoc(
           conversationRef
         );
 
 
-      if(!conversationSnap.exists()){
+      if(!existing.exists()){
 
         await setDoc(
           conversationRef,
@@ -1330,36 +1204,26 @@ async function startConversation(
 
 
     /*
-      STEP 3
-
-      Open the conversation.
+      Open chat.
     */
 
     currentConversationId =
       conversationId;
 
-
-    currentOtherUser =
-      {
-        ...otherUser,
-        uid:otherUserId
-      };
+    currentOtherUser = {
+      ...otherUser,
+      uid:otherUserId
+    };
 
 
-    emptyChat.classList.add(
-      "hidden"
-    );
+    emptyChat.classList.add("hidden");
 
-
-    chatArea.classList.remove(
-      "hidden"
-    );
+    chatArea.classList.remove("hidden");
 
 
     chatTitle.textContent =
       otherUser.displayName ||
       "User";
-
 
     chatEmail.textContent =
       otherUser.email ||
@@ -1374,9 +1238,7 @@ async function startConversation(
 
     listenForMessages();
 
-
     loadConversations();
-
 
     messageInput.focus();
 
@@ -1387,7 +1249,6 @@ async function startConversation(
       "START CONVERSATION ERROR:",
       error
     );
-
 
     alert(
       "Could not open this conversation:\n\n" +
@@ -1400,11 +1261,8 @@ async function startConversation(
 
 
 /*
-  Keep the old function name working too.
-
-  If anything else in your HTML calls
-  openConversation(), it will use the
-  new fixed system.
+  Compatibility function in case
+  anything else calls openConversation().
 */
 
 async function openConversation(
@@ -1421,14 +1279,13 @@ async function openConversation(
 
 
 /* =========================
-   CONVERSATIONS
+   SIDEBAR CONVERSATIONS
 ========================= */
 
 function loadConversations(){
 
   const user =
     auth.currentUser;
-
 
   if(!user){
     return;
@@ -1438,11 +1295,26 @@ function loadConversations(){
   if(unsubscribeConversations){
 
     unsubscribeConversations();
-
     unsubscribeConversations = null;
 
   }
 
+
+  /*
+    IMPORTANT:
+
+    No orderBy() here.
+
+    We only query conversations that
+    contain the logged-in user's UID.
+
+    Then we sort them in JavaScript.
+
+    This avoids the composite-index
+    problem from:
+
+    array-contains + orderBy
+  */
 
   const q =
     query(
@@ -1451,10 +1323,6 @@ function loadConversations(){
         "participants",
         "array-contains",
         user.uid
-      ),
-      orderBy(
-        "updatedAt",
-        "desc"
       )
     );
 
@@ -1467,18 +1335,45 @@ function loadConversations(){
         conversationList.innerHTML = "";
 
 
+        const conversations =
+          snapshot.docs.map(docSnap=>({
+
+            id:docSnap.id,
+
+            data:docSnap.data()
+
+          }));
+
+
+        /*
+          Sort newest first locally.
+        */
+
+        conversations.sort((a,b)=>{
+
+          const aTime =
+            a.data.updatedAt?.toMillis?.() || 0;
+
+          const bTime =
+            b.data.updatedAt?.toMillis?.() || 0;
+
+          return bTime - aTime;
+
+        });
+
+
         for(
-          const conversationDoc
-          of snapshot.docs
+          const conversation
+          of conversations
         ){
 
-          const conversation =
-            conversationDoc.data();
+          const data =
+            conversation.data;
 
 
           if(
             !Array.isArray(
-              conversation.participants
+              data.participants
             )
           ){
 
@@ -1488,7 +1383,7 @@ function loadConversations(){
 
 
           const otherId =
-            conversation.participants.find(
+            data.participants.find(
               id => id !== user.uid
             );
 
@@ -1512,19 +1407,16 @@ function loadConversations(){
           const button =
             document.createElement("button");
 
-
           button.className =
             "conversation";
 
 
           if(
-            conversationDoc.id ===
+            conversation.id ===
             currentConversationId
           ){
 
-            button.classList.add(
-              "active"
-            );
+            button.classList.add("active");
 
           }
 
@@ -1532,10 +1424,8 @@ function loadConversations(){
           const avatar =
             document.createElement("div");
 
-
           avatar.className =
             "avatar";
-
 
           setAvatar(
             avatar,
@@ -1546,7 +1436,6 @@ function loadConversations(){
           const info =
             document.createElement("div");
 
-
           info.className =
             "conversation-info";
 
@@ -1554,10 +1443,8 @@ function loadConversations(){
           const name =
             document.createElement("div");
 
-
           name.className =
             "conversation-name";
-
 
           name.textContent =
             otherUser.displayName ||
@@ -1568,22 +1455,18 @@ function loadConversations(){
           const preview =
             document.createElement("div");
 
-
           preview.className =
             "conversation-preview";
 
-
           preview.textContent =
-            conversation.lastMessage ||
+            data.lastMessage ||
             "No messages yet";
 
 
           info.appendChild(name);
-
           info.appendChild(preview);
 
           button.appendChild(avatar);
-
           button.appendChild(info);
 
 
@@ -1610,8 +1493,26 @@ function loadConversations(){
       error=>{
 
         console.error(
-          "CONVERSATION ERROR:",
+          "SIDEBAR ERROR:",
           error
+        );
+
+        conversationList.innerHTML = "";
+
+        const errorText =
+          document.createElement("div");
+
+        errorText.style.padding =
+          "20px";
+
+        errorText.style.color =
+          "#7b8493";
+
+        errorText.textContent =
+          "Could not load conversations.";
+
+        conversationList.appendChild(
+          errorText
         );
 
       }
@@ -1634,7 +1535,6 @@ function listenForMessages(){
   if(unsubscribeMessages){
 
     unsubscribeMessages();
-
     unsubscribeMessages = null;
 
   }
@@ -1667,81 +1567,74 @@ function listenForMessages(){
         messagesDiv.innerHTML = "";
 
 
-        snapshot.forEach(
-          messageDoc=>{
+        snapshot.forEach(messageDoc=>{
 
-            const message =
-              messageDoc.data();
+          const message =
+            messageDoc.data();
 
 
-            const wrap =
+          const wrap =
+            document.createElement("div");
+
+
+          const mine =
+            message.senderId ===
+            auth.currentUser?.uid;
+
+
+          wrap.className =
+            "message-wrap" +
+            (
+              mine
+                ? " mine"
+                : ""
+            );
+
+
+          const container =
+            document.createElement("div");
+
+          container.className =
+            "message-container";
+
+
+          const box =
+            document.createElement("div");
+
+          box.className =
+            "message";
+
+
+          box.textContent =
+            message.text ||
+            "";
+
+
+          if(message.createdAt){
+
+            const time =
               document.createElement("div");
 
+            time.className =
+              "message-time";
 
-            const mine =
-              message.senderId ===
-              auth.currentUser?.uid;
-
-
-            wrap.className =
-              "message-wrap" +
-              (
-                mine
-                  ? " mine"
-                  : ""
+            time.textContent =
+              formatTimestamp(
+                message.createdAt
               );
 
-
-            const container =
-              document.createElement("div");
-
-
-            container.className =
-              "message-container";
-
-
-            const box =
-              document.createElement("div");
-
-
-            box.className =
-              "message";
-
-
-            box.textContent =
-              message.text ||
-              "";
-
-
-            if(message.createdAt){
-
-              const time =
-                document.createElement("div");
-
-
-              time.className =
-                "message-time";
-
-
-              time.textContent =
-                formatTimestamp(
-                  message.createdAt
-                );
-
-
-              box.appendChild(time);
-
-            }
-
-
-            container.appendChild(box);
-
-            wrap.appendChild(container);
-
-            messagesDiv.appendChild(wrap);
+            box.appendChild(time);
 
           }
-        );
+
+
+          container.appendChild(box);
+
+          wrap.appendChild(container);
+
+          messagesDiv.appendChild(wrap);
+
+        });
 
 
         messagesDiv.scrollTop =
@@ -1762,7 +1655,7 @@ function listenForMessages(){
 
 
 /* =========================
-   SEND
+   SEND MESSAGE
 ========================= */
 
 sendBtn.addEventListener(
@@ -1791,7 +1684,6 @@ async function sendMessage(){
 
   const user =
     auth.currentUser;
-
 
   const text =
     messageInput.value.trim();
@@ -1912,7 +1804,6 @@ async function sendMessage(){
       error
     );
 
-
     alert(
       "MESSAGE FAILED:\n\n" +
       error.message
@@ -1941,7 +1832,6 @@ function formatTimestamp(timestamp){
 
   const date =
     timestamp.toDate();
-
 
   const now =
     new Date();
@@ -1975,7 +1865,7 @@ function formatTimestamp(timestamp){
 
 
 /* =========================
-   ERRORS
+   FRIENDLY ERRORS
 ========================= */
 
 function friendlyError(error){
@@ -1983,35 +1873,27 @@ function friendlyError(error){
   switch(error.code){
 
     case "auth/email-already-in-use":
-
       return "That email already has an account.";
 
     case "auth/invalid-email":
-
       return "Please enter a valid email.";
 
     case "auth/invalid-credential":
-
       return "Incorrect email or password.";
 
     case "auth/user-not-found":
-
       return "Incorrect email or password.";
 
     case "auth/wrong-password":
-
       return "Incorrect email or password.";
 
     case "auth/weak-password":
-
       return "Password must be at least 6 characters.";
 
     case "auth/too-many-requests":
-
       return "Too many attempts. Try again later.";
 
     default:
-
       return error.message ||
         "Something went wrong.";
 
