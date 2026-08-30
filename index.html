@@ -6,601 +6,625 @@
 <title>TwinChat</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#eef1f5;
-  color:#172033;
+* {
+  box-sizing: border-box;
 }
 
-button,input{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  background: #eef1f5;
+  color: #172033;
+}
 
-.app{
-  max-width:1000px;
-  min-height:100vh;
-  margin:auto;
-  background:white;
-  display:flex;
-  flex-direction:column;
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.app {
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: auto;
+  background: white;
+  display: flex;
+  flex-direction: column;
 }
 
 /* HEADER */
 
-.header{
-  height:76px;
-  padding:16px 22px;
-  background:#111827;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.header {
+  height: 76px;
+  padding: 16px 22px;
+  background: #111827;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.logo{
-  font-size:25px;
-  font-weight:800;
+.logo {
+  font-size: 25px;
+  font-weight: 800;
 }
 
-.tagline{
-  color:#b9c0cc;
-  font-size:12px;
-  margin-top:2px;
+.tagline {
+  color: #b9c0cc;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
-.header-user{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.header-name{
-  font-size:13px;
+.header-name {
+  font-size: 13px;
 }
 
 /* AVATAR */
 
-.avatar{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:#dfe4ec;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  color:#344054;
-  overflow:hidden;
-  flex-shrink:0;
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #dfe4ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #344054;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* AUTH */
 
-.auth{
-  width:100%;
-  max-width:430px;
-  margin:auto;
-  padding:30px 20px;
+.auth {
+  width: 100%;
+  max-width: 430px;
+  margin: auto;
+  padding: 30px 20px;
 }
 
-.auth-card{
-  border:1px solid #e3e7ed;
-  border-radius:22px;
-  padding:28px;
-  box-shadow:0 10px 35px rgba(20,30,50,.07);
+.auth-card {
+  border: 1px solid #e3e7ed;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 10px 35px rgba(20, 30, 50, .07);
 }
 
-.auth-card h2{
-  margin:0 0 7px;
-  font-size:26px;
+.auth-card h2 {
+  margin: 0 0 7px;
+  font-size: 26px;
 }
 
-.auth-card p{
-  color:#6b7280;
+.auth-card p {
+  color: #6b7280;
 }
 
-.auth input{
-  margin-top:10px;
+.auth input {
+  margin-top: 10px;
 }
 
-input{
-  width:100%;
-  border:1px solid #d8dde6;
-  border-radius:12px;
-  padding:13px 14px;
-  outline:none;
-  background:white;
+input {
+  width: 100%;
+  border: 1px solid #d8dde6;
+  border-radius: 12px;
+  padding: 13px 14px;
+  outline: none;
+  background: white;
 }
 
-input:focus{
-  border-color:#111827;
+input:focus {
+  border-color: #111827;
 }
 
 .primary-btn,
-.secondary-btn{
-  width:100%;
-  border:0;
-  border-radius:12px;
-  padding:13px;
-  margin-top:10px;
+.secondary-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 13px;
+  margin-top: 10px;
 }
 
-.primary-btn{
-  background:#111827;
-  color:white;
+.primary-btn {
+  background: #111827;
+  color: white;
 }
 
-.secondary-btn{
-  background:#edf0f4;
-  color:#172033;
+.secondary-btn {
+  background: #edf0f4;
+  color: #172033;
 }
 
-.status{
-  margin-top:12px;
-  color:#737d8d;
-  font-size:13px;
-  word-break:break-word;
+.status {
+  margin-top: 12px;
+  color: #737d8d;
+  font-size: 13px;
+  word-break: break-word;
 }
 
 /* MAIN */
 
-.main{
-  flex:1;
-  display:flex;
-  min-height:calc(100vh - 76px);
+.main {
+  flex: 1;
+  display: flex;
+  min-height: calc(100vh - 76px);
 }
 
 /* SIDEBAR */
 
-.sidebar{
-  width:330px;
-  border-right:1px solid #e5e7eb;
-  display:flex;
-  flex-direction:column;
-  background:white;
+.sidebar {
+  width: 330px;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  background: white;
 }
 
-.sidebar-top{
-  padding:20px;
-  border-bottom:1px solid #edf0f3;
+.sidebar-top {
+  padding: 20px;
+  border-bottom: 1px solid #edf0f3;
 }
 
-.sidebar-title h2{
-  margin:0;
-  font-size:21px;
+.sidebar-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-title h2 {
+  margin: 0;
+  font-size: 21px;
 }
 
 /* SEARCH */
 
-.search-row{
-  display:flex;
-  gap:8px;
-  margin-top:15px;
+.search-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
 }
 
-.search{
-  margin:0;
-  flex:1;
-  min-width:0;
+.search {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 
-.search-btn{
-  width:auto;
-  margin:0;
-  padding:0 13px;
-  border:0;
-  border-radius:12px;
-  background:#111827;
-  color:white;
-  white-space:nowrap;
+.search-btn {
+  width: auto;
+  margin: 0;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+  color: white;
+  white-space: nowrap;
 }
 
-.search-results{
-  margin-top:8px;
+.search-btn:active {
+  transform: scale(.97);
 }
 
-.user-result{
-  width:100%;
-  border:0;
-  background:#f5f7fa;
-  color:#172033;
-  border-radius:12px;
-  padding:11px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  text-align:left;
-  margin-top:6px;
+.search-results {
+  margin-top: 8px;
 }
 
-.user-result:hover{
-  background:#e9edf2;
+.user-result {
+  width: 100%;
+  border: 0;
+  background: #f5f7fa;
+  color: #172033;
+  border-radius: 12px;
+  padding: 11px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  margin-top: 6px;
 }
 
-.user-result-info{
-  min-width:0;
+.user-result:hover {
+  background: #e9edf2;
 }
 
-.user-result-name{
-  font-weight:700;
+.user-result-info {
+  min-width: 0;
 }
 
-.user-result-email{
-  color:#7b8493;
-  font-size:12px;
-  margin-top:2px;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.user-result-name {
+  font-weight: 700;
+}
+
+.user-result-email {
+  color: #7b8493;
+  font-size: 12px;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* CONVERSATIONS */
 
-.conversations-title{
-  padding:16px 20px 8px;
-  color:#7b8493;
-  font-size:12px;
-  font-weight:700;
-  text-transform:uppercase;
+.conversations-title {
+  padding: 16px 20px 8px;
+  color: #7b8493;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.conversations{
-  overflow-y:auto;
-  flex:1;
+.conversations {
+  overflow-y: auto;
+  flex: 1;
 }
 
-.conversation{
-  width:100%;
-  border:0;
-  background:white;
-  color:#172033;
-  padding:13px 18px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  text-align:left;
+.conversation {
+  width: 100%;
+  border: 0;
+  background: white;
+  color: #172033;
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
 }
 
 .conversation:hover,
-.conversation.active{
-  background:#f3f5f8;
+.conversation.active {
+  background: #f3f5f8;
 }
 
-.conversation-info{
-  min-width:0;
-  flex:1;
+.conversation-info {
+  min-width: 0;
+  flex: 1;
 }
 
-.conversation-row{
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
+.conversation-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.conversation-name{
-  font-weight:700;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+.conversation-name {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.conversation-time{
-  color:#8b94a3;
-  font-size:11px;
-  white-space:nowrap;
+.conversation-time {
+  color: #8b94a3;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
-.conversation-bottom{
-  display:flex;
-  align-items:center;
-  gap:8px;
+.conversation-bottom {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.conversation-preview{
-  color:#7b8493;
-  font-size:13px;
-  margin-top:3px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  flex:1;
+.conversation-preview {
+  color: #7b8493;
+  font-size: 13px;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
 }
 
-.unread{
-  min-width:22px;
-  height:22px;
-  padding:0 7px;
-  border-radius:50px;
-  background:#111827;
-  color:white;
-  font-size:11px;
-  font-weight:700;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
+.unread {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 50px;
+  background: #111827;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* LOGOUT */
 
-.logout{
-  padding:12px 16px 18px;
+.logout {
+  padding: 12px 16px 18px;
 }
 
-.logout button{
-  width:100%;
-  border:0;
-  background:#edf0f4;
-  color:#172033;
-  border-radius:11px;
-  padding:11px;
+.logout button {
+  width: 100%;
+  border: 0;
+  background: #edf0f4;
+  color: #172033;
+  border-radius: 11px;
+  padding: 11px;
 }
 
 /* CHAT */
 
-.chat{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-  background:#f7f8fa;
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #f7f8fa;
 }
 
-.empty-chat{
-  margin:auto;
-  text-align:center;
-  padding:30px;
-  color:#7b8493;
+.empty-chat {
+  margin: auto;
+  text-align: center;
+  padding: 30px;
+  color: #7b8493;
 }
 
-.empty-chat h2{
-  color:#172033;
+.empty-chat h2 {
+  color: #172033;
 }
 
-.chat-area{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
-.chat-header{
-  min-height:73px;
-  background:white;
-  border-bottom:1px solid #e5e7eb;
-  display:flex;
-  align-items:center;
-  padding:10px 18px;
-  gap:12px;
+.chat-header {
+  min-height: 73px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  padding: 10px 18px;
+  gap: 12px;
 }
 
-.chat-user-info{
-  min-width:0;
+.chat-user-info {
+  min-width: 0;
 }
 
-.chat-user-name{
-  font-weight:750;
+.chat-user-name {
+  font-weight: 750;
 }
 
-.chat-user-email{
-  color:#7b8493;
-  font-size:12px;
-  margin-top:2px;
+.chat-user-email {
+  color: #7b8493;
+  font-size: 12px;
+  margin-top: 2px;
 }
 
 /* MESSAGES */
 
-.messages{
-  flex:1;
-  overflow-y:auto;
-  padding:20px;
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
 }
 
-.message-wrap{
-  display:flex;
-  margin:10px 0;
+.message-wrap {
+  display: flex;
+  margin: 10px 0;
 }
 
-.message-wrap.mine{
-  justify-content:flex-end;
+.message-wrap.mine {
+  justify-content: flex-end;
 }
 
-.message-container{
-  max-width:min(75%,520px);
+.message-container {
+  max-width: min(75%, 520px);
 }
 
-.message{
-  padding:10px 13px;
-  border-radius:16px;
-  background:#e3e7ed;
-  color:#172033;
-  word-wrap:break-word;
+.message {
+  padding: 10px 13px;
+  border-radius: 16px;
+  background: #e3e7ed;
+  color: #172033;
+  word-wrap: break-word;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.message-wrap.mine .message{
-  background:#111827;
-  color:white;
-  border-bottom-right-radius:5px;
+.message-wrap.mine .message {
+  background: #111827;
+  color: white;
+  border-bottom-right-radius: 5px;
 }
 
-.message-wrap:not(.mine) .message{
-  border-bottom-left-radius:5px;
+.message-wrap:not(.mine) .message {
+  border-bottom-left-radius: 5px;
 }
 
-.message-time{
-  font-size:10px;
-  opacity:.6;
-  margin-top:4px;
-  text-align:right;
+.message-time {
+  font-size: 10px;
+  opacity: .6;
+  margin-top: 4px;
+  text-align: right;
 }
 
-.read-status{
-  font-size:10px;
-  opacity:.65;
-  text-align:right;
-  margin-top:3px;
+.read-status {
+  font-size: 10px;
+  opacity: .65;
+  text-align: right;
+  margin-top: 3px;
 }
 
 /* REACTIONS */
 
-.reactions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px;
-  margin-top:5px;
+.reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 5px;
 }
 
-.reaction{
-  border:1px solid #d8dde6;
-  background:white;
-  border-radius:20px;
-  padding:3px 7px;
-  font-size:13px;
+.reaction {
+  border: 1px solid #d8dde6;
+  background: white;
+  color: #172033;
+  border-radius: 20px;
+  padding: 3px 8px;
+  font-size: 13px;
 }
 
-.reaction:hover{
-  background:#f0f2f5;
+.reaction:hover {
+  background: #f0f2f5;
 }
 
-.reaction-picker{
-  display:flex;
-  gap:4px;
-  background:white;
-  border:1px solid #d8dde6;
-  box-shadow:0 5px 20px rgba(0,0,0,.12);
-  border-radius:20px;
-  padding:5px;
-  margin-top:5px;
-  width:max-content;
+.reaction-picker {
+  display: flex;
+  gap: 3px;
+  background: white;
+  border: 1px solid #d8dde6;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .12);
+  border-radius: 22px;
+  padding: 5px;
+  margin-top: 6px;
+  width: max-content;
 }
 
-.reaction-picker button{
-  border:0;
-  background:transparent;
-  font-size:18px;
-  padding:4px 6px;
-  border-radius:10px;
+.reaction-picker button {
+  border: 0;
+  background: transparent;
+  font-size: 19px;
+  padding: 5px 7px;
+  border-radius: 10px;
 }
 
-.reaction-picker button:hover{
-  background:#eef1f5;
+.reaction-picker button:hover {
+  background: #eef1f5;
 }
 
 /* TYPING */
 
-.typing-indicator{
-  display:flex;
-  align-items:center;
-  gap:4px;
-  padding:10px 13px;
-  margin:0 20px 8px;
-  width:fit-content;
-  background:#e3e7ed;
-  border-radius:16px;
-  border-bottom-left-radius:5px;
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 13px;
+  margin: 0 20px 8px;
+  width: fit-content;
+  background: #e3e7ed;
+  border-radius: 16px;
+  border-bottom-left-radius: 5px;
 }
 
-.typing-indicator span{
-  width:6px;
-  height:6px;
-  background:#7b8493;
-  border-radius:50%;
-  animation:typingBounce 1.2s infinite;
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: #7b8493;
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite;
 }
 
-.typing-indicator span:nth-child(2){
-  animation-delay:.15s;
+.typing-indicator span:nth-child(2) {
+  animation-delay: .15s;
 }
 
-.typing-indicator span:nth-child(3){
-  animation-delay:.3s;
+.typing-indicator span:nth-child(3) {
+  animation-delay: .3s;
 }
 
-@keyframes typingBounce{
-  0%,60%,100%{
-    transform:translateY(0);
-    opacity:.4;
+@keyframes typingBounce {
+  0%,60%,100% {
+    transform: translateY(0);
+    opacity: .4;
   }
 
-  30%{
-    transform:translateY(-4px);
-    opacity:1;
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
   }
 }
 
 /* COMPOSER */
 
-.composer{
-  display:flex;
-  gap:8px;
-  background:white;
-  border-top:1px solid #e5e7eb;
-  padding:12px;
+.composer {
+  display: flex;
+  gap: 8px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  padding: 12px;
 }
 
-.composer input{
-  flex:1;
-  margin:0;
+.composer input {
+  flex: 1;
+  margin: 0;
 }
 
-.composer button{
-  width:75px;
-  border:0;
-  border-radius:12px;
-  background:#111827;
-  color:white;
+.composer button {
+  width: 75px;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+  color: white;
 }
 
 /* MOBILE */
 
-@media(max-width:700px){
+@media (max-width: 700px) {
 
-  .header{
-    height:68px;
+  .header {
+    height: 68px;
   }
 
-  .header-name{
-    display:none;
+  .header-name {
+    display: none;
   }
 
-  .main{
-    flex-direction:column;
-    min-height:calc(100vh - 68px);
+  .main {
+    flex-direction: column;
+    min-height: calc(100vh - 68px);
   }
 
-  .sidebar{
-    width:100%;
-    height:360px;
-    border-right:0;
-    border-bottom:1px solid #e5e7eb;
+  .sidebar {
+    width: 100%;
+    height: 360px;
+    border-right: 0;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .chat{
-    min-height:500px;
+  .chat {
+    min-height: 500px;
   }
 
-  .messages{
-    padding:14px;
+  .messages {
+    padding: 14px;
   }
 
-  .message-container{
-    max-width:82%;
+  .message-container {
+    max-width: 82%;
   }
 
-  .typing-indicator{
-    margin-left:14px;
+  .typing-indicator {
+    margin-left: 14px;
   }
 
-  .search-btn{
-    padding:0 11px;
+  .search-btn {
+    padding: 0 11px;
   }
 }
 </style>
@@ -614,14 +638,24 @@ input:focus{
 
   <div>
     <div class="logo">TwinChat</div>
+
     <div class="tagline">
       Private messaging made simple.
     </div>
   </div>
 
   <div class="header-user">
-    <span id="headerName" class="header-name"></span>
-    <div id="headerAvatar" class="avatar"></div>
+
+    <span
+      id="headerName"
+      class="header-name"
+    ></span>
+
+    <div
+      id="headerAvatar"
+      class="avatar"
+    ></div>
+
   </div>
 
 </header>
@@ -629,13 +663,18 @@ input:focus{
 
 <!-- AUTH -->
 
-<section id="authScreen" class="auth">
+<section
+  id="authScreen"
+  class="auth"
+>
 
   <div class="auth-card">
 
     <h2>Welcome to TwinChat 👋</h2>
 
-    <p>Chat privately with your friends.</p>
+    <p>
+      Chat privately with your friends.
+    </p>
 
     <input
       id="email"
@@ -649,15 +688,24 @@ input:focus{
       placeholder="Password"
     >
 
-    <button id="signupBtn" class="primary-btn">
+    <button
+      id="signupBtn"
+      class="primary-btn"
+    >
       Create Account
     </button>
 
-    <button id="loginBtn" class="secondary-btn">
+    <button
+      id="loginBtn"
+      class="secondary-btn"
+    >
       Log In
     </button>
 
-    <div id="authStatus" class="status"></div>
+    <div
+      id="authStatus"
+      class="status"
+    ></div>
 
   </div>
 
@@ -666,14 +714,19 @@ input:focus{
 
 <!-- MAIN -->
 
-<section id="mainScreen" class="main hidden">
+<section
+  id="mainScreen"
+  class="main hidden"
+>
 
 <aside class="sidebar">
 
   <div class="sidebar-top">
 
     <div class="sidebar-title">
+
       <h2>Messages</h2>
+
     </div>
 
     <div class="search-row">
@@ -685,24 +738,40 @@ input:focus{
         placeholder="Search for someone..."
       >
 
-      <button id="searchBtn" class="search-btn">
+      <button
+        id="searchBtn"
+        class="search-btn"
+      >
         🔍 Search
       </button>
 
     </div>
 
-    <div id="searchResults" class="search-results"></div>
+    <div
+      id="searchResults"
+      class="search-results"
+    ></div>
 
   </div>
+
 
   <div class="conversations-title">
     Your chats
   </div>
 
-  <div id="conversationList" class="conversations"></div>
+
+  <div
+    id="conversationList"
+    class="conversations"
+  ></div>
+
 
   <div class="logout">
-    <button id="logoutBtn">Log Out</button>
+
+    <button id="logoutBtn">
+      Log Out
+    </button>
+
   </div>
 
 </aside>
@@ -710,7 +779,10 @@ input:focus{
 
 <main class="chat">
 
-  <div id="emptyChat" class="empty-chat">
+  <div
+    id="emptyChat"
+    class="empty-chat"
+  >
 
     <h2>Your messages</h2>
 
@@ -721,30 +793,50 @@ input:focus{
   </div>
 
 
-  <div id="chatArea" class="chat-area hidden">
+  <div
+    id="chatArea"
+    class="chat-area hidden"
+  >
 
     <div class="chat-header">
 
-      <div id="chatAvatar" class="avatar"></div>
+      <div
+        id="chatAvatar"
+        class="avatar"
+      ></div>
 
       <div class="chat-user-info">
 
-        <div id="chatTitle" class="chat-user-name"></div>
+        <div
+          id="chatTitle"
+          class="chat-user-name"
+        ></div>
 
-        <div id="chatEmail" class="chat-user-email"></div>
+        <div
+          id="chatEmail"
+          class="chat-user-email"
+        ></div>
 
       </div>
 
     </div>
 
 
-    <div id="messages" class="messages"></div>
+    <div
+      id="messages"
+      class="messages"
+    ></div>
 
 
-    <div id="typingIndicator" class="typing-indicator hidden">
+    <div
+      id="typingIndicator"
+      class="typing-indicator hidden"
+    >
+
       <span></span>
       <span></span>
       <span></span>
+
     </div>
 
 
@@ -756,7 +848,9 @@ input:focus{
         placeholder="Write a message..."
       >
 
-      <button id="sendBtn">Send</button>
+      <button id="sendBtn">
+        Send
+      </button>
 
     </div>
 
@@ -809,74 +903,150 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 /* FIREBASE */
 
 const firebaseConfig = {
-  apiKey:"AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
-  authDomain:"twinchat-e77f1.firebaseapp.com",
-  projectId:"twinchat-e77f1",
-  storageBucket:"twinchat-e77f1.firebasestorage.app",
-  messagingSenderId:"739355722602",
-  appId:"1:739355722602:web:a77a2d1638459ee0e8db13"
+
+  apiKey:
+    "AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
+
+  authDomain:
+    "twinchat-e77f1.firebaseapp.com",
+
+  projectId:
+    "twinchat-e77f1",
+
+  storageBucket:
+    "twinchat-e77f1.firebasestorage.app",
+
+  messagingSenderId:
+    "739355722602",
+
+  appId:
+    "1:739355722602:web:a77a2d1638459ee0e8db13"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+
+const app =
+  initializeApp(firebaseConfig);
+
+const auth =
+  getAuth(app);
+
+const db =
+  getFirestore(app);
 
 
 /* ELEMENTS */
 
-const authScreen=document.getElementById("authScreen");
-const mainScreen=document.getElementById("mainScreen");
-const emailInput=document.getElementById("email");
-const passwordInput=document.getElementById("password");
-const signupBtn=document.getElementById("signupBtn");
-const loginBtn=document.getElementById("loginBtn");
-const logoutBtn=document.getElementById("logoutBtn");
-const authStatus=document.getElementById("authStatus");
-const searchInput=document.getElementById("searchInput");
-const searchBtn=document.getElementById("searchBtn");
-const searchResults=document.getElementById("searchResults");
-const conversationList=document.getElementById("conversationList");
-const emptyChat=document.getElementById("emptyChat");
-const chatArea=document.getElementById("chatArea");
-const chatAvatar=document.getElementById("chatAvatar");
-const chatTitle=document.getElementById("chatTitle");
-const chatEmail=document.getElementById("chatEmail");
-const messagesDiv=document.getElementById("messages");
-const typingIndicator=document.getElementById("typingIndicator");
-const messageInput=document.getElementById("messageInput");
-const sendBtn=document.getElementById("sendBtn");
-const headerName=document.getElementById("headerName");
-const headerAvatar=document.getElementById("headerAvatar");
+const authScreen =
+  document.getElementById("authScreen");
+
+const mainScreen =
+  document.getElementById("mainScreen");
+
+const emailInput =
+  document.getElementById("email");
+
+const passwordInput =
+  document.getElementById("password");
+
+const signupBtn =
+  document.getElementById("signupBtn");
+
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const authStatus =
+  document.getElementById("authStatus");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const searchBtn =
+  document.getElementById("searchBtn");
+
+const searchResults =
+  document.getElementById("searchResults");
+
+const conversationList =
+  document.getElementById("conversationList");
+
+const emptyChat =
+  document.getElementById("emptyChat");
+
+const chatArea =
+  document.getElementById("chatArea");
+
+const chatAvatar =
+  document.getElementById("chatAvatar");
+
+const chatTitle =
+  document.getElementById("chatTitle");
+
+const chatEmail =
+  document.getElementById("chatEmail");
+
+const messagesDiv =
+  document.getElementById("messages");
+
+const typingIndicator =
+  document.getElementById("typingIndicator");
+
+const messageInput =
+  document.getElementById("messageInput");
+
+const sendBtn =
+  document.getElementById("sendBtn");
+
+const headerName =
+  document.getElementById("headerName");
+
+const headerAvatar =
+  document.getElementById("headerAvatar");
 
 
 /* STATE */
 
-let currentConversationId=null;
-let currentOtherUser=null;
-let unsubscribeMessages=null;
-let unsubscribeConversations=null;
-let unsubscribeTyping=null;
-let typingTimeout=null;
+let currentConversationId = null;
+
+let currentOtherUser = null;
+
+let unsubscribeMessages = null;
+
+let unsubscribeConversations = null;
+
+let unsubscribeTyping = null;
+
+let typingTimeout = null;
 
 
 /* AVATAR */
 
-function setAvatar(element,user){
+function setAvatar(element, user) {
 
-  element.innerHTML="";
+  element.innerHTML = "";
 
-  if(user && user.photoURL){
+  if (user && user.photoURL) {
 
-    const img=document.createElement("img");
-    img.src=user.photoURL;
-    img.alt="";
+    const img =
+      document.createElement("img");
+
+    img.src =
+      user.photoURL;
+
+    img.alt = "";
+
     element.appendChild(img);
 
-  }else{
+  } else {
 
-    const name=user?.displayName || user?.email || "?";
+    const name =
+      user?.displayName ||
+      user?.email ||
+      "?";
 
-    element.textContent=
+    element.textContent =
       name.charAt(0).toUpperCase();
   }
 }
@@ -884,142 +1054,185 @@ function setAvatar(element,user){
 
 /* CREATE ACCOUNT */
 
-signupBtn.addEventListener("click",async()=>{
+signupBtn.addEventListener(
+  "click",
+  async () => {
 
-  const email=emailInput.value.trim();
-  const password=passwordInput.value;
+    const email =
+      emailInput.value.trim();
 
-  if(!email || !password){
+    const password =
+      passwordInput.value;
 
-    authStatus.textContent=
-      "Enter an email and password.";
+    if (!email || !password) {
 
-    return;
-  }
+      authStatus.textContent =
+        "Enter an email and password.";
 
-  if(password.length<6){
+      return;
+    }
 
-    authStatus.textContent=
-      "Password must be at least 6 characters.";
+    if (password.length < 6) {
 
-    return;
-  }
+      authStatus.textContent =
+        "Password must be at least 6 characters.";
 
-  try{
+      return;
+    }
 
-    const result=
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
+    try {
+
+      const result =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      const user =
+        result.user;
+
+      await setDoc(
+        doc(
+          db,
+          "users",
+          user.uid
+        ),
+        {
+          email: user.email,
+
+          displayName:
+            email.split("@")[0],
+
+          photoURL: "",
+
+          createdAt:
+            serverTimestamp()
+        }
       );
 
-    const user=result.user;
+    } catch (error) {
 
-    await setDoc(
-      doc(db,"users",user.uid),
-      {
-        email:user.email,
-        displayName:email.split("@")[0],
-        photoURL:"",
-        createdAt:serverTimestamp()
-      }
-    );
-
-  }catch(error){
-
-    authStatus.textContent=
-      friendlyError(error);
+      authStatus.textContent =
+        friendlyError(error);
+    }
   }
-});
+);
 
 
 /* LOGIN */
 
-loginBtn.addEventListener("click",async()=>{
+loginBtn.addEventListener(
+  "click",
+  async () => {
 
-  try{
+    try {
 
-    await signInWithEmailAndPassword(
-      auth,
-      emailInput.value.trim(),
-      passwordInput.value
-    );
+      await signInWithEmailAndPassword(
+        auth,
+        emailInput.value.trim(),
+        passwordInput.value
+      );
 
-  }catch(error){
+    } catch (error) {
 
-    authStatus.textContent=
-      friendlyError(error);
+      authStatus.textContent =
+        friendlyError(error);
+    }
   }
-});
+);
 
 
 /* LOGOUT */
 
-logoutBtn.addEventListener("click",async()=>{
-  await signOut(auth);
-});
+logoutBtn.addEventListener(
+  "click",
+  async () => {
+
+    await signOut(auth);
+  }
+);
 
 
 /* AUTH STATE */
 
-onAuthStateChanged(auth,async user=>{
+onAuthStateChanged(
+  auth,
+  async (user) => {
 
-  if(user){
+    if (user) {
 
-    authScreen.classList.add("hidden");
-    mainScreen.classList.remove("hidden");
+      authScreen.classList.add("hidden");
 
-    const profile=
-      await getUserProfile(user.uid);
+      mainScreen.classList.remove("hidden");
 
-    headerName.textContent=
-      profile?.displayName || user.email;
+      const profile =
+        await getUserProfile(user.uid);
 
-    setAvatar(
-      headerAvatar,
-      profile || {email:user.email}
-    );
+      headerName.textContent =
+        profile?.displayName ||
+        user.email;
 
-    loadConversations();
+      setAvatar(
+        headerAvatar,
+        profile || {
+          email: user.email
+        }
+      );
 
-  }else{
+      loadConversations();
 
-    authScreen.classList.remove("hidden");
-    mainScreen.classList.add("hidden");
+    } else {
 
-    if(unsubscribeMessages){
-      unsubscribeMessages();
-      unsubscribeMessages=null;
-    }
+      authScreen.classList.remove("hidden");
 
-    if(unsubscribeConversations){
-      unsubscribeConversations();
-      unsubscribeConversations=null;
-    }
+      mainScreen.classList.add("hidden");
 
-    if(unsubscribeTyping){
-      unsubscribeTyping();
-      unsubscribeTyping=null;
+      if (unsubscribeMessages) {
+
+        unsubscribeMessages();
+
+        unsubscribeMessages = null;
+      }
+
+      if (unsubscribeConversations) {
+
+        unsubscribeConversations();
+
+        unsubscribeConversations = null;
+      }
+
+      if (unsubscribeTyping) {
+
+        unsubscribeTyping();
+
+        unsubscribeTyping = null;
+      }
     }
   }
-});
+);
 
 
 /* PROFILE */
 
-async function getUserProfile(uid){
+async function getUserProfile(uid) {
 
-  const snap=
+  const snap =
     await getDoc(
-      doc(db,"users",uid)
+      doc(
+        db,
+        "users",
+        uid
+      )
     );
 
-  if(!snap.exists()) return null;
+  if (!snap.exists()) {
+    return null;
+  }
 
   return {
     ...snap.data(),
-    uid:uid
+    uid: uid
   };
 }
 
@@ -1031,392 +1244,553 @@ searchBtn.addEventListener(
   searchUsers
 );
 
+
 searchInput.addEventListener(
   "keydown",
-  event=>{
-    if(event.key==="Enter"){
+  event => {
+
+    if (event.key === "Enter") {
+
       searchUsers();
     }
   }
 );
 
 
-async function searchUsers(){
+async function searchUsers() {
 
-  const text=
-    searchInput.value.trim().toLowerCase();
+  const text =
+    searchInput.value
+      .trim()
+      .toLowerCase();
 
-  searchResults.innerHTML="";
+  searchResults.innerHTML = "";
 
-  if(!text) return;
+  if (!text) {
+    return;
+  }
 
-  try{
+  try {
 
-    const snapshot=
+    const snapshot =
       await getDocs(
-        collection(db,"users")
+        collection(
+          db,
+          "users"
+        )
       );
 
-    let found=false;
+    let found = false;
 
-    snapshot.forEach(userDoc=>{
+    snapshot.forEach(
+      userDoc => {
 
-      if(
-        auth.currentUser &&
-        userDoc.id===auth.currentUser.uid
-      ) return;
+        if (
+          auth.currentUser &&
+          userDoc.id ===
+          auth.currentUser.uid
+        ) {
+          return;
+        }
 
-      const user=userDoc.data();
+        const user =
+          userDoc.data();
 
-      const email=
-        (user.email||"").toLowerCase();
+        const email =
+          (
+            user.email || ""
+          ).toLowerCase();
 
-      const name=
-        (user.displayName||"").toLowerCase();
+        const name =
+          (
+            user.displayName || ""
+          ).toLowerCase();
 
-      if(
-        email.includes(text) ||
-        name.includes(text)
-      ){
+        if (
+          email.includes(text) ||
+          name.includes(text)
+        ) {
 
-        found=true;
+          found = true;
 
-        const button=
-          document.createElement("button");
+          const button =
+            document.createElement("button");
 
-        button.className="user-result";
+          button.className =
+            "user-result";
 
-        const avatar=
-          document.createElement("div");
+          const avatar =
+            document.createElement("div");
 
-        avatar.className="avatar";
+          avatar.className =
+            "avatar";
 
-        setAvatar(avatar,user);
+          setAvatar(
+            avatar,
+            user
+          );
 
-        const info=
-          document.createElement("div");
+          const info =
+            document.createElement("div");
 
-        info.className="user-result-info";
+          info.className =
+            "user-result-info";
 
-        const nameElement=
-          document.createElement("div");
+          const nameElement =
+            document.createElement("div");
 
-        nameElement.className="user-result-name";
+          nameElement.className =
+            "user-result-name";
 
-        nameElement.textContent=
-          user.displayName || "User";
+          nameElement.textContent =
+            user.displayName ||
+            "User";
 
-        const emailElement=
-          document.createElement("div");
+          const emailElement =
+            document.createElement("div");
 
-        emailElement.className="user-result-email";
+          emailElement.className =
+            "user-result-email";
 
-        emailElement.textContent=
-          user.email || "";
+          emailElement.textContent =
+            user.email || "";
 
-        info.appendChild(nameElement);
-        info.appendChild(emailElement);
+          info.appendChild(
+            nameElement
+          );
 
-        button.appendChild(avatar);
-        button.appendChild(info);
+          info.appendChild(
+            emailElement
+          );
 
-        button.addEventListener(
-          "click",
-          ()=>{
-            startConversation(
-              userDoc.id,
-              {
-                ...user,
-                uid:userDoc.id
-              }
-            );
+          button.appendChild(
+            avatar
+          );
 
-            searchResults.innerHTML="";
-            searchInput.value="";
-          }
-        );
+          button.appendChild(
+            info
+          );
 
-        searchResults.appendChild(button);
+          button.addEventListener(
+            "click",
+            () => {
+
+              startConversation(
+                userDoc.id,
+                {
+                  ...user,
+                  uid: userDoc.id
+                }
+              );
+
+              searchResults.innerHTML =
+                "";
+
+              searchInput.value =
+                "";
+            }
+          );
+
+          searchResults.appendChild(
+            button
+          );
+        }
       }
-    });
+    );
 
-    if(!found){
-      searchResults.textContent="No users found.";
+    if (!found) {
+
+      searchResults.textContent =
+        "No users found.";
     }
 
-  }catch(error){
+  } catch (error) {
 
     console.error(error);
-    searchResults.textContent="Search failed.";
+
+    searchResults.textContent =
+      "Search failed.";
   }
 }
 
 
-/* START CHAT */
+/* START CONVERSATION */
 
-async function startConversation(otherUserId,otherUser){
+async function startConversation(
+  otherUserId,
+  otherUser
+) {
 
-  const user=auth.currentUser;
+  const user =
+    auth.currentUser;
 
-  if(!user) return;
+  if (!user) {
+    return;
+  }
 
-  const participants=[
+  const participants = [
     user.uid,
     otherUserId
   ].sort();
 
-  const conversationId=
+  const conversationId =
     participants.join("_");
 
-  const conversationRef=
-    doc(db,"conversations",conversationId);
+  const conversationRef =
+    doc(
+      db,
+      "conversations",
+      conversationId
+    );
 
-  const existing=
-    await getDoc(conversationRef);
+  const existing =
+    await getDoc(
+      conversationRef
+    );
 
-  if(!existing.exists()){
+  if (!existing.exists()) {
 
     await setDoc(
       conversationRef,
       {
-        participants:participants,
-        lastMessage:"",
-        updatedAt:serverTimestamp(),
+        participants:
+          participants,
 
-        unreadCounts:{
-          [user.uid]:0,
-          [otherUserId]:0
+        lastMessage:
+          "",
+
+        updatedAt:
+          serverTimestamp(),
+
+        unreadCounts: {
+          [user.uid]: 0,
+          [otherUserId]: 0
         },
 
-        typing:{
-          [user.uid]:false,
-          [otherUserId]:false
+        typing: {
+          [user.uid]: false,
+          [otherUserId]: false
         }
       }
     );
   }
 
-  currentConversationId=conversationId;
+  currentConversationId =
+    conversationId;
 
-  currentOtherUser={
+  currentOtherUser = {
     ...otherUser,
-    uid:otherUserId
+    uid: otherUserId
   };
 
-  emptyChat.classList.add("hidden");
-  chatArea.classList.remove("hidden");
+  emptyChat.classList.add(
+    "hidden"
+  );
 
-  chatTitle.textContent=
-    otherUser.displayName || "User";
+  chatArea.classList.remove(
+    "hidden"
+  );
 
-  chatEmail.textContent=
-    otherUser.email || "";
+  chatTitle.textContent =
+    otherUser.displayName ||
+    "User";
 
-  setAvatar(chatAvatar,otherUser);
+  chatEmail.textContent =
+    otherUser.email ||
+    "";
 
-  await clearUnread(conversationId);
+  setAvatar(
+    chatAvatar,
+    otherUser
+  );
+
+  await clearUnread(
+    conversationId
+  );
 
   listenForMessages();
+
   listenForTyping();
+
   loadConversations();
 }
 
 
 /* CLEAR UNREAD */
 
-async function clearUnread(conversationId){
+async function clearUnread(
+  conversationId
+) {
 
-  const user=auth.currentUser;
+  const user =
+    auth.currentUser;
 
-  if(!user) return;
+  if (!user) {
+    return;
+  }
 
-  try{
+  try {
 
     await updateDoc(
-      doc(db,"conversations",conversationId),
+      doc(
+        db,
+        "conversations",
+        conversationId
+      ),
       {
-        [`unreadCounts.${user.uid}`]:0
+        [`unreadCounts.${user.uid}`]: 0
       }
     );
 
-  }catch(error){
+  } catch (error) {
 
-    console.error("Unread clear error:",error);
+    console.error(
+      "Unread clear error:",
+      error
+    );
   }
 }
 
 
 /* CONVERSATIONS */
 
-function loadConversations(){
+function loadConversations() {
 
-  const user=auth.currentUser;
+  const user =
+    auth.currentUser;
 
-  if(!user) return;
+  if (!user) {
+    return;
+  }
 
-  if(unsubscribeConversations){
+  if (unsubscribeConversations) {
+
     unsubscribeConversations();
   }
 
-  const q=
+  const q =
     query(
-      collection(db,"conversations"),
+      collection(
+        db,
+        "conversations"
+      ),
+
       where(
         "participants",
         "array-contains",
         user.uid
       ),
-      orderBy("updatedAt","desc")
+
+      orderBy(
+        "updatedAt",
+        "desc"
+      )
     );
 
-  unsubscribeConversations=
-    onSnapshot(q,async snapshot=>{
+  unsubscribeConversations =
+    onSnapshot(
+      q,
+      async snapshot => {
 
-      conversationList.innerHTML="";
+        conversationList.innerHTML =
+          "";
 
-      for(const conversationDoc of snapshot.docs){
+        for (
+          const conversationDoc
+          of snapshot.docs
+        ) {
 
-        const conversation=
-          conversationDoc.data();
+          const conversation =
+            conversationDoc.data();
 
-        const otherId=
-          conversation.participants.find(
-            id=>id!==user.uid
-          );
+          const otherId =
+            conversation.participants.find(
+              id =>
+                id !== user.uid
+            );
 
-        if(!otherId) continue;
+          if (!otherId) {
+            continue;
+          }
 
-        const otherUser=
-          await getUserProfile(otherId);
+          const otherUser =
+            await getUserProfile(
+              otherId
+            );
 
-        if(!otherUser) continue;
+          if (!otherUser) {
+            continue;
+          }
 
-        const button=
-          document.createElement("button");
+          const button =
+            document.createElement("button");
 
-        button.className="conversation";
+          button.className =
+            "conversation";
 
-        if(
-          conversationDoc.id===
-          currentConversationId
-        ){
-          button.classList.add("active");
-        }
+          if (
+            conversationDoc.id ===
+            currentConversationId
+          ) {
 
-        const avatar=
-          document.createElement("div");
-
-        avatar.className="avatar";
-
-        setAvatar(avatar,otherUser);
-
-        const info=
-          document.createElement("div");
-
-        info.className="conversation-info";
-
-        const row=
-          document.createElement("div");
-
-        row.className="conversation-row";
-
-        const name=
-          document.createElement("div");
-
-        name.className="conversation-name";
-
-        name.textContent=
-          otherUser.displayName ||
-          otherUser.email;
-
-        const time=
-          document.createElement("div");
-
-        time.className="conversation-time";
-
-        time.textContent=
-          formatTimestamp(
-            conversation.updatedAt
-          );
-
-        row.appendChild(name);
-        row.appendChild(time);
-
-        const bottom=
-          document.createElement("div");
-
-        bottom.className="conversation-bottom";
-
-        const preview=
-          document.createElement("div");
-
-        preview.className="conversation-preview";
-
-        preview.textContent=
-          conversation.lastMessage ||
-          "No messages yet";
-
-        bottom.appendChild(preview);
-
-        const unreadCount=
-          Number(
-            conversation.unreadCounts?.[user.uid]||0
-          );
-
-        if(unreadCount>0){
-
-          const unread=
-            document.createElement("div");
-
-          unread.className="unread";
-
-          unread.textContent=
-            unreadCount===1
-              ?"1 unread"
-              :`${unreadCount} unread`;
-
-          bottom.appendChild(unread);
-        }
-
-        info.appendChild(row);
-        info.appendChild(bottom);
-
-        button.appendChild(avatar);
-        button.appendChild(info);
-
-        button.addEventListener(
-          "click",
-          ()=>{
-            startConversation(
-              otherId,
-              {
-                ...otherUser,
-                uid:otherId
-              }
+            button.classList.add(
+              "active"
             );
           }
+
+          const avatar =
+            document.createElement("div");
+
+          avatar.className =
+            "avatar";
+
+          setAvatar(
+            avatar,
+            otherUser
+          );
+
+          const info =
+            document.createElement("div");
+
+          info.className =
+            "conversation-info";
+
+          const row =
+            document.createElement("div");
+
+          row.className =
+            "conversation-row";
+
+          const name =
+            document.createElement("div");
+
+          name.className =
+            "conversation-name";
+
+          name.textContent =
+            otherUser.displayName ||
+            otherUser.email;
+
+          const time =
+            document.createElement("div");
+
+          time.className =
+            "conversation-time";
+
+          time.textContent =
+            formatTimestamp(
+              conversation.updatedAt
+            );
+
+          row.appendChild(name);
+
+          row.appendChild(time);
+
+
+          const bottom =
+            document.createElement("div");
+
+          bottom.className =
+            "conversation-bottom";
+
+
+          const preview =
+            document.createElement("div");
+
+          preview.className =
+            "conversation-preview";
+
+          preview.textContent =
+            conversation.lastMessage ||
+            "No messages yet";
+
+          bottom.appendChild(
+            preview
+          );
+
+
+          const unreadCount =
+            Number(
+              conversation.unreadCounts?.[
+                user.uid
+              ] || 0
+            );
+
+
+          if (unreadCount > 0) {
+
+            const unread =
+              document.createElement("div");
+
+            unread.className =
+              "unread";
+
+            unread.textContent =
+              unreadCount === 1
+                ? "1 unread"
+                : `${unreadCount} unread`;
+
+            bottom.appendChild(
+              unread
+            );
+          }
+
+
+          info.appendChild(row);
+
+          info.appendChild(bottom);
+
+          button.appendChild(avatar);
+
+          button.appendChild(info);
+
+
+          button.addEventListener(
+            "click",
+            () => {
+
+              startConversation(
+                otherId,
+                {
+                  ...otherUser,
+                  uid: otherId
+                }
+              );
+            }
+          );
+
+
+          conversationList.appendChild(
+            button
+          );
+        }
+
+      },
+      error => {
+
+        console.error(
+          "Conversation error:",
+          error
         );
-
-        conversationList.appendChild(button);
       }
-
-    },error=>{
-      console.error("Conversation error:",error);
-    });
+    );
 }
 
 
 /* MESSAGES */
 
-function listenForMessages(){
+function listenForMessages() {
 
-  if(!currentConversationId) return;
+  if (!currentConversationId) {
+    return;
+  }
 
-  if(unsubscribeMessages){
+  if (unsubscribeMessages) {
+
     unsubscribeMessages();
   }
 
-  const q=
+  const q =
     query(
       collection(
         db,
@@ -1424,220 +1798,359 @@ function listenForMessages(){
         currentConversationId,
         "messages"
       ),
-      orderBy("createdAt","asc")
+
+      orderBy(
+        "createdAt",
+        "asc"
+      )
     );
 
-  unsubscribeMessages=
-    onSnapshot(q,snapshot=>{
+  unsubscribeMessages =
+    onSnapshot(
+      q,
+      snapshot => {
 
-      messagesDiv.innerHTML="";
+        messagesDiv.innerHTML =
+          "";
 
-      snapshot.forEach(messageDoc=>{
+        snapshot.forEach(
+          messageDoc => {
 
-        const message=messageDoc.data();
+            const message =
+              messageDoc.data();
 
-        const wrap=
-          document.createElement("div");
+            const wrap =
+              document.createElement("div");
 
-        const mine=
-          message.senderId===
-          auth.currentUser.uid;
+            const mine =
+              message.senderId ===
+              auth.currentUser.uid;
 
-        wrap.className=
-          "message-wrap "+
-          (mine?"mine":"");
+            wrap.className =
+              "message-wrap " +
+              (
+                mine
+                  ? "mine"
+                  : ""
+              );
 
-        const container=
-          document.createElement("div");
 
-        container.className="message-container";
+            const container =
+              document.createElement("div");
 
-        const box=
-          document.createElement("div");
+            container.className =
+              "message-container";
 
-        box.className="message";
 
-        box.textContent=
-          message.text||"";
+            /* MESSAGE */
 
-        if(message.createdAt){
+            const box =
+              document.createElement("div");
 
-          const time=
-            document.createElement("div");
+            box.className =
+              "message";
 
-          time.className="message-time";
+            box.textContent =
+              message.text || "";
 
-          time.textContent=
-            formatTimestamp(
-              message.createdAt
+
+            if (message.createdAt) {
+
+              const time =
+                document.createElement("div");
+
+              time.className =
+                "message-time";
+
+              time.textContent =
+                formatTimestamp(
+                  message.createdAt
+                );
+
+              box.appendChild(
+                time
+              );
+            }
+
+
+            container.appendChild(
+              box
             );
 
-          box.appendChild(time);
-        }
 
-        container.appendChild(box);
+            /* READ RECEIPT */
 
+            if (mine) {
 
-        /* READ RECEIPT */
+              const readStatus =
+                document.createElement("div");
 
-        if(mine){
+              readStatus.className =
+                "read-status";
 
-          const readStatus=
-            document.createElement("div");
+              readStatus.textContent =
+                message.readAt
+                  ? "✓✓ Read"
+                  : "✓ Sent";
 
-          readStatus.className="read-status";
-
-          readStatus.textContent=
-            message.readAt
-              ?"✓✓ Read"
-              :"✓ Sent";
-
-          container.appendChild(readStatus);
-        }
+              container.appendChild(
+                readStatus
+              );
+            }
 
 
-        /* REACTIONS */
+            /* REACTIONS */
 
-        const reactionData=
-          message.reactions||{};
+            const reactionData =
+              message.reactions || {};
 
-        const reactions=
-          document.createElement("div");
+            const reactions =
+              document.createElement("div");
 
-        reactions.className="reactions";
+            reactions.className =
+              "reactions";
 
-        Object.entries(reactionData).forEach(
-          ([emoji,count])=>{
 
-            if(Number(count)<=0) return;
+            Object.entries(
+              reactionData
+            ).forEach(
+              ([emoji, count]) => {
 
-            const reaction=
-              document.createElement("button");
+                if (
+                  Number(count) <= 0
+                ) {
+                  return;
+                }
 
-            reaction.className="reaction";
+                const reaction =
+                  document.createElement("button");
 
-            reaction.textContent=
-              `${emoji} ${count}`;
+                reaction.className =
+                  "reaction";
 
-            reaction.addEventListener(
-              "click",
-              ()=>{
-                reactToMessage(
-                  messageDoc.id,
-                  emoji
+                reaction.textContent =
+                  `${emoji} ${count}`;
+
+
+                reaction.addEventListener(
+                  "click",
+                  event => {
+
+                    event.stopPropagation();
+
+                    reactToMessage(
+                      messageDoc.id,
+                      emoji
+                    );
+                  }
+                );
+
+
+                reactions.appendChild(
+                  reaction
                 );
               }
             );
 
-            reactions.appendChild(reaction);
+
+            container.appendChild(
+              reactions
+            );
+
+
+            /* EMOJI PICKER */
+
+            const picker =
+              document.createElement("div");
+
+            picker.className =
+              "reaction-picker hidden";
+
+
+            [
+              "❤️",
+              "😂",
+              "👍",
+              "😮",
+              "😢"
+            ].forEach(
+              emoji => {
+
+                const button =
+                  document.createElement("button");
+
+                button.textContent =
+                  emoji;
+
+
+                button.addEventListener(
+                  "click",
+                  event => {
+
+                    event.stopPropagation();
+
+                    reactToMessage(
+                      messageDoc.id,
+                      emoji
+                    );
+
+                    picker.classList.add(
+                      "hidden"
+                    );
+                  }
+                );
+
+
+                picker.appendChild(
+                  button
+                );
+              }
+            );
+
+
+            container.appendChild(
+              picker
+            );
+
+
+            /* DOUBLE TAP */
+
+            let lastTap = 0;
+
+            box.addEventListener(
+              "click",
+              event => {
+
+                const now =
+                  Date.now();
+
+                if (
+                  now - lastTap < 350
+                ) {
+
+                  event.stopPropagation();
+
+                  picker.classList.toggle(
+                    "hidden"
+                  );
+                }
+
+                lastTap =
+                  now;
+              }
+            );
+
+
+            wrap.appendChild(
+              container
+            );
+
+            messagesDiv.appendChild(
+              wrap
+            );
           }
         );
 
-        container.appendChild(reactions);
+
+        messagesDiv.scrollTop =
+          messagesDiv.scrollHeight;
 
 
-        /* REACTION PICKER */
+        markIncomingMessagesRead(
+          snapshot
+        );
+      },
+      error => {
 
-        const picker=
-          document.createElement("div");
-
-        picker.className=
-          "reaction-picker";
-
-        [
-          "❤️",
-          "😂",
-          "👍",
-          "😮",
-          "😢"
-        ].forEach(emoji=>{
-
-          const button=
-            document.createElement("button");
-
-          button.textContent=emoji;
-
-          button.addEventListener(
-            "click",
-            ()=>{
-              reactToMessage(
-                messageDoc.id,
-                emoji
-              );
-            }
-          );
-
-          picker.appendChild(button);
-        });
-
-        container.appendChild(picker);
-
-        wrap.appendChild(container);
-
-        messagesDiv.appendChild(wrap);
-      });
-
-      messagesDiv.scrollTop=
-        messagesDiv.scrollHeight;
-
-      markIncomingMessagesRead(snapshot);
-    });
+        console.error(
+          "Message error:",
+          error
+        );
+      }
+    );
 }
 
 
-/* MARK MESSAGES READ */
+/* READ MESSAGES */
 
-async function markIncomingMessagesRead(snapshot){
+async function markIncomingMessagesRead(
+  snapshot
+) {
 
-  const user=auth.currentUser;
+  const user =
+    auth.currentUser;
 
-  if(!user || !currentConversationId) return;
+  if (
+    !user ||
+    !currentConversationId
+  ) {
+    return;
+  }
 
-  const updates=[];
+  const updates = [];
 
-  snapshot.forEach(messageDoc=>{
 
-    const message=messageDoc.data();
+  snapshot.forEach(
+    messageDoc => {
 
-    if(
-      message.senderId!==user.uid &&
-      !message.readAt
-    ){
+      const message =
+        messageDoc.data();
 
-      updates.push(
-        updateDoc(
-          doc(
-            db,
-            "conversations",
-            currentConversationId,
-            "messages",
-            messageDoc.id
-          ),
-          {
-            readAt:serverTimestamp()
-          }
-        )
-      );
+      if (
+        message.senderId !== user.uid &&
+        !message.readAt
+      ) {
+
+        updates.push(
+          updateDoc(
+            doc(
+              db,
+              "conversations",
+              currentConversationId,
+              "messages",
+              messageDoc.id
+            ),
+            {
+              readAt:
+                serverTimestamp()
+            }
+          )
+        );
+      }
     }
-  });
+  );
 
-  if(updates.length){
-    await Promise.all(updates);
+
+  if (updates.length) {
+
+    await Promise.all(
+      updates
+    );
   }
 }
 
 
-/* REACT */
+/* REACTION SYSTEM */
 
-async function reactToMessage(messageId,emoji){
+async function reactToMessage(
+  messageId,
+  emoji
+) {
 
-  const user=auth.currentUser;
+  const user =
+    auth.currentUser;
 
-  if(!user || !currentConversationId) return;
+  if (
+    !user ||
+    !currentConversationId
+  ) {
+    return;
+  }
 
-  try{
 
-    const messageRef=
+  try {
+
+    const messageRef =
       doc(
         db,
         "conversations",
@@ -1646,15 +2159,100 @@ async function reactToMessage(messageId,emoji){
         messageId
       );
 
+
+    const snap =
+      await getDoc(
+        messageRef
+      );
+
+
+    if (!snap.exists()) {
+      return;
+    }
+
+
+    const message =
+      snap.data();
+
+
+    const reactions =
+      {
+        ...(message.reactions || {})
+      };
+
+
+    const userReactions =
+      {
+        ...(message.userReactions || {})
+      };
+
+
+    const oldEmoji =
+      userReactions[user.uid];
+
+
+    /* SAME EMOJI = REMOVE */
+
+    if (
+      oldEmoji === emoji
+    ) {
+
+      reactions[emoji] =
+        Math.max(
+          0,
+          Number(
+            reactions[emoji] || 0
+          ) - 1
+        );
+
+
+      delete userReactions[
+        user.uid
+      ];
+
+    }
+
+
+    /* DIFFERENT EMOJI = REPLACE */
+
+    else {
+
+      if (oldEmoji) {
+
+        reactions[oldEmoji] =
+          Math.max(
+            0,
+            Number(
+              reactions[oldEmoji] || 0
+            ) - 1
+          );
+      }
+
+
+      reactions[emoji] =
+        Number(
+          reactions[emoji] || 0
+        ) + 1;
+
+
+      userReactions[user.uid] =
+        emoji;
+    }
+
+
     await updateDoc(
       messageRef,
       {
-        [`reactions.${emoji}`]:
-          increment(1)
+        reactions:
+          reactions,
+
+        userReactions:
+          userReactions
       }
     );
 
-  }catch(error){
+
+  } catch (error) {
 
     console.error(
       "Reaction error:",
@@ -1666,43 +2264,59 @@ async function reactToMessage(messageId,emoji){
 
 /* TYPING LISTENER */
 
-function listenForTyping(){
+function listenForTyping() {
 
-  if(!currentConversationId) return;
+  if (!currentConversationId) {
+    return;
+  }
 
-  if(unsubscribeTyping){
+  if (unsubscribeTyping) {
+
     unsubscribeTyping();
   }
 
-  const ref=
+
+  const ref =
     doc(
       db,
       "conversations",
       currentConversationId
     );
 
-  unsubscribeTyping=
-    onSnapshot(ref,snapshot=>{
 
-      if(!snapshot.exists()) return;
+  unsubscribeTyping =
+    onSnapshot(
+      ref,
+      snapshot => {
 
-      const data=snapshot.data();
+        if (!snapshot.exists()) {
+          return;
+        }
 
-      const typing=data.typing||{};
 
-      const otherUserId=
-        currentOtherUser?.uid;
+        const data =
+          snapshot.data();
 
-      const otherIsTyping=
-        otherUserId &&
-        typing[otherUserId]===true;
 
-      typingIndicator.classList.toggle(
-        "hidden",
-        !otherIsTyping
-      );
+        const typing =
+          data.typing || {};
 
-    });
+
+        const otherUserId =
+          currentOtherUser?.uid;
+
+
+        const otherIsTyping =
+          otherUserId &&
+          typing[otherUserId] === true;
+
+
+        typingIndicator.classList.toggle(
+          "hidden",
+          !otherIsTyping
+        );
+      }
+    );
 }
 
 
@@ -1710,108 +2324,147 @@ function listenForTyping(){
 
 messageInput.addEventListener(
   "input",
-  async()=>{
+  async () => {
 
-    const user=auth.currentUser;
+    const user =
+      auth.currentUser;
 
-    if(!user || !currentConversationId) return;
+    if (
+      !user ||
+      !currentConversationId
+    ) {
+      return;
+    }
 
-    const ref=
+
+    const ref =
       doc(
         db,
         "conversations",
         currentConversationId
       );
 
-    try{
+
+    try {
 
       await updateDoc(
         ref,
         {
-          [`typing.${user.uid}`]:true
+          [`typing.${user.uid}`]:
+            true
         }
       );
 
-    }catch(error){
+    } catch (error) {
 
       console.error(error);
+
       return;
     }
 
-    clearTimeout(typingTimeout);
 
-    typingTimeout=
-      setTimeout(async()=>{
+    clearTimeout(
+      typingTimeout
+    );
 
-        try{
 
-          await updateDoc(
-            ref,
-            {
-              [`typing.${user.uid}`]:false
-            }
-          );
+    typingTimeout =
+      setTimeout(
+        async () => {
 
-        }catch(error){
+          try {
 
-          console.error(error);
-        }
+            await updateDoc(
+              ref,
+              {
+                [`typing.${user.uid}`]:
+                  false
+              }
+            );
 
-      },1200);
+          } catch (error) {
+
+            console.error(error);
+          }
+
+        },
+        1200
+      );
   }
 );
 
 
-/* SEND */
+/* SEND MESSAGE */
 
 sendBtn.addEventListener(
   "click",
   sendMessage
 );
 
+
 messageInput.addEventListener(
   "keydown",
-  event=>{
-    if(event.key==="Enter"){
+  event => {
+
+    if (
+      event.key === "Enter"
+    ) {
+
       sendMessage();
     }
   }
 );
 
 
-async function sendMessage(){
+async function sendMessage() {
 
-  const text=
+  const text =
     messageInput.value.trim();
 
-  const user=auth.currentUser;
+  const user =
+    auth.currentUser;
 
-  if(
+
+  if (
     !text ||
     !user ||
     !currentConversationId
-  ) return;
+  ) {
+    return;
+  }
 
-  try{
 
-    const conversationRef=
+  try {
+
+    const conversationRef =
       doc(
         db,
         "conversations",
         currentConversationId
       );
 
-    const snap=
-      await getDoc(conversationRef);
 
-    if(!snap.exists()) return;
-
-    const conversation=snap.data();
-
-    const recipientId=
-      conversation.participants.find(
-        id=>id!==user.uid
+    const snap =
+      await getDoc(
+        conversationRef
       );
+
+
+    if (!snap.exists()) {
+      return;
+    }
+
+
+    const conversation =
+      snap.data();
+
+
+    const recipientId =
+      conversation.participants.find(
+        id =>
+          id !== user.uid
+      );
+
 
     await addDoc(
       collection(
@@ -1821,76 +2474,122 @@ async function sendMessage(){
         "messages"
       ),
       {
-        text:text,
-        senderId:user.uid,
-        createdAt:serverTimestamp(),
-        readAt:null,
-        reactions:{}
+
+        text:
+          text,
+
+        senderId:
+          user.uid,
+
+        createdAt:
+          serverTimestamp(),
+
+        readAt:
+          null,
+
+        reactions:
+          {},
+
+        userReactions:
+          {}
       }
     );
+
 
     await updateDoc(
       conversationRef,
       {
-        lastMessage:text,
-        updatedAt:serverTimestamp(),
+
+        lastMessage:
+          text,
+
+        updatedAt:
+          serverTimestamp(),
 
         [`unreadCounts.${recipientId}`]:
           increment(1),
 
-        [`unreadCounts.${user.uid}`]:0,
+        [`unreadCounts.${user.uid}`]:
+          0,
 
-        [`typing.${user.uid}`]:false
+        [`typing.${user.uid}`]:
+          false
       }
     );
 
-    clearTimeout(typingTimeout);
 
-    messageInput.value="";
+    clearTimeout(
+      typingTimeout
+    );
+
+
+    messageInput.value =
+      "";
+
     messageInput.focus();
 
-  }catch(error){
 
-    console.error("SEND ERROR:",error);
+  } catch (error) {
 
-    alert("Message could not be sent.");
+    console.error(
+      "SEND ERROR:",
+      error
+    );
+
+    alert(
+      "Message could not be sent."
+    );
   }
 }
 
 
 /* TIME */
 
-function formatTimestamp(timestamp){
+function formatTimestamp(
+  timestamp
+) {
 
-  if(
+  if (
     !timestamp ||
     !timestamp.toDate
-  ){
+  ) {
     return "";
   }
 
-  const date=timestamp.toDate();
-  const now=new Date();
 
-  if(
-    date.toDateString()===
+  const date =
+    timestamp.toDate();
+
+  const now =
+    new Date();
+
+
+  if (
+    date.toDateString() ===
     now.toDateString()
-  ){
+  ) {
 
     return date.toLocaleTimeString(
       [],
       {
-        hour:"numeric",
-        minute:"2-digit"
+        hour:
+          "numeric",
+
+        minute:
+          "2-digit"
       }
     );
   }
 
+
   return date.toLocaleDateString(
     [],
     {
-      month:"short",
-      day:"numeric"
+      month:
+        "short",
+
+      day:
+        "numeric"
     }
   );
 }
@@ -1898,26 +2597,41 @@ function formatTimestamp(timestamp){
 
 /* ERRORS */
 
-function friendlyError(error){
+function friendlyError(
+  error
+) {
 
-  switch(error.code){
+  switch (
+    error.code
+  ) {
 
     case "auth/email-already-in-use":
+
       return "That email already has an account.";
 
+
     case "auth/invalid-email":
+
       return "Please enter a valid email.";
 
+
     case "auth/invalid-credential":
+
       return "Incorrect email or password.";
 
+
     case "auth/weak-password":
+
       return "Password must be at least 6 characters.";
 
+
     case "auth/too-many-requests":
+
       return "Too many attempts. Try again later.";
 
+
     default:
+
       return error.message ||
         "Something went wrong.";
   }
