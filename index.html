@@ -867,11 +867,12 @@ async function startConversation(
   ){
     return;
   }
+  const participants = [
+    user.uid,
+    otherUserId
+  ].sort();
   const conversationId =
-    makeConversationId(
-      user.uid,
-      otherUserId
-    );
+    participants.join("_");
   const conversationRef =
     doc(
       db,
@@ -879,50 +880,34 @@ async function startConversation(
       conversationId
     );
   try{
-    const existing =
-      await getDoc(
-        conversationRef
-      );
-    if(!existing.exists()){
-      await setDoc(
-        conversationRef,
-        {
-          participants:[
-            user.uid,
-            otherUserId
-          ].sort(),
-          lastMessage:"",
-          updatedAt:
-            serverTimestamp(),
-          typing:{
-            [user.uid]:false,
-            [otherUserId]:false
-          },
-          unreadCounts:{
-            [user.uid]:0,
-            [otherUserId]:0
-          }
+    /*
+      IMPORTANT:
+      We intentionally do NOT call
+      getDoc() before setDoc().
+      This allows a new conversation
+      to be created without first trying
+      to read a document that doesn't exist.
+    */
+    await setDoc(
+      conversationRef,
+      {
+        participants:participants,
+        lastMessage:"",
+        updatedAt:
+          serverTimestamp(),
+        typing:{
+          [user.uid]:false,
+          [otherUserId]:false
+        },
+        unreadCounts:{
+          [user.uid]:0,
+          [otherUserId]:0
         }
-      );
-    }else{
-      const data =
-        existing.data();
-      if(
-        !Array.isArray(
-          data.participants
-        ) ||
-        !data.participants.includes(
-          user.uid
-        ) ||
-        !data.participants.includes(
-          otherUserId
-        )
-      ){
-        throw new Error(
-          "This conversation does not belong to these two users."
-        );
+      },
+      {
+        merge:true
       }
-    }
+    );
     currentConversationId =
       conversationId;
     currentOtherUser = {
@@ -974,12 +959,9 @@ function loadConversations(){
       null;
   }
   /*
-    IMPORTANT:
     No orderBy() here.
-    Firestore only needs to find
-    conversations containing the
-    current user's UID.
-    Sorting happens locally.
+    This avoids requiring a composite
+    Firestore index for the sidebar.
   */
   const q =
     query(
@@ -996,7 +978,7 @@ function loadConversations(){
       async snapshot=>{
         conversationList.innerHTML =
           "";
-        const list =
+        const conversations =
           snapshot.docs.map(
             conversationDoc=>({
               id:
@@ -1005,7 +987,7 @@ function loadConversations(){
                 conversationDoc.data()
             })
           );
-        list.sort(
+        conversations.sort(
           (a,b)=>{
             const aTime =
               a.data.updatedAt
@@ -1018,7 +1000,7 @@ function loadConversations(){
         );
         for(
           const conversation
-          of list
+          of conversations
         ){
           const data =
             conversation.data;
@@ -1117,18 +1099,18 @@ function loadConversations(){
           error
         );
         conversationList.innerHTML = "";
-        const message =
+        const errorMessage =
           document.createElement(
             "div"
           );
-        message.style.padding =
+        errorMessage.style.padding =
           "20px";
-        message.style.color =
+        errorMessage.style.color =
           "#7b8493";
-        message.textContent =
+        errorMessage.textContent =
           "Could not load conversations.";
         conversationList.appendChild(
-          message
+          errorMessage
         );
       }
     );
@@ -1271,6 +1253,11 @@ async function sendMessage(){
         "conversations",
         currentConversationId
       );
+    /*
+      We read the conversation only when
+      sending a message. At this point it
+      should already exist.
+    */
     const conversationSnap =
       await getDoc(
         conversationRef
