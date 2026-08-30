@@ -70,6 +70,7 @@ button{
   justify-content:center;
   font-weight:700;
   color:#344054;
+  flex-shrink:0;
 }
 
 .auth{
@@ -418,16 +419,21 @@ input:focus{
 <div class="app">
 
 <header class="header">
+
   <div>
     <div class="logo">TwinChat</div>
-    <div class="tagline">Private messaging made simple.</div>
+    <div class="tagline">
+      Private messaging made simple.
+    </div>
   </div>
 
   <div class="header-user">
     <span id="headerName"></span>
     <div id="headerAvatar" class="avatar"></div>
   </div>
+
 </header>
+
 
 <section id="authScreen" class="auth">
 
@@ -441,12 +447,14 @@ input:focus{
       id="email"
       type="email"
       placeholder="Email address"
+      autocomplete="email"
     >
 
     <input
       id="password"
       type="password"
       placeholder="Password"
+      autocomplete="current-password"
     >
 
     <button id="signupBtn" class="primary-btn">
@@ -462,6 +470,7 @@ input:focus{
   </div>
 
 </section>
+
 
 <section id="mainScreen" class="main hidden">
 
@@ -491,19 +500,24 @@ input:focus{
 
   </div>
 
+
   <div class="conversations-title">
     Your chats
   </div>
 
   <div id="conversationList" class="conversations"></div>
 
+
   <div class="logout">
+
     <button id="logoutBtn">
       Log Out
     </button>
+
   </div>
 
 </aside>
+
 
 <main class="chat">
 
@@ -517,6 +531,7 @@ input:focus{
 
   </div>
 
+
   <div id="chatArea" class="chat-area hidden">
 
     <div class="chat-header">
@@ -524,13 +539,27 @@ input:focus{
       <div id="chatAvatar" class="avatar"></div>
 
       <div>
-        <div id="chatTitle" class="chat-user-name"></div>
-        <div id="chatEmail" class="chat-user-email"></div>
+
+        <div
+          id="chatTitle"
+          class="chat-user-name"
+        ></div>
+
+        <div
+          id="chatEmail"
+          class="chat-user-email"
+        ></div>
+
       </div>
 
     </div>
 
-    <div id="messages" class="messages"></div>
+
+    <div
+      id="messages"
+      class="messages"
+    ></div>
+
 
     <div class="composer">
 
@@ -552,6 +581,7 @@ input:focus{
 </section>
 
 </div>
+
 
 <script type="module">
 
@@ -579,12 +609,13 @@ import {
   where,
   orderBy,
   onSnapshot,
-  serverTimestamp,
-  increment
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
-/* FIREBASE */
+/* =========================
+   FIREBASE
+========================= */
 
 const firebaseConfig = {
   apiKey:"AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
@@ -596,27 +627,48 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
+
 const db = getFirestore(app);
 
 
-/* ELEMENTS */
+/* =========================
+   ELEMENTS
+========================= */
 
-const authScreen = document.getElementById("authScreen");
-const mainScreen = document.getElementById("mainScreen");
+const authScreen =
+  document.getElementById("authScreen");
 
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
+const mainScreen =
+  document.getElementById("mainScreen");
 
-const signupBtn = document.getElementById("signupBtn");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+const emailInput =
+  document.getElementById("email");
 
-const authStatus = document.getElementById("authStatus");
+const passwordInput =
+  document.getElementById("password");
 
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-const searchResults = document.getElementById("searchResults");
+const signupBtn =
+  document.getElementById("signupBtn");
+
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const authStatus =
+  document.getElementById("authStatus");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const searchBtn =
+  document.getElementById("searchBtn");
+
+const searchResults =
+  document.getElementById("searchResults");
 
 const conversationList =
   document.getElementById("conversationList");
@@ -652,16 +704,22 @@ const headerAvatar =
   document.getElementById("headerAvatar");
 
 
-/* STATE */
+/* =========================
+   STATE
+========================= */
 
 let currentConversationId = null;
+
 let currentOtherUser = null;
 
 let unsubscribeMessages = null;
+
 let unsubscribeConversations = null;
 
 
-/* AVATAR */
+/* =========================
+   AVATAR
+========================= */
 
 function setAvatar(element,user){
 
@@ -674,150 +732,267 @@ function setAvatar(element,user){
 
   element.textContent =
     name.charAt(0).toUpperCase();
+
 }
 
 
-/* AUTH */
+/* =========================
+   AUTH
+========================= */
 
-signupBtn.addEventListener("click",async()=>{
+signupBtn.addEventListener(
+  "click",
+  async()=>{
 
-  const email =
-    emailInput.value.trim().toLowerCase();
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
 
-  const password =
-    passwordInput.value;
+    const password =
+      passwordInput.value;
 
-  if(!email || !password){
+    if(!email || !password){
 
-    authStatus.textContent =
-      "Enter an email and password.";
+      authStatus.textContent =
+        "Enter an email and password.";
 
-    return;
+      return;
+    }
+
+    try{
+
+      const result =
+        await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      const user =
+        result.user;
+
+      await setDoc(
+        doc(db,"users",user.uid),
+        {
+          uid:user.uid,
+          email:email,
+          displayName:email.split("@")[0],
+          createdAt:serverTimestamp()
+        }
+      );
+
+      authStatus.textContent = "";
+
+    }catch(error){
+
+      console.error(
+        "SIGNUP ERROR:",
+        error
+      );
+
+      authStatus.textContent =
+        friendlyError(error);
+
+    }
+
   }
+);
 
-  try{
 
-    const result =
-      await createUserWithEmailAndPassword(
+loginBtn.addEventListener(
+  "click",
+  async()=>{
+
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      passwordInput.value;
+
+    if(!email || !password){
+
+      authStatus.textContent =
+        "Enter an email and password.";
+
+      return;
+    }
+
+    try{
+
+      await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
 
-    const user = result.user;
+      authStatus.textContent = "";
 
-    await setDoc(
-      doc(db,"users",user.uid),
-      {
-        uid:user.uid,
-        email:email,
-        displayName:email.split("@")[0],
-        createdAt:serverTimestamp()
+    }catch(error){
+
+      console.error(
+        "LOGIN ERROR:",
+        error
+      );
+
+      authStatus.textContent =
+        friendlyError(error);
+
+    }
+
+  }
+);
+
+
+logoutBtn.addEventListener(
+  "click",
+  async()=>{
+
+    try{
+
+      await signOut(auth);
+
+    }catch(error){
+
+      console.error(
+        "LOGOUT ERROR:",
+        error
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================
+   AUTH STATE
+========================= */
+
+onAuthStateChanged(
+  auth,
+  async(user)=>{
+
+    if(!user){
+
+      if(unsubscribeMessages){
+        unsubscribeMessages();
+        unsubscribeMessages = null;
       }
+
+      if(unsubscribeConversations){
+        unsubscribeConversations();
+        unsubscribeConversations = null;
+      }
+
+      currentConversationId = null;
+      currentOtherUser = null;
+
+      authScreen.classList.remove("hidden");
+
+      mainScreen.classList.add("hidden");
+
+      emptyChat.classList.remove("hidden");
+
+      chatArea.classList.add("hidden");
+
+      conversationList.innerHTML = "";
+
+      messagesDiv.innerHTML = "";
+
+      headerName.textContent = "";
+
+      headerAvatar.textContent = "";
+
+      return;
+    }
+
+
+    authScreen.classList.add("hidden");
+
+    mainScreen.classList.remove("hidden");
+
+
+    const profile =
+      await getUserProfile(user.uid);
+
+
+    headerName.textContent =
+      profile?.displayName ||
+      user.email ||
+      "User";
+
+
+    setAvatar(
+      headerAvatar,
+      profile || user
     );
 
-  }catch(error){
 
-    authStatus.textContent =
-      friendlyError(error);
+    loadConversations();
 
   }
-
-});
-
-
-loginBtn.addEventListener("click",async()=>{
-
-  try{
-
-    await signInWithEmailAndPassword(
-      auth,
-      emailInput.value.trim().toLowerCase(),
-      passwordInput.value
-    );
-
-  }catch(error){
-
-    authStatus.textContent =
-      friendlyError(error);
-
-  }
-
-});
+);
 
 
-logoutBtn.addEventListener("click",()=>{
-
-  signOut(auth);
-
-});
-
-
-/* AUTH STATE */
-
-onAuthStateChanged(auth,async(user)=>{
-
-  if(!user){
-
-    authScreen.classList.remove("hidden");
-    mainScreen.classList.add("hidden");
-
-    return;
-  }
-
-  authScreen.classList.add("hidden");
-  mainScreen.classList.remove("hidden");
-
-  const profile =
-    await getUserProfile(user.uid);
-
-  headerName.textContent =
-    profile?.displayName ||
-    user.email;
-
-  setAvatar(
-    headerAvatar,
-    profile || user
-  );
-
-  loadConversations();
-
-});
-
-
-/* USER PROFILE */
+/* =========================
+   USER PROFILE
+========================= */
 
 async function getUserProfile(uid){
 
-  const snap =
-    await getDoc(
-      doc(db,"users",uid)
+  try{
+
+    const snap =
+      await getDoc(
+        doc(db,"users",uid)
+      );
+
+    if(!snap.exists()){
+      return null;
+    }
+
+    return {
+      ...snap.data(),
+      uid:uid
+    };
+
+  }catch(error){
+
+    console.error(
+      "PROFILE ERROR:",
+      error
     );
 
-  if(!snap.exists()){
     return null;
+
   }
 
-  return {
-    ...snap.data(),
-    uid:uid
-  };
 }
 
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
 
 searchBtn.addEventListener(
   "click",
   searchUsers
 );
 
+
 searchInput.addEventListener(
   "keydown",
   event=>{
 
     if(event.key === "Enter"){
+
+      event.preventDefault();
+
       searchUsers();
+
     }
 
   }
@@ -837,6 +1012,7 @@ async function searchUsers(){
     return;
   }
 
+
   const currentUser =
     auth.currentUser;
 
@@ -844,14 +1020,8 @@ async function searchUsers(){
     return;
   }
 
-  try{
 
-    /*
-      IMPORTANT:
-      We search the users collection.
-      The rules below allow authenticated
-      users to read user profiles.
-    */
+  try{
 
     const q =
       query(
@@ -859,8 +1029,10 @@ async function searchUsers(){
         where("email","==",search)
       );
 
+
     const snapshot =
       await getDocs(q);
+
 
     if(snapshot.empty){
 
@@ -868,7 +1040,12 @@ async function searchUsers(){
         "No user found.";
 
       return;
+
     }
+
+
+    let foundUser = false;
+
 
     snapshot.forEach(userDoc=>{
 
@@ -876,7 +1053,12 @@ async function searchUsers(){
         return;
       }
 
-      const user = userDoc.data();
+      foundUser = true;
+
+
+      const user =
+        userDoc.data();
+
 
       const button =
         document.createElement("button");
@@ -884,19 +1066,26 @@ async function searchUsers(){
       button.className =
         "user-result";
 
+
       const avatar =
         document.createElement("div");
 
       avatar.className =
         "avatar";
 
-      setAvatar(avatar,user);
+
+      setAvatar(
+        avatar,
+        user
+      );
+
 
       const info =
         document.createElement("div");
 
       info.className =
         "user-result-info";
+
 
       const name =
         document.createElement("div");
@@ -908,6 +1097,7 @@ async function searchUsers(){
         user.displayName ||
         "User";
 
+
       const email =
         document.createElement("div");
 
@@ -915,48 +1105,85 @@ async function searchUsers(){
         "user-result-email";
 
       email.textContent =
-        user.email;
+        user.email ||
+        "";
+
 
       info.appendChild(name);
+
       info.appendChild(email);
 
       button.appendChild(avatar);
+
       button.appendChild(info);
+
 
       button.addEventListener(
         "click",
-        ()=>{
+        async()=>{
 
-          openConversation(
+          searchResults.innerHTML = "";
+
+          searchInput.value = "";
+
+          await startConversation(
             userDoc.id,
             user
           );
 
-          searchResults.innerHTML = "";
-          searchInput.value = "";
-
         }
       );
+
 
       searchResults.appendChild(button);
 
     });
 
+
+    if(!foundUser){
+
+      searchResults.textContent =
+        "No user found.";
+
+    }
+
+
   }catch(error){
 
-    console.error("SEARCH ERROR:",error);
+    console.error(
+      "SEARCH ERROR:",
+      error
+    );
 
     searchResults.textContent =
-      "Search failed: " + error.message;
+      "Search failed: " +
+      error.message;
 
   }
 
 }
 
 
-/* OPEN CONVERSATION */
+/* =========================
+   START CONVERSATION
+   =========================
 
-async function openConversation(
+   IMPORTANT FIX:
+
+   We DO NOT blindly assume the
+   conversation ID.
+
+   First we search for an existing
+   conversation between these two
+   users.
+
+   This means old conversations
+   created with different IDs can
+   still be opened.
+
+========================= */
+
+async function startConversation(
   otherUserId,
   otherUser
 ){
@@ -964,48 +1191,153 @@ async function openConversation(
   const user =
     auth.currentUser;
 
+
   if(!user){
+
+    alert(
+      "You are not logged in."
+    );
+
     return;
+
   }
 
-  /*
-    Both users always produce
-    the exact same conversation ID.
-  */
 
-  const participants =
-    [user.uid,otherUserId].sort();
+  if(
+    !otherUserId ||
+    otherUserId === user.uid
+  ){
 
-  const conversationId =
-    participants.join("_");
+    return;
 
-  const conversationRef =
-    doc(
-      db,
-      "conversations",
-      conversationId
-    );
+  }
+
 
   try{
 
-    const existing =
-      await getDoc(conversationRef);
+    /*
+      STEP 1
 
-    if(!existing.exists()){
+      Look for an existing conversation
+      containing the current user.
+    */
 
-      await setDoc(
-        conversationRef,
-        {
-          participants:participants,
-          lastMessage:"",
-          updatedAt:serverTimestamp()
-        }
+    const conversationsQuery =
+      query(
+        collection(db,"conversations"),
+        where(
+          "participants",
+          "array-contains",
+          user.uid
+        )
       );
+
+
+    const snapshot =
+      await getDocs(
+        conversationsQuery
+      );
+
+
+    let existingConversationId = null;
+
+
+    snapshot.forEach(
+      conversationDoc=>{
+
+        if(existingConversationId){
+          return;
+        }
+
+
+        const data =
+          conversationDoc.data();
+
+
+        if(
+          Array.isArray(
+            data.participants
+          ) &&
+          data.participants.includes(
+            otherUserId
+          )
+        ){
+
+          existingConversationId =
+            conversationDoc.id;
+
+        }
+
+      }
+    );
+
+
+    /*
+      STEP 2
+
+      If an old conversation exists,
+      use its ORIGINAL ID.
+
+      Otherwise create a new
+      deterministic ID.
+    */
+
+    let conversationId =
+      existingConversationId;
+
+
+    if(!conversationId){
+
+      const participants =
+        [
+          user.uid,
+          otherUserId
+        ].sort();
+
+
+      conversationId =
+        participants.join("_");
+
+
+      const conversationRef =
+        doc(
+          db,
+          "conversations",
+          conversationId
+        );
+
+
+      const conversationSnap =
+        await getDoc(
+          conversationRef
+        );
+
+
+      if(!conversationSnap.exists()){
+
+        await setDoc(
+          conversationRef,
+          {
+            participants:participants,
+            lastMessage:"",
+            updatedAt:serverTimestamp()
+          }
+        );
+
+      }
 
     }
 
+
+    /*
+      STEP 3
+
+      Open the conversation.
+    */
+
     currentConversationId =
       conversationId;
+
 
     currentOtherUser =
       {
@@ -1013,33 +1345,49 @@ async function openConversation(
         uid:otherUserId
       };
 
-    emptyChat.classList.add("hidden");
-    chatArea.classList.remove("hidden");
+
+    emptyChat.classList.add(
+      "hidden"
+    );
+
+
+    chatArea.classList.remove(
+      "hidden"
+    );
+
 
     chatTitle.textContent =
       otherUser.displayName ||
       "User";
 
+
     chatEmail.textContent =
       otherUser.email ||
       "";
+
 
     setAvatar(
       chatAvatar,
       otherUser
     );
 
+
     listenForMessages();
+
+
     loadConversations();
 
+
     messageInput.focus();
+
 
   }catch(error){
 
     console.error(
-      "OPEN CHAT ERROR:",
+      "START CONVERSATION ERROR:",
       error
     );
+
 
     alert(
       "Could not open this conversation:\n\n" +
@@ -1051,20 +1399,50 @@ async function openConversation(
 }
 
 
-/* CONVERSATIONS */
+/*
+  Keep the old function name working too.
+
+  If anything else in your HTML calls
+  openConversation(), it will use the
+  new fixed system.
+*/
+
+async function openConversation(
+  otherUserId,
+  otherUser
+){
+
+  await startConversation(
+    otherUserId,
+    otherUser
+  );
+
+}
+
+
+/* =========================
+   CONVERSATIONS
+========================= */
 
 function loadConversations(){
 
   const user =
     auth.currentUser;
 
+
   if(!user){
     return;
   }
 
+
   if(unsubscribeConversations){
+
     unsubscribeConversations();
+
+    unsubscribeConversations = null;
+
   }
+
 
   const q =
     query(
@@ -1080,12 +1458,14 @@ function loadConversations(){
       )
     );
 
+
   unsubscribeConversations =
     onSnapshot(
       q,
       async snapshot=>{
 
         conversationList.innerHTML = "";
+
 
         for(
           const conversationDoc
@@ -1095,85 +1475,123 @@ function loadConversations(){
           const conversation =
             conversationDoc.data();
 
+
+          if(
+            !Array.isArray(
+              conversation.participants
+            )
+          ){
+
+            continue;
+
+          }
+
+
           const otherId =
             conversation.participants.find(
               id => id !== user.uid
             );
 
+
           if(!otherId){
             continue;
           }
 
+
           const otherUser =
-            await getUserProfile(otherId);
+            await getUserProfile(
+              otherId
+            );
+
 
           if(!otherUser){
             continue;
           }
 
+
           const button =
             document.createElement("button");
 
+
           button.className =
             "conversation";
+
 
           if(
             conversationDoc.id ===
             currentConversationId
           ){
 
-            button.classList.add("active");
+            button.classList.add(
+              "active"
+            );
 
           }
+
 
           const avatar =
             document.createElement("div");
 
+
           avatar.className =
             "avatar";
+
 
           setAvatar(
             avatar,
             otherUser
           );
 
+
           const info =
             document.createElement("div");
+
 
           info.className =
             "conversation-info";
 
+
           const name =
             document.createElement("div");
+
 
           name.className =
             "conversation-name";
 
+
           name.textContent =
             otherUser.displayName ||
-            otherUser.email;
+            otherUser.email ||
+            "User";
+
 
           const preview =
             document.createElement("div");
 
+
           preview.className =
             "conversation-preview";
+
 
           preview.textContent =
             conversation.lastMessage ||
             "No messages yet";
 
+
           info.appendChild(name);
+
           info.appendChild(preview);
 
           button.appendChild(avatar);
+
           button.appendChild(info);
+
 
           button.addEventListener(
             "click",
             ()=>{
 
-              openConversation(
+              startConversation(
                 otherId,
                 otherUser
               );
@@ -1181,7 +1599,10 @@ function loadConversations(){
             }
           );
 
-          conversationList.appendChild(button);
+
+          conversationList.appendChild(
+            button
+          );
 
         }
 
@@ -1199,7 +1620,9 @@ function loadConversations(){
 }
 
 
-/* MESSAGES */
+/* =========================
+   MESSAGES
+========================= */
 
 function listenForMessages(){
 
@@ -1207,9 +1630,15 @@ function listenForMessages(){
     return;
   }
 
+
   if(unsubscribeMessages){
+
     unsubscribeMessages();
+
+    unsubscribeMessages = null;
+
   }
+
 
   const messagesRef =
     collection(
@@ -1219,11 +1648,16 @@ function listenForMessages(){
       "messages"
     );
 
+
   const q =
     query(
       messagesRef,
-      orderBy("createdAt","asc")
+      orderBy(
+        "createdAt",
+        "asc"
+      )
     );
+
 
   unsubscribeMessages =
     onSnapshot(
@@ -1232,59 +1666,83 @@ function listenForMessages(){
 
         messagesDiv.innerHTML = "";
 
-        snapshot.forEach(messageDoc=>{
 
-          const message =
-            messageDoc.data();
+        snapshot.forEach(
+          messageDoc=>{
 
-          const wrap =
-            document.createElement("div");
+            const message =
+              messageDoc.data();
 
-          const mine =
-            message.senderId ===
-            auth.currentUser.uid;
 
-          wrap.className =
-            "message-wrap" +
-            (mine ? " mine" : "");
-
-          const container =
-            document.createElement("div");
-
-          container.className =
-            "message-container";
-
-          const box =
-            document.createElement("div");
-
-          box.className =
-            "message";
-
-          box.textContent =
-            message.text || "";
-
-          if(message.createdAt){
-
-            const time =
+            const wrap =
               document.createElement("div");
 
-            time.className =
-              "message-time";
 
-            time.textContent =
-              formatTimestamp(
-                message.createdAt
+            const mine =
+              message.senderId ===
+              auth.currentUser?.uid;
+
+
+            wrap.className =
+              "message-wrap" +
+              (
+                mine
+                  ? " mine"
+                  : ""
               );
 
-            box.appendChild(time);
+
+            const container =
+              document.createElement("div");
+
+
+            container.className =
+              "message-container";
+
+
+            const box =
+              document.createElement("div");
+
+
+            box.className =
+              "message";
+
+
+            box.textContent =
+              message.text ||
+              "";
+
+
+            if(message.createdAt){
+
+              const time =
+                document.createElement("div");
+
+
+              time.className =
+                "message-time";
+
+
+              time.textContent =
+                formatTimestamp(
+                  message.createdAt
+                );
+
+
+              box.appendChild(time);
+
+            }
+
+
+            container.appendChild(box);
+
+            wrap.appendChild(container);
+
+            messagesDiv.appendChild(wrap);
 
           }
+        );
 
-          container.appendChild(box);
-          wrap.appendChild(container);
-          messagesDiv.appendChild(wrap);
-
-        });
 
         messagesDiv.scrollTop =
           messagesDiv.scrollHeight;
@@ -1303,19 +1761,26 @@ function listenForMessages(){
 }
 
 
-/* SEND */
+/* =========================
+   SEND
+========================= */
 
 sendBtn.addEventListener(
   "click",
   sendMessage
 );
 
+
 messageInput.addEventListener(
   "keydown",
   event=>{
 
     if(event.key === "Enter"){
+
+      event.preventDefault();
+
       sendMessage();
+
     }
 
   }
@@ -1327,22 +1792,37 @@ async function sendMessage(){
   const user =
     auth.currentUser;
 
+
   const text =
     messageInput.value.trim();
 
+
   if(!user){
-    alert("You are not logged in.");
+
+    alert(
+      "You are not logged in."
+    );
+
     return;
+
   }
 
+
   if(!currentConversationId){
-    alert("Choose a person first.");
+
+    alert(
+      "Choose a person first."
+    );
+
     return;
+
   }
+
 
   if(!text){
     return;
   }
+
 
   try{
 
@@ -1353,10 +1833,12 @@ async function sendMessage(){
         currentConversationId
       );
 
+
     const conversationSnap =
       await getDoc(
         conversationRef
       );
+
 
     if(!conversationSnap.exists()){
 
@@ -1365,10 +1847,13 @@ async function sendMessage(){
       );
 
       return;
+
     }
+
 
     const conversation =
       conversationSnap.data();
+
 
     if(
       !Array.isArray(
@@ -1384,7 +1869,9 @@ async function sendMessage(){
       );
 
       return;
+
     }
+
 
     await addDoc(
       collection(
@@ -1400,6 +1887,7 @@ async function sendMessage(){
       }
     );
 
+
     await setDoc(
       conversationRef,
       {
@@ -1411,8 +1899,11 @@ async function sendMessage(){
       }
     );
 
+
     messageInput.value = "";
+
     messageInput.focus();
+
 
   }catch(error){
 
@@ -1420,6 +1911,7 @@ async function sendMessage(){
       "SEND ERROR:",
       error
     );
+
 
     alert(
       "MESSAGE FAILED:\n\n" +
@@ -1431,7 +1923,9 @@ async function sendMessage(){
 }
 
 
-/* TIME */
+/* =========================
+   TIME
+========================= */
 
 function formatTimestamp(timestamp){
 
@@ -1439,14 +1933,19 @@ function formatTimestamp(timestamp){
     !timestamp ||
     !timestamp.toDate
   ){
+
     return "";
+
   }
+
 
   const date =
     timestamp.toDate();
 
+
   const now =
     new Date();
+
 
   if(
     date.toDateString() ===
@@ -1463,6 +1962,7 @@ function formatTimestamp(timestamp){
 
   }
 
+
   return date.toLocaleDateString(
     [],
     {
@@ -1474,28 +1974,44 @@ function formatTimestamp(timestamp){
 }
 
 
-/* ERRORS */
+/* =========================
+   ERRORS
+========================= */
 
 function friendlyError(error){
 
   switch(error.code){
 
     case "auth/email-already-in-use":
+
       return "That email already has an account.";
 
     case "auth/invalid-email":
+
       return "Please enter a valid email.";
 
     case "auth/invalid-credential":
+
+      return "Incorrect email or password.";
+
+    case "auth/user-not-found":
+
+      return "Incorrect email or password.";
+
+    case "auth/wrong-password":
+
       return "Incorrect email or password.";
 
     case "auth/weak-password":
+
       return "Password must be at least 6 characters.";
 
     case "auth/too-many-requests":
+
       return "Too many attempts. Try again later.";
 
     default:
+
       return error.message ||
         "Something went wrong.";
 
