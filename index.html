@@ -59,7 +59,7 @@ button {
 .header-name {
   font-size: 13px;
 }
-/* AVATARS */
+/* AVATAR */
 .avatar {
   width: 44px;
   height: 44px;
@@ -74,8 +74,8 @@ button {
   flex-shrink: 0;
 }
 .avatar.large {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
 }
 .avatar img {
   width: 100%;
@@ -101,7 +101,9 @@ button {
 }
 .auth-card p {
   color: #6b7280;
-  margin-top: 0;
+}
+.auth input {
+  margin-top: 10px;
 }
 input {
   width: 100%;
@@ -113,9 +115,6 @@ input {
 }
 input:focus {
   border-color: #111827;
-}
-.auth input {
-  margin-top: 10px;
 }
 .primary-btn,
 .secondary-btn {
@@ -133,6 +132,12 @@ input:focus {
   background: #edf0f4;
   color: #172033;
 }
+.status {
+  margin-top: 12px;
+  color: #737d8d;
+  font-size: 13px;
+  word-break: break-word;
+}
 /* MAIN */
 .main {
   flex: 1;
@@ -145,7 +150,7 @@ input:focus {
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: white;
 }
 .sidebar-top {
   padding: 20px;
@@ -160,8 +165,29 @@ input:focus {
   margin: 0;
   font-size: 21px;
 }
-.search {
+/* SEARCH */
+.search-row {
+  display: flex;
+  gap: 8px;
   margin-top: 15px;
+}
+.search {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.search-btn {
+  width: auto;
+  margin: 0;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 12px;
+  background: #111827;
+  color: white;
+  white-space: nowrap;
+}
+.search-btn:active {
+  transform: scale(.97);
 }
 .search-results {
   margin-top: 8px;
@@ -170,6 +196,7 @@ input:focus {
   width: 100%;
   border: 0;
   background: #f5f7fa;
+  color: #172033;
   border-radius: 12px;
   padding: 11px;
   display: flex;
@@ -181,6 +208,20 @@ input:focus {
 .user-result:hover {
   background: #e9edf2;
 }
+.user-result-info {
+  min-width: 0;
+}
+.user-result-name {
+  font-weight: 700;
+}
+.user-result-email {
+  color: #7b8493;
+  font-size: 12px;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* CONVERSATIONS */
 .conversations-title {
   padding: 16px 20px 8px;
   color: #7b8493;
@@ -196,6 +237,7 @@ input:focus {
   width: 100%;
   border: 0;
   background: white;
+  color: #172033;
   padding: 13px 18px;
   display: flex;
   align-items: center;
@@ -235,9 +277,9 @@ input:focus {
   text-overflow: ellipsis;
 }
 .unread {
-  min-width: 19px;
-  height: 19px;
-  padding: 0 5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
   border-radius: 50px;
   background: #111827;
   color: white;
@@ -246,6 +288,7 @@ input:focus {
   align-items: center;
   justify-content: center;
 }
+/* LOGOUT */
 .logout {
   padding: 12px 16px 18px;
 }
@@ -273,6 +316,12 @@ input:focus {
 }
 .empty-chat h2 {
   color: #172033;
+}
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 .chat-header {
   min-height: 73px;
@@ -312,6 +361,7 @@ input:focus {
   border-radius: 16px;
   background: #e3e7ed;
   color: #172033;
+  word-wrap: break-word;
 }
 .message-wrap.mine .message {
   background: #111827;
@@ -336,6 +386,7 @@ input:focus {
 }
 .composer input {
   flex: 1;
+  margin: 0;
 }
 .composer button {
   width: 75px;
@@ -371,74 +422,98 @@ input:focus {
   .message {
     max-width: 82%;
   }
+  .search-btn {
+    padding: 0 11px;
+  }
 }
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="header">
-    <div>
-      <div class="logo">TwinChat</div>
-      <div class="tagline">Private messaging made simple.</div>
+<header class="header">
+  <div>
+    <div class="logo">TwinChat</div>
+    <div class="tagline">
+      Private messaging made simple.
     </div>
-<div class="header-user">
-  <span id="headerName" class="header-name"></span>
-  <div id="headerAvatar" class="avatar"></div>
-</div>
-  </header>
-  <!-- AUTH -->
-  <section id="authScreen" class="auth">
-<div class="auth-card">
-  <h2>Welcome to TwinChat 👋</h2>
-  <p>Chat privately with your friends.</p>
-  <input
-    id="email"
-    type="email"
-    placeholder="Email address"
-  >
-  <input
-    id="password"
-    type="password"
-    placeholder="Password"
-  >
-  <button
-    id="signupBtn"
-    class="primary-btn"
-  >
-    Create Account
-  </button>
-  <button
-    id="loginBtn"
-    class="secondary-btn"
-  >
-    Log In
-  </button>
-  <div
-    id="authStatus"
-    class="status"
-  ></div>
-</div>
-  </section>
-  <!-- MAIN APP -->
-  <section
-    id="mainScreen"
-    class="main hidden"
-  >
+  </div>
+  <div class="header-user">
+<span
+  id="headerName"
+  class="header-name"
+></span>
+<div
+  id="headerAvatar"
+  class="avatar"
+></div>
+  </div>
+</header>
+<!-- AUTH -->
+<section
+  id="authScreen"
+  class="auth"
+>
+  <div class="auth-card">
+<h2>Welcome to TwinChat 👋</h2>
+<p>
+  Chat privately with your friends.
+</p>
+<input
+  id="email"
+  type="email"
+  placeholder="Email address"
+>
+<input
+  id="password"
+  type="password"
+  placeholder="Password"
+>
+<button
+  id="signupBtn"
+  class="primary-btn"
+>
+  Create Account
+</button>
+<button
+  id="loginBtn"
+  class="secondary-btn"
+>
+  Log In
+</button>
+<div
+  id="authStatus"
+  class="status"
+></div>
+  </div>
+</section>
+<!-- MAIN -->
+<section
+  id="mainScreen"
+  class="main hidden"
+>
 <aside class="sidebar">
   <div class="sidebar-top">
-    <div class="sidebar-title">
-      <h2>Messages</h2>
-    </div>
-    <input
-      id="searchInput"
-      class="search"
-      type="text"
-      placeholder="Search for someone..."
-    >
-    <div
-      id="searchResults"
-      class="search-results"
-    ></div>
+<div class="sidebar-title">
+  <h2>Messages</h2>
+</div>
+<div class="search-row">
+  <input
+    id="searchInput"
+    class="search"
+    type="text"
+    placeholder="Search for someone..."
+  >
+  <button
+    id="searchBtn"
+    class="search-btn"
+  >
+    🔍 Search
+  </button>
+</div>
+<div
+  id="searchResults"
+  class="search-results"
+></div>
   </div>
   <div class="conversations-title">
     Your chats
@@ -448,9 +523,9 @@ input:focus {
     class="conversations"
   ></div>
   <div class="logout">
-    <button id="logoutBtn">
-      Log Out
-    </button>
+<button id="logoutBtn">
+  Log Out
+</button>
   </div>
 </aside>
 <main class="chat">
@@ -458,49 +533,48 @@ input:focus {
     id="emptyChat"
     class="empty-chat"
   >
-    <h2>Your messages</h2>
-    <p>
-      Search for a user to start a private conversation.
-    </p>
+<h2>Your messages</h2>
+<p>
+  Search for a user to start a private conversation.
+</p>
   </div>
   <div
     id="chatArea"
-    class="hidden"
-    style="display:flex;flex-direction:column;height:100%;"
+    class="chat-area hidden"
   >
-    <div class="chat-header">
-      <div
-        id="chatAvatar"
-        class="avatar"
-      ></div>
-      <div class="chat-user-info">
-        <div
-          id="chatTitle"
-          class="chat-user-name"
-        ></div>
-        <div
-          id="chatEmail"
-          class="chat-user-email"
-        ></div>
-      </div>
-    </div>
+<div class="chat-header">
+  <div
+    id="chatAvatar"
+    class="avatar"
+  ></div>
+  <div class="chat-user-info">
     <div
-      id="messages"
-      class="messages"
+      id="chatTitle"
+      class="chat-user-name"
     ></div>
-    <div class="composer">
-      <input
-        id="messageInput"
-        type="text"
-        placeholder="Write a message..."
-      >
-      <button id="sendBtn">
-        Send
-      </button>
-    </div>
+    <div
+      id="chatEmail"
+      class="chat-user-email"
+    ></div>
+  </div>
+</div>
+<div
+  id="messages"
+  class="messages"
+></div>
+<div class="composer">
+  <input
+    id="messageInput"
+    type="text"
+    placeholder="Write a message..."
+  >
+  <button id="sendBtn">
+    Send
+  </button>
+</div>
   </div>
 </main>
-  </section>
+</section>
 </div>
 <script type="module">
 import { initializeApp }
@@ -548,71 +622,132 @@ const auth =
 const db =
   getFirestore(app);
 const authScreen =
-  document.getElementById("authScreen");
+  document.getElementById(
+    "authScreen"
+  );
 const mainScreen =
-  document.getElementById("mainScreen");
+  document.getElementById(
+    "mainScreen"
+  );
 const emailInput =
-  document.getElementById("email");
+  document.getElementById(
+    "email"
+  );
 const passwordInput =
-  document.getElementById("password");
+  document.getElementById(
+    "password"
+  );
 const signupBtn =
-  document.getElementById("signupBtn");
+  document.getElementById(
+    "signupBtn"
+  );
 const loginBtn =
-  document.getElementById("loginBtn");
+  document.getElementById(
+    "loginBtn"
+  );
 const logoutBtn =
-  document.getElementById("logoutBtn");
+  document.getElementById(
+    "logoutBtn"
+  );
 const authStatus =
-  document.getElementById("authStatus");
+  document.getElementById(
+    "authStatus"
+  );
 const searchInput =
-  document.getElementById("searchInput");
+  document.getElementById(
+    "searchInput"
+  );
+const searchBtn =
+  document.getElementById(
+    "searchBtn"
+  );
 const searchResults =
-  document.getElementById("searchResults");
+  document.getElementById(
+    "searchResults"
+  );
 const conversationList =
-  document.getElementById("conversationList");
+  document.getElementById(
+    "conversationList"
+  );
 const emptyChat =
-  document.getElementById("emptyChat");
+  document.getElementById(
+    "emptyChat"
+  );
 const chatArea =
-  document.getElementById("chatArea");
+  document.getElementById(
+    "chatArea"
+  );
 const chatAvatar =
-  document.getElementById("chatAvatar");
+  document.getElementById(
+    "chatAvatar"
+  );
 const chatTitle =
-  document.getElementById("chatTitle");
+  document.getElementById(
+    "chatTitle"
+  );
 const chatEmail =
-  document.getElementById("chatEmail");
+  document.getElementById(
+    "chatEmail"
+  );
 const messagesDiv =
-  document.getElementById("messages");
+  document.getElementById(
+    "messages"
+  );
 const messageInput =
-  document.getElementById("messageInput");
+  document.getElementById(
+    "messageInput"
+  );
 const sendBtn =
-  document.getElementById("sendBtn");
+  document.getElementById(
+    "sendBtn"
+  );
 const headerName =
-  document.getElementById("headerName");
+  document.getElementById(
+    "headerName"
+  );
 const headerAvatar =
-  document.getElementById("headerAvatar");
-let currentConversationId = null;
-let currentOtherUser = null;
-let unsubscribeMessages = null;
-let unsubscribeConversations = null;
+  document.getElementById(
+    "headerAvatar"
+  );
+let currentConversationId =
+  null;
+let currentOtherUser =
+  null;
+let unsubscribeMessages =
+  null;
+let unsubscribeConversations =
+  null;
 /* =========================
    AVATAR
 ========================= */
-function setAvatar(element, user) {
+function setAvatar(
+  element,
+  user
+) {
   element.innerHTML = "";
-  if (user && user.photoURL) {
+  if (
+    user &&
+    user.photoURL
+  ) {
     const img =
-      document.createElement("img");
+      document.createElement(
+        "img"
+      );
     img.src =
       user.photoURL;
-    img.alt =
-      "";
-    element.appendChild(img);
+    img.alt = "";
+    element.appendChild(
+      img
+    );
   } else {
     const name =
       user?.displayName ||
       user?.email ||
       "?";
     element.textContent =
-      name.charAt(0).toUpperCase();
+      name
+        .charAt(0)
+        .toUpperCase();
   }
 }
 /* =========================
@@ -622,15 +757,21 @@ signupBtn.addEventListener(
   "click",
   async () => {
     const email =
-      emailInput.value.trim();
+      emailInput.value
+        .trim();
     const password =
       passwordInput.value;
-    if (!email || !password) {
+    if (
+      !email ||
+      !password
+    ) {
       authStatus.textContent =
         "Enter an email and password.";
       return;
     }
-    if (password.length < 6) {
+    if (
+      password.length < 6
+    ) {
       authStatus.textContent =
         "Password must be at least 6 characters.";
       return;
@@ -719,7 +860,8 @@ onAuthStateChanged(
       setAvatar(
         headerAvatar,
         profile || {
-          email: user.email
+          email:
+            user.email
         }
       );
       loadConversations();
@@ -730,23 +872,32 @@ onAuthStateChanged(
       mainScreen.classList.add(
         "hidden"
       );
-      if (unsubscribeMessages) {
+      if (
+        unsubscribeMessages
+      ) {
         unsubscribeMessages();
       }
-      if (unsubscribeConversations) {
+      if (
+        unsubscribeConversations
+      ) {
         unsubscribeConversations();
       }
     }
   }
 );
 /* =========================
-   GET USER PROFILE
+   GET PROFILE
 ========================= */
-async function getUserProfile(uid) {
+async function getUserProfile(
+  uid
+) {
   const snapshot =
     await getDocs(
       query(
-        collection(db, "users"),
+        collection(
+          db,
+          "users"
+        ),
         where(
           "__name__",
           "==",
@@ -754,7 +905,9 @@ async function getUserProfile(uid) {
         )
       )
     );
-  if (snapshot.empty) {
+  if (
+    snapshot.empty
+  ) {
     return null;
   }
   return snapshot.docs[0].data();
@@ -762,25 +915,39 @@ async function getUserProfile(uid) {
 /* =========================
    SEARCH
 ========================= */
+searchBtn.addEventListener(
+  "click",
+  searchUsers
+);
 searchInput.addEventListener(
-  "input",
-  async () => {
-    const text =
-      searchInput.value
-        .trim()
-        .toLowerCase();
-    searchResults.innerHTML = "";
-    if (!text) {
-      return;
+  "keydown",
+  (event) => {
+    if (
+      event.key === "Enter"
+    ) {
+      searchUsers();
     }
-    const usersSnapshot =
+  }
+);
+async function searchUsers() {
+  const text =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+  searchResults.innerHTML =
+    "";
+  if (!text) {
+    return;
+  }
+  try {
+    const snapshot =
       await getDocs(
         collection(
           db,
           "users"
         )
       );
-    usersSnapshot.forEach(
+    snapshot.forEach(
       (userDoc) => {
         if (
           auth.currentUser &&
@@ -792,11 +959,15 @@ searchInput.addEventListener(
         const user =
           userDoc.data();
         const email =
-          (user.email || "")
-            .toLowerCase();
+          (
+            user.email ||
+            ""
+          ).toLowerCase();
         const name =
-          (user.displayName || "")
-            .toLowerCase();
+          (
+            user.displayName ||
+            ""
+          ).toLowerCase();
         if (
           email.includes(text) ||
           name.includes(text)
@@ -821,16 +992,32 @@ searchInput.addEventListener(
             document.createElement(
               "div"
             );
-          info.innerHTML =
-            `<strong>${escapeHtml(
-              user.displayName ||
-              "User"
-            )}</strong>
-             <br>
-             <small>${escapeHtml(
-               user.email ||
-               ""
-             )}</small>`;
+          info.className =
+            "user-result-info";
+          const nameElement =
+            document.createElement(
+              "div"
+            );
+          nameElement.className =
+            "user-result-name";
+          nameElement.textContent =
+            user.displayName ||
+            "User";
+          const emailElement =
+            document.createElement(
+              "div"
+            );
+          emailElement.className =
+            "user-result-email";
+          emailElement.textContent =
+            user.email ||
+            "";
+          info.appendChild(
+            nameElement
+          );
+          info.appendChild(
+            emailElement
+          );
           button.appendChild(
             avatar
           );
@@ -857,15 +1044,20 @@ searchInput.addEventListener(
       }
     );
     if (
-      searchResults.children.length === 0
+      searchResults.children.length ===
+      0
     ) {
       searchResults.textContent =
         "No users found.";
     }
+  } catch (error) {
+    console.error(error);
+    searchResults.textContent =
+      "Search failed.";
   }
-);
+}
 /* =========================
-   START CHAT
+   START CONVERSATION
 ========================= */
 async function startConversation(
   otherUserId,
@@ -922,7 +1114,7 @@ async function startConversation(
   loadConversations();
 }
 /* =========================
-   LOAD CONVERSATIONS
+   CONVERSATIONS
 ========================= */
 function loadConversations() {
   const user =
@@ -930,7 +1122,9 @@ function loadConversations() {
   if (!user) {
     return;
   }
-  if (unsubscribeConversations) {
+  if (
+    unsubscribeConversations
+  ) {
     unsubscribeConversations();
   }
   const conversationsQuery =
@@ -962,10 +1156,11 @@ function loadConversations() {
           const conversation =
             conversationDoc.data();
           const otherId =
-            conversation.participants.find(
-              id =>
-                id !== user.uid
-            );
+            conversation.participants
+              .find(
+                id =>
+                  id !== user.uid
+              );
           if (!otherId) {
             continue;
           }
@@ -1031,8 +1226,12 @@ function loadConversations() {
             formatTimestamp(
               conversation.updatedAt
             );
-          row.appendChild(name);
-          row.appendChild(time);
+          row.appendChild(
+            name
+          );
+          row.appendChild(
+            time
+          );
           const preview =
             document.createElement(
               "div"
@@ -1042,8 +1241,12 @@ function loadConversations() {
           preview.textContent =
             conversation.lastMessage ||
             "No messages yet";
-          info.appendChild(row);
-          info.appendChild(preview);
+          info.appendChild(
+            row
+          );
+          info.appendChild(
+            preview
+          );
           button.appendChild(
             avatar
           );
@@ -1063,17 +1266,27 @@ function loadConversations() {
             button
           );
         }
+      },
+      (error) => {
+        console.error(
+          "Conversation error:",
+          error
+        );
       }
     );
 }
 /* =========================
-   REAL-TIME MESSAGES
+   MESSAGES
 ========================= */
 function listenForMessages() {
-  if (!currentConversationId) {
+  if (
+    !currentConversationId
+  ) {
     return;
   }
-  if (unsubscribeMessages) {
+  if (
+    unsubscribeMessages
+  ) {
     unsubscribeMessages();
   }
   const messagesQuery =
@@ -1108,9 +1321,11 @@ function listenForMessages() {
               auth.currentUser.uid;
             wrap.className =
               "message-wrap " +
-              (mine
-                ? "mine"
-                : "");
+              (
+                mine
+                  ? "mine"
+                  : ""
+              );
             const box =
               document.createElement(
                 "div"
@@ -1118,8 +1333,11 @@ function listenForMessages() {
             box.className =
               "message";
             box.textContent =
-              message.text || "";
-            if (message.createdAt) {
+              message.text ||
+              "";
+            if (
+              message.createdAt
+            ) {
               const time =
                 document.createElement(
                   "div"
@@ -1144,11 +1362,17 @@ function listenForMessages() {
         );
         messagesDiv.scrollTop =
           messagesDiv.scrollHeight;
+      },
+      (error) => {
+        console.error(
+          "Message error:",
+          error
+        );
       }
     );
 }
 /* =========================
-   SEND
+   SEND MESSAGE
 ========================= */
 sendBtn.addEventListener(
   "click",
@@ -1157,7 +1381,9 @@ sendBtn.addEventListener(
 messageInput.addEventListener(
   "keydown",
   (event) => {
-    if (event.key === "Enter") {
+    if (
+      event.key === "Enter"
+    ) {
       sendMessage();
     }
   }
@@ -1218,9 +1444,11 @@ async function sendMessage() {
   }
 }
 /* =========================
-   HELPERS
+   TIME
 ========================= */
-function formatTimestamp(timestamp) {
+function formatTimestamp(
+  timestamp
+) {
   if (
     !timestamp ||
     !timestamp.toDate
@@ -1231,10 +1459,10 @@ function formatTimestamp(timestamp) {
     timestamp.toDate();
   const now =
     new Date();
-  const sameDay =
+  if (
     date.toDateString() ===
-    now.toDateString();
-  if (sameDay) {
+    now.toDateString()
+  ) {
     return date.toLocaleTimeString(
       [],
       {
@@ -1251,16 +1479,15 @@ function formatTimestamp(timestamp) {
     }
   );
 }
-function escapeHtml(text) {
-  return String(text)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-function friendlyError(error) {
-  switch (error.code) {
+/* =========================
+   ERRORS
+========================= */
+function friendlyError(
+  error
+) {
+  switch (
+    error.code
+  ) {
     case "auth/email-already-in-use":
       return "That email already has an account.";
     case "auth/invalid-email":
