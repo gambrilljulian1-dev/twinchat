@@ -14,15 +14,9 @@ body{
   background:#eef1f5;
   color:#172033;
 }
-button,input{
-  font:inherit;
-}
-button{
-  cursor:pointer;
-}
-.hidden{
-  display:none!important;
-}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 .app{
   max-width:1000px;
   min-height:100vh;
@@ -74,12 +68,8 @@ button{
   padding:28px;
   box-shadow:0 10px 35px rgba(20,30,50,.07);
 }
-.auth-card h2{
-  margin:0 0 7px;
-}
-.auth-card p{
-  color:#6b7280;
-}
+.auth-card h2{margin:0 0 7px}
+.auth-card p{color:#6b7280}
 input{
   width:100%;
   border:1px solid #d8dde6;
@@ -88,14 +78,11 @@ input{
   outline:none;
   background:#fff;
 }
-.auth input{
-  margin-top:10px;
-}
-input:focus{
-  border-color:#111827;
-}
+.auth input{margin-top:10px}
+input:focus{border-color:#111827}
 .primary-btn,
-.secondary-btn{
+.secondary-btn,
+.notification-btn{
   width:100%;
   border:0;
   border-radius:12px;
@@ -108,6 +95,10 @@ input:focus{
 }
 .secondary-btn{
   background:#edf0f4;
+}
+.notification-btn{
+  background:#e8eefc;
+  color:#172033;
 }
 .status{
   margin-top:12px;
@@ -130,9 +121,7 @@ input:focus{
   padding:20px;
   border-bottom:1px solid #edf0f3;
 }
-.sidebar-title h2{
-  margin:0;
-}
+.sidebar-title h2{margin:0}
 .search-row{
   display:flex;
   gap:8px;
@@ -150,9 +139,7 @@ input:focus{
   color:#fff;
   padding:0 13px;
 }
-.search-results{
-  margin-top:8px;
-}
+.search-results{margin-top:8px}
 .user-result{
   width:100%;
   border:0;
@@ -165,12 +152,8 @@ input:focus{
   text-align:left;
   margin-top:6px;
 }
-.user-result-info{
-  min-width:0;
-}
-.user-result-name{
-  font-weight:700;
-}
+.user-result-info{min-width:0}
+.user-result-name{font-weight:700}
 .user-result-email{
   color:#7b8493;
   font-size:12px;
@@ -243,9 +226,7 @@ input:focus{
   padding:30px;
   color:#7b8493;
 }
-.empty-chat h2{
-  color:#172033;
-}
+.empty-chat h2{color:#172033}
 .chat-area{
   flex:1;
   display:flex;
@@ -261,9 +242,7 @@ input:focus{
   padding:10px 18px;
   gap:12px;
 }
-.chat-user-name{
-  font-weight:700;
-}
+.chat-user-name{font-weight:700}
 .chat-user-email{
   color:#7b8493;
   font-size:12px;
@@ -277,9 +256,7 @@ input:focus{
   display:flex;
   margin:10px 0;
 }
-.message-wrap.mine{
-  justify-content:flex-end;
-}
+.message-wrap.mine{justify-content:flex-end}
 .message-container{
   max-width:min(75%,520px);
 }
@@ -322,9 +299,7 @@ input:focus{
   color:#fff;
 }
 @media(max-width:700px){
-  .header{
-    height:68px;
-  }
+  .header{height:68px}
   .main{
     flex-direction:column;
     min-height:calc(100vh - 68px);
@@ -335,15 +310,9 @@ input:focus{
     border-right:0;
     border-bottom:1px solid #e5e7eb;
   }
-  .chat{
-    min-height:500px;
-  }
-  .messages{
-    padding:14px;
-  }
-  .message-container{
-    max-width:82%;
-  }
+  .chat{min-height:500px}
+  .messages{padding:14px}
+  .message-container{max-width:82%}
 }
 </style>
 </head>
@@ -392,6 +361,9 @@ input:focus{
 <div class="sidebar-title">
   <h2>Messages</h2>
 </div>
+<button id="notificationBtn" class="notification-btn">
+  🔔 Enable Notifications
+</button>
 <div class="search-row">
   <input
     id="searchInput"
@@ -416,10 +388,10 @@ input:focus{
 </aside>
 <main class="chat">
   <div id="emptyChat" class="empty-chat">
-<h2>Your messages</h2>
-<p>
-  Search for an email to start a conversation.
-</p>
+    <h2>Your messages</h2>
+    <p>
+      Search for an email to start a conversation.
+    </p>
   </div>
   <div id="chatArea" class="chat-area hidden">
 <div class="chat-header">
@@ -468,6 +440,12 @@ import {
   onSnapshot,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+  isSupported
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-messaging.js";
 /* =========================
    FIREBASE
 ========================= */
@@ -482,6 +460,177 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+/* =========================
+   FIREBASE MESSAGING
+========================= */
+let messaging = null;
+const VAPID_KEY =
+  "BOlTq7nwLTn9f4EmElkEtc1sE2xYGHGWJtTIZ5pJvekszV-wt3eSzmz_LXnzVLSar1zNvf7v5r-mF9KAhoox3A4";
+async function initializeMessaging(){
+  try{
+    const supported =
+      await isSupported();
+    if(!supported){
+      console.log(
+        "Firebase Messaging is not supported on this browser."
+      );
+      return false;
+    }
+    messaging =
+      getMessaging(app);
+    return true;
+  }catch(error){
+    console.error(
+      "MESSAGING INITIALIZATION ERROR:",
+      error
+    );
+    return false;
+  }
+}
+/* =========================
+   NOTIFICATIONS
+========================= */
+async function enableNotifications(){
+  const user =
+    auth.currentUser;
+  if(!user){
+    alert(
+      "Log in first."
+    );
+    return;
+  }
+  try{
+    if(!messaging){
+      const initialized =
+        await initializeMessaging();
+      if(!initialized){
+        alert(
+          "Notifications aren't supported on this device/browser."
+        );
+        return;
+      }
+    }
+    if(
+      !("Notification" in window)
+    ){
+      alert(
+        "Notifications aren't supported here."
+      );
+      return;
+    }
+    const permission =
+      await Notification.requestPermission();
+    if(
+      permission !== "granted"
+    ){
+      alert(
+        "Notification permission was not granted."
+      );
+      return;
+    }
+    const registration =
+      await navigator.serviceWorker.register(
+        "/firebase-messaging-sw.js"
+      );
+    const token =
+      await getToken(
+        messaging,
+        {
+          vapidKey:VAPID_KEY,
+          serviceWorkerRegistration:
+            registration
+        }
+      );
+    if(!token){
+      alert(
+        "TwinChat couldn't get a notification token."
+      );
+      return;
+    }
+    await setDoc(
+      doc(
+        db,
+        "users",
+        user.uid,
+        "notificationTokens",
+        token
+      ),
+      {
+        token:token,
+        createdAt:
+          serverTimestamp(),
+        platform:
+          "web"
+      }
+    );
+    notificationBtn.textContent =
+      "🔔 Notifications Enabled";
+    notificationBtn.disabled =
+      true;
+    console.log(
+      "FCM TOKEN:",
+      token
+    );
+    alert(
+      "Notifications are enabled!"
+    );
+  }catch(error){
+    console.error(
+      "NOTIFICATION ERROR:",
+      error
+    );
+    alert(
+      "Could not enable notifications:\n\n" +
+      error.message
+    );
+  }
+}
+/* =========================
+   FOREGROUND NOTIFICATIONS
+========================= */
+async function setupForegroundMessaging(){
+  try{
+    if(!messaging){
+      const initialized =
+        await initializeMessaging();
+      if(!initialized){
+        return;
+      }
+    }
+    onMessage(
+      messaging,
+      payload=>{
+        console.log(
+          "Notification received:",
+          payload
+        );
+        const title =
+          payload.notification?.title ||
+          "TwinChat";
+        const body =
+          payload.notification?.body ||
+          "You have a new message.";
+        if(
+          Notification.permission ===
+          "granted"
+        ){
+          new Notification(
+            title,
+            {
+              body:body,
+              icon:"/apple-touch-icon.png"
+            }
+          );
+        }
+      }
+    );
+  }catch(error){
+    console.error(
+      "FOREGROUND MESSAGING ERROR:",
+      error
+    );
+  }
+}
 /* =========================
    ELEMENTS
 ========================= */
@@ -501,6 +650,8 @@ const logoutBtn =
   document.getElementById("logoutBtn");
 const authStatus =
   document.getElementById("authStatus");
+const notificationBtn =
+  document.getElementById("notificationBtn");
 const searchInput =
   document.getElementById("searchInput");
 const searchBtn =
@@ -539,7 +690,10 @@ let unsubscribeConversations = null;
 /* =========================
    AVATAR
 ========================= */
-function setAvatar(element,user){
+function setAvatar(
+  element,
+  user
+){
   element.innerHTML = "";
   const name =
     user?.displayName ||
@@ -554,7 +708,11 @@ function setAvatar(element,user){
 async function getUserProfile(uid){
   const snap =
     await getDoc(
-      doc(db,"users",uid)
+      doc(
+        db,
+        "users",
+        uid
+      )
     );
   if(!snap.exists()){
     return null;
@@ -591,7 +749,11 @@ signupBtn.addEventListener(
       const user =
         result.user;
       await setDoc(
-        doc(db,"users",user.uid),
+        doc(
+          db,
+          "users",
+          user.uid
+        ),
         {
           uid:user.uid,
           email:email,
@@ -650,6 +812,13 @@ logoutBtn.addEventListener(
   }
 );
 /* =========================
+   NOTIFICATION BUTTON
+========================= */
+notificationBtn.addEventListener(
+  "click",
+  enableNotifications
+);
+/* =========================
    AUTH STATE
 ========================= */
 onAuthStateChanged(
@@ -658,14 +827,18 @@ onAuthStateChanged(
     if(!user){
       if(unsubscribeMessages){
         unsubscribeMessages();
-        unsubscribeMessages = null;
+        unsubscribeMessages =
+          null;
       }
       if(unsubscribeConversations){
         unsubscribeConversations();
-        unsubscribeConversations = null;
+        unsubscribeConversations =
+          null;
       }
-      currentConversationId = null;
-      currentOtherUser = null;
+      currentConversationId =
+        null;
+      currentOtherUser =
+        null;
       authScreen.classList.remove(
         "hidden"
       );
@@ -678,10 +851,14 @@ onAuthStateChanged(
       chatArea.classList.add(
         "hidden"
       );
-      conversationList.innerHTML = "";
-      messagesDiv.innerHTML = "";
-      headerName.textContent = "";
-      headerAvatar.textContent = "";
+      conversationList.innerHTML =
+        "";
+      messagesDiv.innerHTML =
+        "";
+      headerName.textContent =
+        "";
+      headerAvatar.textContent =
+        "";
       return;
     }
     authScreen.classList.add(
@@ -703,6 +880,7 @@ onAuthStateChanged(
       profile || user
     );
     loadConversations();
+    setupForegroundMessaging();
   }
 );
 /* =========================
@@ -726,7 +904,8 @@ async function searchUsers(){
     searchInput.value
       .trim()
       .toLowerCase();
-  searchResults.innerHTML = "";
+  searchResults.innerHTML =
+    "";
   if(!search){
     return;
   }
@@ -738,7 +917,10 @@ async function searchUsers(){
   try{
     const q =
       query(
-        collection(db,"users"),
+        collection(
+          db,
+          "users"
+        ),
         where(
           "email",
           "==",
@@ -882,14 +1064,6 @@ async function startConversation(
       conversationId
     );
   try{
-    /*
-      IMPORTANT:
-      We intentionally do NOT call
-      getDoc() before setDoc().
-      This allows a new conversation
-      to be created without first trying
-      to read a document that doesn't exist.
-    */
     await setDoc(
       conversationRef,
       {
@@ -960,14 +1134,12 @@ function loadConversations(){
     unsubscribeConversations =
       null;
   }
-  /*
-    No orderBy() here.
-    This avoids requiring a composite
-    Firestore index for the sidebar.
-  */
   const q =
     query(
-      collection(db,"conversations"),
+      collection(
+        db,
+        "conversations"
+      ),
       where(
         "participants",
         "array-contains",
@@ -1100,7 +1272,8 @@ function loadConversations(){
           "SIDEBAR ERROR:",
           error
         );
-        conversationList.innerHTML = "";
+        conversationList.innerHTML =
+          "";
         const errorMessage =
           document.createElement(
             "div"
@@ -1255,11 +1428,6 @@ async function sendMessage(){
         "conversations",
         currentConversationId
       );
-    /*
-      We read the conversation only when
-      sending a message. At this point it
-      should already exist.
-    */
     const conversationSnap =
       await getDoc(
         conversationRef
