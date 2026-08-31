@@ -6,23 +6,28 @@
 <title>TwinChat</title>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
+
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
   background:#eef1f5;
   color:#172033;
 }
+
 button,input{font:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
+
 .app{
   max-width:1000px;
   min-height:100vh;
   margin:auto;
   background:#fff;
 }
+
 .header{
   height:76px;
   padding:16px 22px;
@@ -32,19 +37,23 @@ button{cursor:pointer}
   align-items:center;
   justify-content:space-between;
 }
+
 .logo{
   font-size:25px;
   font-weight:800;
 }
+
 .tagline{
   color:#b9c0cc;
   font-size:12px;
 }
+
 .header-user{
   display:flex;
   align-items:center;
   gap:10px;
 }
+
 .avatar{
   width:44px;
   height:44px;
@@ -57,19 +66,23 @@ button{cursor:pointer}
   color:#344054;
   flex-shrink:0;
 }
+
 .auth{
   max-width:430px;
   margin:auto;
   padding:30px 20px;
 }
+
 .auth-card{
   border:1px solid #e3e7ed;
   border-radius:22px;
   padding:28px;
   box-shadow:0 10px 35px rgba(20,30,50,.07);
 }
+
 .auth-card h2{margin:0 0 7px}
 .auth-card p{color:#6b7280}
+
 input{
   width:100%;
   border:1px solid #d8dde6;
@@ -78,8 +91,10 @@ input{
   outline:none;
   background:#fff;
 }
+
 .auth input{margin-top:10px}
 input:focus{border-color:#111827}
+
 .primary-btn,
 .secondary-btn,
 .notification-btn{
@@ -89,27 +104,33 @@ input:focus{border-color:#111827}
   padding:13px;
   margin-top:10px;
 }
+
 .primary-btn{
   background:#111827;
   color:#fff;
 }
+
 .secondary-btn{
   background:#edf0f4;
 }
+
 .notification-btn{
   background:#e8eefc;
   color:#172033;
 }
+
 .status{
   margin-top:12px;
   color:#737d8d;
   font-size:13px;
   word-break:break-word;
 }
+
 .main{
   display:flex;
   min-height:calc(100vh - 76px);
 }
+
 .sidebar{
   width:330px;
   border-right:1px solid #e5e7eb;
@@ -117,21 +138,26 @@ input:focus{border-color:#111827}
   flex-direction:column;
   background:#fff;
 }
+
 .sidebar-top{
   padding:20px;
   border-bottom:1px solid #edf0f3;
 }
+
 .sidebar-title h2{margin:0}
+
 .search-row{
   display:flex;
   gap:8px;
   margin-top:15px;
 }
+
 .search{
   flex:1;
   min-width:0;
   margin:0;
 }
+
 .search-btn{
   border:0;
   border-radius:12px;
@@ -139,7 +165,9 @@ input:focus{border-color:#111827}
   color:#fff;
   padding:0 13px;
 }
+
 .search-results{margin-top:8px}
+
 .user-result{
   width:100%;
   border:0;
@@ -152,14 +180,18 @@ input:focus{border-color:#111827}
   text-align:left;
   margin-top:6px;
 }
+
 .user-result-info{min-width:0}
+
 .user-result-name{font-weight:700}
+
 .user-result-email{
   color:#7b8493;
   font-size:12px;
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
 .conversations-title{
   padding:16px 20px 8px;
   color:#7b8493;
@@ -167,10 +199,12 @@ input:focus{border-color:#111827}
   font-weight:700;
   text-transform:uppercase;
 }
+
 .conversations{
   overflow-y:auto;
   flex:1;
 }
+
 .conversation{
   width:100%;
   border:0;
@@ -181,20 +215,24 @@ input:focus{border-color:#111827}
   gap:12px;
   text-align:left;
 }
+
 .conversation:hover,
 .conversation.active{
   background:#f3f5f8;
 }
+
 .conversation-info{
   min-width:0;
   flex:1;
 }
+
 .conversation-name{
   font-weight:700;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
 .conversation-preview{
   color:#7b8493;
   font-size:13px;
@@ -203,9 +241,11 @@ input:focus{border-color:#111827}
   overflow:hidden;
   text-overflow:ellipsis;
 }
+
 .logout{
   padding:12px 16px 18px;
 }
+
 .logout button{
   width:100%;
   border:0;
@@ -213,6 +253,7 @@ input:focus{border-color:#111827}
   border-radius:11px;
   padding:11px;
 }
+
 .chat{
   flex:1;
   min-width:0;
@@ -220,19 +261,23 @@ input:focus{border-color:#111827}
   display:flex;
   flex-direction:column;
 }
+
 .empty-chat{
   margin:auto;
   text-align:center;
   padding:30px;
   color:#7b8493;
 }
+
 .empty-chat h2{color:#172033}
+
 .chat-area{
   flex:1;
   display:flex;
   flex-direction:column;
   min-height:0;
 }
+
 .chat-header{
   min-height:73px;
   background:#fff;
@@ -242,44 +287,64 @@ input:focus{border-color:#111827}
   padding:10px 18px;
   gap:12px;
 }
+
 .chat-user-name{font-weight:700}
+
 .chat-user-email{
   color:#7b8493;
   font-size:12px;
 }
+
 .messages{
   flex:1;
   overflow-y:auto;
   padding:20px;
 }
+
 .message-wrap{
   display:flex;
   margin:10px 0;
 }
-.message-wrap.mine{justify-content:flex-end}
+
+.message-wrap.mine{
+  justify-content:flex-end;
+}
+
 .message-container{
   max-width:min(75%,520px);
 }
+
 .message{
   padding:10px 13px;
   border-radius:16px;
   background:#e3e7ed;
   word-wrap:break-word;
 }
+
 .message-wrap.mine .message{
   background:#111827;
   color:#fff;
   border-bottom-right-radius:5px;
 }
+
 .message-wrap:not(.mine) .message{
   border-bottom-left-radius:5px;
 }
+
 .message-time{
   font-size:10px;
   opacity:.6;
   margin-top:4px;
   text-align:right;
 }
+
+.message-status{
+  font-size:10px;
+  opacity:.6;
+  margin-top:4px;
+  text-align:right;
+}
+
 .composer{
   display:flex;
   gap:8px;
@@ -287,10 +352,12 @@ input:focus{border-color:#111827}
   border-top:1px solid #e5e7eb;
   padding:12px;
 }
+
 .composer input{
   flex:1;
   margin:0;
 }
+
 .composer button{
   width:75px;
   border:0;
@@ -298,127 +365,210 @@ input:focus{border-color:#111827}
   background:#111827;
   color:#fff;
 }
+
 @media(max-width:700px){
-  .header{height:68px}
+
+  .header{
+    height:68px;
+  }
+
   .main{
     flex-direction:column;
     min-height:calc(100vh - 68px);
   }
+
   .sidebar{
     width:100%;
     height:360px;
     border-right:0;
     border-bottom:1px solid #e5e7eb;
   }
-  .chat{min-height:500px}
-  .messages{padding:14px}
-  .message-container{max-width:82%}
+
+  .chat{
+    min-height:500px;
+  }
+
+  .messages{
+    padding:14px;
+  }
+
+  .message-container{
+    max-width:82%;
+  }
 }
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <header class="header">
+
   <div>
     <div class="logo">TwinChat</div>
+
     <div class="tagline">
       Private messaging made simple.
     </div>
   </div>
+
   <div class="header-user">
     <span id="headerName"></span>
     <div id="headerAvatar" class="avatar"></div>
   </div>
+
 </header>
+
+
 <section id="authScreen" class="auth">
+
   <div class="auth-card">
-<h2>Welcome to TwinChat 👋</h2>
-<p>Chat privately with your friends.</p>
-<input
-  id="email"
-  type="email"
-  placeholder="Email address"
-  autocomplete="email"
->
-<input
-  id="password"
-  type="password"
-  placeholder="Password"
-  autocomplete="current-password"
->
-<button id="signupBtn" class="primary-btn">
-  Create Account
-</button>
-<button id="loginBtn" class="secondary-btn">
-  Log In
-</button>
-<div id="authStatus" class="status"></div>
+
+    <h2>Welcome to TwinChat 👋</h2>
+
+    <p>Chat privately with your friends.</p>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Email address"
+      autocomplete="email"
+    >
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+    <button id="signupBtn" class="primary-btn">
+      Create Account
+    </button>
+
+    <button id="loginBtn" class="secondary-btn">
+      Log In
+    </button>
+
+    <div id="authStatus" class="status"></div>
+
   </div>
+
 </section>
+
+
 <section id="mainScreen" class="main hidden">
+
 <aside class="sidebar">
+
   <div class="sidebar-top">
-<div class="sidebar-title">
-  <h2>Messages</h2>
-</div>
-<button id="notificationBtn" class="notification-btn">
-  🔔 Enable Notifications
-</button>
-<div class="search-row">
-  <input
-    id="searchInput"
-    class="search"
-    placeholder="Search by email..."
-  >
-  <button id="searchBtn" class="search-btn">
-    Search
-  </button>
-</div>
-<div id="searchResults" class="search-results"></div>
+
+    <div class="sidebar-title">
+      <h2>Messages</h2>
+    </div>
+
+    <button id="notificationBtn" class="notification-btn">
+      🔔 Enable Notifications
+    </button>
+
+    <div class="search-row">
+
+      <input
+        id="searchInput"
+        class="search"
+        placeholder="Search by email..."
+      >
+
+      <button id="searchBtn" class="search-btn">
+        Search
+      </button>
+
+    </div>
+
+    <div id="searchResults" class="search-results"></div>
+
   </div>
+
   <div class="conversations-title">
     Your chats
   </div>
+
   <div id="conversationList" class="conversations"></div>
+
   <div class="logout">
+
     <button id="logoutBtn">
       Log Out
     </button>
+
   </div>
+
 </aside>
+
+
 <main class="chat">
+
   <div id="emptyChat" class="empty-chat">
+
     <h2>Your messages</h2>
+
     <p>
       Search for an email to start a conversation.
     </p>
+
   </div>
+
+
   <div id="chatArea" class="chat-area hidden">
-<div class="chat-header">
-  <div id="chatAvatar" class="avatar"></div>
-  <div>
-    <div id="chatTitle" class="chat-user-name"></div>
-    <div id="chatEmail" class="chat-user-email"></div>
+
+    <div class="chat-header">
+
+      <div id="chatAvatar" class="avatar"></div>
+
+      <div>
+
+        <div id="chatTitle" class="chat-user-name"></div>
+
+        <div id="chatEmail" class="chat-user-email"></div>
+
+      </div>
+
+    </div>
+
+
+    <div id="messages" class="messages"></div>
+
+
+    <div class="composer">
+
+      <input
+        id="messageInput"
+        placeholder="Write a message..."
+      >
+
+      <button id="sendBtn">
+        Send
+      </button>
+
+    </div>
+
   </div>
-</div>
-<div id="messages" class="messages"></div>
-<div class="composer">
-  <input
-    id="messageInput"
-    placeholder="Write a message..."
-  >
-  <button id="sendBtn">
-    Send
-  </button>
-</div>
-  </div>
+
 </main>
+
 </section>
+
 </div>
+
+
 <script type="module">
+
 import {
   initializeApp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -426,6 +576,8 @@ import {
   signOut,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
 import {
   getFirestore,
   collection,
@@ -434,104 +586,165 @@ import {
   addDoc,
   getDoc,
   getDocs,
+  updateDoc,
   query,
   where,
   orderBy,
   onSnapshot,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
 import {
   getMessaging,
   getToken,
   onMessage,
   isSupported
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-messaging.js";
+
+
 /* =========================
    FIREBASE
 ========================= */
+
 const firebaseConfig = {
+
   apiKey:"AIzaSyB-A2OZTgE__xkowZalDL9Dm8-TIy5DjjU",
+
   authDomain:"twinchat-e77f1.firebaseapp.com",
+
   projectId:"twinchat-e77f1",
+
   storageBucket:"twinchat-e77f1.firebasestorage.app",
+
   messagingSenderId:"739355722602",
+
   appId:"1:739355722602:web:a77a2d1638459ee0e8db13"
+
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+
+
+const app =
+  initializeApp(firebaseConfig);
+
+
+const auth =
+  getAuth(app);
+
+
+const db =
+  getFirestore(app);
+
+
 /* =========================
    FIREBASE MESSAGING
 ========================= */
+
 let messaging = null;
+
+
 const VAPID_KEY =
   "BOlTq7nwLTn9f4EmElkEtc1sE2xYGHGWJtTIZ5pJvekszV-wt3eSzmz_LXnzVLSar1zNvf7v5r-mF9KAhoox3A4";
+
+
 async function initializeMessaging(){
+
   try{
+
     const supported =
       await isSupported();
+
     if(!supported){
+
       console.log(
         "Firebase Messaging is not supported on this browser."
       );
+
       return false;
     }
+
     messaging =
       getMessaging(app);
+
     return true;
+
   }catch(error){
+
     console.error(
       "MESSAGING INITIALIZATION ERROR:",
       error
     );
+
     return false;
   }
 }
+
+
 /* =========================
    NOTIFICATIONS
 ========================= */
+
 async function enableNotifications(){
+
   const user =
     auth.currentUser;
+
   if(!user){
+
     alert(
       "Log in first."
     );
+
     return;
   }
+
   try{
+
     if(!messaging){
+
       const initialized =
         await initializeMessaging();
+
       if(!initialized){
+
         alert(
           "Notifications aren't supported on this device/browser."
         );
+
         return;
       }
     }
+
     if(
       !("Notification" in window)
     ){
+
       alert(
         "Notifications aren't supported here."
       );
+
       return;
     }
+
     const permission =
       await Notification.requestPermission();
+
     if(
       permission !== "granted"
     ){
+
       alert(
         "Notification permission was not granted."
       );
+
       return;
     }
+
     const registration =
       await navigator.serviceWorker.register(
         "/firebase-messaging-sw.js"
       );
+
     const token =
       await getToken(
         messaging,
@@ -541,12 +754,16 @@ async function enableNotifications(){
             registration
         }
       );
+
     if(!token){
+
       alert(
         "TwinChat couldn't get a notification token."
       );
+
       return;
     }
+
     await setDoc(
       doc(
         db,
@@ -557,63 +774,85 @@ async function enableNotifications(){
       ),
       {
         token:token,
+
         createdAt:
           serverTimestamp(),
+
         platform:
           "web"
       }
     );
+
     notificationBtn.textContent =
       "🔔 Notifications Enabled";
+
     notificationBtn.disabled =
       true;
+
     console.log(
       "FCM TOKEN:",
       token
     );
+
     alert(
       "Notifications are enabled!"
     );
+
   }catch(error){
+
     console.error(
       "NOTIFICATION ERROR:",
       error
     );
+
     alert(
       "Could not enable notifications:\n\n" +
       error.message
     );
   }
 }
+
+
 /* =========================
    FOREGROUND NOTIFICATIONS
 ========================= */
+
 async function setupForegroundMessaging(){
+
   try{
+
     if(!messaging){
+
       const initialized =
         await initializeMessaging();
+
       if(!initialized){
         return;
       }
     }
+
     onMessage(
       messaging,
       payload=>{
+
         console.log(
           "Notification received:",
           payload
         );
+
         const title =
           payload.notification?.title ||
           "TwinChat";
+
         const body =
           payload.notification?.body ||
           "You have a new message.";
+
         if(
           Notification.permission ===
           "granted"
         ){
+
           new Notification(
             title,
             {
@@ -624,88 +863,131 @@ async function setupForegroundMessaging(){
         }
       }
     );
+
   }catch(error){
+
     console.error(
       "FOREGROUND MESSAGING ERROR:",
       error
     );
   }
 }
+
+
 /* =========================
    ELEMENTS
 ========================= */
+
 const authScreen =
   document.getElementById("authScreen");
+
 const mainScreen =
   document.getElementById("mainScreen");
+
 const emailInput =
   document.getElementById("email");
+
 const passwordInput =
   document.getElementById("password");
+
 const signupBtn =
   document.getElementById("signupBtn");
+
 const loginBtn =
   document.getElementById("loginBtn");
+
 const logoutBtn =
   document.getElementById("logoutBtn");
+
 const authStatus =
   document.getElementById("authStatus");
+
 const notificationBtn =
   document.getElementById("notificationBtn");
+
 const searchInput =
   document.getElementById("searchInput");
+
 const searchBtn =
   document.getElementById("searchBtn");
+
 const searchResults =
   document.getElementById("searchResults");
+
 const conversationList =
   document.getElementById("conversationList");
+
 const emptyChat =
   document.getElementById("emptyChat");
+
 const chatArea =
   document.getElementById("chatArea");
+
 const chatAvatar =
   document.getElementById("chatAvatar");
+
 const chatTitle =
   document.getElementById("chatTitle");
+
 const chatEmail =
   document.getElementById("chatEmail");
+
 const messagesDiv =
   document.getElementById("messages");
+
 const messageInput =
   document.getElementById("messageInput");
+
 const sendBtn =
   document.getElementById("sendBtn");
+
 const headerName =
   document.getElementById("headerName");
+
 const headerAvatar =
   document.getElementById("headerAvatar");
+
+
 /* =========================
    STATE
 ========================= */
+
 let currentConversationId = null;
+
 let currentOtherUser = null;
+
 let unsubscribeMessages = null;
+
 let unsubscribeConversations = null;
+
+
 /* =========================
    AVATAR
 ========================= */
+
 function setAvatar(
   element,
   user
 ){
+
   element.innerHTML = "";
+
   const name =
     user?.displayName ||
     user?.email ||
     "?";
+
   element.textContent =
     name.charAt(0).toUpperCase();
 }
+
+
 /* =========================
    PROFILE
 ========================= */
+
 async function getUserProfile(uid){
+
   const snap =
     await getDoc(
       doc(
@@ -714,40 +996,54 @@ async function getUserProfile(uid){
         uid
       )
     );
+
   if(!snap.exists()){
     return null;
   }
+
   return {
     ...snap.data(),
     uid:uid
   };
 }
+
+
 /* =========================
    AUTH
 ========================= */
+
 signupBtn.addEventListener(
   "click",
   async()=>{
+
     const email =
       emailInput.value
         .trim()
         .toLowerCase();
+
     const password =
       passwordInput.value;
+
     if(!email || !password){
+
       authStatus.textContent =
         "Enter an email and password.";
+
       return;
     }
+
     try{
+
       const result =
         await createUserWithEmailAndPassword(
           auth,
           email,
           password
         );
+
       const user =
         result.user;
+
       await setDoc(
         doc(
           db,
@@ -756,165 +1052,235 @@ signupBtn.addEventListener(
         ),
         {
           uid:user.uid,
+
           email:email,
+
           displayName:
             email.split("@")[0],
+
           createdAt:
             serverTimestamp()
         }
       );
+
       authStatus.textContent = "";
+
     }catch(error){
+
       console.error(
         "SIGNUP ERROR:",
         error
       );
+
       authStatus.textContent =
         friendlyError(error);
     }
   }
 );
+
+
 loginBtn.addEventListener(
   "click",
   async()=>{
+
     const email =
       emailInput.value
         .trim()
         .toLowerCase();
+
     const password =
       passwordInput.value;
+
     if(!email || !password){
+
       authStatus.textContent =
         "Enter an email and password.";
+
       return;
     }
+
     try{
+
       await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
+
       authStatus.textContent = "";
+
     }catch(error){
+
       console.error(
         "LOGIN ERROR:",
         error
       );
+
       authStatus.textContent =
         friendlyError(error);
     }
   }
 );
+
+
 logoutBtn.addEventListener(
   "click",
   async()=>{
     await signOut(auth);
   }
 );
+
+
 /* =========================
    NOTIFICATION BUTTON
 ========================= */
+
 notificationBtn.addEventListener(
   "click",
   enableNotifications
 );
+
+
 /* =========================
    AUTH STATE
 ========================= */
+
 onAuthStateChanged(
   auth,
   async user=>{
+
     if(!user){
+
       if(unsubscribeMessages){
+
         unsubscribeMessages();
+
         unsubscribeMessages =
           null;
       }
+
       if(unsubscribeConversations){
+
         unsubscribeConversations();
+
         unsubscribeConversations =
           null;
       }
+
       currentConversationId =
         null;
+
       currentOtherUser =
         null;
+
       authScreen.classList.remove(
         "hidden"
       );
+
       mainScreen.classList.add(
         "hidden"
       );
+
       emptyChat.classList.remove(
         "hidden"
       );
+
       chatArea.classList.add(
         "hidden"
       );
+
       conversationList.innerHTML =
         "";
+
       messagesDiv.innerHTML =
         "";
+
       headerName.textContent =
         "";
+
       headerAvatar.textContent =
         "";
+
       return;
     }
+
     authScreen.classList.add(
       "hidden"
     );
+
     mainScreen.classList.remove(
       "hidden"
     );
+
     const profile =
       await getUserProfile(
         user.uid
       );
+
     headerName.textContent =
       profile?.displayName ||
       user.email ||
       "User";
+
     setAvatar(
       headerAvatar,
       profile || user
     );
+
     loadConversations();
+
     setupForegroundMessaging();
   }
 );
+
+
 /* =========================
    SEARCH
 ========================= */
+
 searchBtn.addEventListener(
   "click",
   searchUsers
 );
+
+
 searchInput.addEventListener(
   "keydown",
   event=>{
+
     if(event.key === "Enter"){
+
       event.preventDefault();
+
       searchUsers();
     }
   }
 );
+
+
 async function searchUsers(){
+
   const search =
     searchInput.value
       .trim()
       .toLowerCase();
+
   searchResults.innerHTML =
     "";
+
   if(!search){
     return;
   }
+
   const user =
     auth.currentUser;
+
   if(!user){
     return;
   }
+
   try{
+
     const q =
       query(
         collection(
@@ -927,102 +1293,138 @@ async function searchUsers(){
           search
         )
       );
+
     const snapshot =
       await getDocs(q);
+
     if(snapshot.empty){
+
       searchResults.textContent =
         "No user found.";
+
       return;
     }
+
     snapshot.forEach(
       userDoc=>{
+
         if(
           userDoc.id ===
           user.uid
         ){
           return;
         }
+
         const otherUser =
           userDoc.data();
+
         const button =
           document.createElement(
             "button"
           );
+
         button.className =
           "user-result";
+
         const avatar =
           document.createElement(
             "div"
           );
+
         avatar.className =
           "avatar";
+
         setAvatar(
           avatar,
           otherUser
         );
+
         const info =
           document.createElement(
             "div"
           );
+
         info.className =
           "user-result-info";
+
         const name =
           document.createElement(
             "div"
           );
+
         name.className =
           "user-result-name";
+
         name.textContent =
           otherUser.displayName ||
           "User";
+
         const email =
           document.createElement(
             "div"
           );
+
         email.className =
           "user-result-email";
+
         email.textContent =
           otherUser.email ||
           "";
+
         info.appendChild(name);
+
         info.appendChild(email);
+
         button.appendChild(avatar);
+
         button.appendChild(info);
+
         button.addEventListener(
           "click",
           async()=>{
+
             searchResults.innerHTML =
               "";
+
             searchInput.value =
               "";
+
             await startConversation(
               userDoc.id,
               otherUser
             );
           }
         );
+
         searchResults.appendChild(
           button
         );
       }
     );
+
   }catch(error){
+
     console.error(
       "SEARCH ERROR:",
       error
     );
+
     searchResults.textContent =
       "Search failed: " +
       error.message;
   }
 }
+
+
 /* =========================
    CONVERSATION ID
 ========================= */
+
 function makeConversationId(
   uid1,
   uid2
 ){
+
   return [
     uid1,
     uid2
@@ -1030,51 +1432,69 @@ function makeConversationId(
     .sort()
     .join("_");
 }
+
+
 /* =========================
    START CONVERSATION
 ========================= */
+
 async function startConversation(
   otherUserId,
   otherUser
 ){
+
   const user =
     auth.currentUser;
+
   if(!user){
+
     alert(
       "You are not logged in."
     );
+
     return;
   }
+
   if(
     !otherUserId ||
     otherUserId === user.uid
   ){
+
     return;
   }
+
   const participants = [
     user.uid,
     otherUserId
   ].sort();
+
   const conversationId =
     participants.join("_");
+
   const conversationRef =
     doc(
       db,
       "conversations",
       conversationId
     );
+
   try{
+
     await setDoc(
       conversationRef,
       {
         participants:participants,
+
         lastMessage:"",
+
         updatedAt:
           serverTimestamp(),
+
         typing:{
           [user.uid]:false,
           [otherUserId]:false
         },
+
         unreadCounts:{
           [user.uid]:0,
           [otherUserId]:0
@@ -1084,56 +1504,78 @@ async function startConversation(
         merge:true
       }
     );
+
     currentConversationId =
       conversationId;
+
     currentOtherUser = {
       ...otherUser,
       uid:otherUserId
     };
+
     emptyChat.classList.add(
       "hidden"
     );
+
     chatArea.classList.remove(
       "hidden"
     );
+
     chatTitle.textContent =
       otherUser.displayName ||
       "User";
+
     chatEmail.textContent =
       otherUser.email ||
       "";
+
     setAvatar(
       chatAvatar,
       otherUser
     );
+
     listenForMessages();
+
     loadConversations();
+
     messageInput.focus();
+
   }catch(error){
+
     console.error(
       "START CONVERSATION ERROR:",
       error
     );
+
     alert(
       "Could not open this conversation:\n\n" +
       error.message
     );
   }
 }
+
+
 /* =========================
    SIDEBAR
 ========================= */
+
 function loadConversations(){
+
   const user =
     auth.currentUser;
+
   if(!user){
     return;
   }
+
   if(unsubscribeConversations){
+
     unsubscribeConversations();
+
     unsubscribeConversations =
       null;
   }
+
   const q =
     query(
       collection(
@@ -1146,38 +1588,51 @@ function loadConversations(){
         user.uid
       )
     );
+
   unsubscribeConversations =
     onSnapshot(
       q,
       async snapshot=>{
+
         conversationList.innerHTML =
           "";
+
         const conversations =
           snapshot.docs.map(
             conversationDoc=>({
+
               id:
                 conversationDoc.id,
+
               data:
                 conversationDoc.data()
+
             })
           );
+
         conversations.sort(
           (a,b)=>{
+
             const aTime =
               a.data.updatedAt
                 ?.toMillis?.() || 0;
+
             const bTime =
               b.data.updatedAt
                 ?.toMillis?.() || 0;
+
             return bTime - aTime;
           }
         );
+
         for(
           const conversation
           of conversations
         ){
+
           const data =
             conversation.data;
+
           if(
             !Array.isArray(
               data.participants
@@ -1185,74 +1640,98 @@ function loadConversations(){
           ){
             continue;
           }
+
           const otherId =
             data.participants.find(
               id =>
                 id !== user.uid
             );
+
           if(!otherId){
             continue;
           }
+
           const otherUser =
             await getUserProfile(
               otherId
             );
+
           if(!otherUser){
             continue;
           }
+
           const button =
             document.createElement(
               "button"
             );
+
           button.className =
             "conversation";
+
           if(
             conversation.id ===
             currentConversationId
           ){
+
             button.classList.add(
               "active"
             );
           }
+
           const avatar =
             document.createElement(
               "div"
             );
+
           avatar.className =
             "avatar";
+
           setAvatar(
             avatar,
             otherUser
           );
+
           const info =
             document.createElement(
               "div"
             );
+
           info.className =
             "conversation-info";
+
           const name =
             document.createElement(
               "div"
             );
+
           name.className =
             "conversation-name";
+
           name.textContent =
             otherUser.displayName ||
             otherUser.email ||
             "User";
+
           const preview =
             document.createElement(
               "div"
             );
+
           preview.className =
             "conversation-preview";
+
           preview.textContent =
             data.lastMessage ||
             "No messages yet";
+
           info.appendChild(name);
+
           info.appendChild(preview);
+
           button.appendChild(avatar);
+
           button.appendChild(info);
+
           button.addEventListener(
             "click",
             ()=>{
@@ -1262,46 +1741,174 @@ function loadConversations(){
               );
             }
           );
+
           conversationList.appendChild(
             button
           );
         }
       },
       error=>{
+
         console.error(
           "SIDEBAR ERROR:",
           error
         );
+
         conversationList.innerHTML =
           "";
+
         const errorMessage =
           document.createElement(
             "div"
           );
+
         errorMessage.style.padding =
           "20px";
+
         errorMessage.style.color =
           "#7b8493";
+
         errorMessage.textContent =
           "Could not load conversations.";
+
         conversationList.appendChild(
           errorMessage
         );
       }
     );
 }
+
+
+/* =========================
+   MARK MESSAGE DELIVERED
+========================= */
+
+async function markMessageDelivered(
+  messageDoc
+){
+
+  const message =
+    messageDoc.data();
+
+  const user =
+    auth.currentUser;
+
+  if(!user){
+    return;
+  }
+
+  if(
+    message.senderId ===
+    user.uid
+  ){
+    return;
+  }
+
+  if(message.delivered === true){
+    return;
+  }
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "conversations",
+        currentConversationId,
+        "messages",
+        messageDoc.id
+      ),
+      {
+        delivered:true,
+        read:true
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "DELIVERY UPDATE ERROR:",
+      error
+    );
+  }
+}
+
+
+/* =========================
+   MARK MESSAGE READ
+========================= */
+
+async function markMessageRead(
+  messageDoc
+){
+
+  const message =
+    messageDoc.data();
+
+  const user =
+    auth.currentUser;
+
+  if(!user){
+    return;
+  }
+
+  if(
+    message.senderId ===
+    user.uid
+  ){
+    return;
+  }
+
+  if(
+    message.read === true
+  ){
+    return;
+  }
+
+  try{
+
+    await updateDoc(
+      doc(
+        db,
+        "conversations",
+        currentConversationId,
+        "messages",
+        messageDoc.id
+      ),
+      {
+        delivered:true,
+        read:true
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      "READ UPDATE ERROR:",
+      error
+    );
+  }
+}
+
+
 /* =========================
    MESSAGES
 ========================= */
+
 function listenForMessages(){
+
   if(!currentConversationId){
     return;
   }
+
   if(unsubscribeMessages){
+
     unsubscribeMessages();
+
     unsubscribeMessages =
       null;
   }
+
   const messagesRef =
     collection(
       db,
@@ -1309,6 +1916,7 @@ function listenForMessages(){
       currentConversationId,
       "messages"
     );
+
   const q =
     query(
       messagesRef,
@@ -1317,23 +1925,30 @@ function listenForMessages(){
         "asc"
       )
     );
+
   unsubscribeMessages =
     onSnapshot(
       q,
       snapshot=>{
+
         messagesDiv.innerHTML =
           "";
+
         snapshot.forEach(
           messageDoc=>{
+
             const message =
               messageDoc.data();
+
             const wrap =
               document.createElement(
                 "div"
               );
+
             const mine =
               message.senderId ===
               auth.currentUser?.uid;
+
             wrap.className =
               "message-wrap" +
               (
@@ -1341,43 +1956,129 @@ function listenForMessages(){
                   ? " mine"
                   : ""
               );
+
             const container =
               document.createElement(
                 "div"
               );
+
             container.className =
               "message-container";
+
             const box =
               document.createElement(
                 "div"
               );
+
             box.className =
               "message";
+
             box.textContent =
               message.text ||
               "";
+
             if(message.createdAt){
+
               const time =
                 document.createElement(
                   "div"
                 );
+
               time.className =
                 "message-time";
+
               time.textContent =
                 formatTimestamp(
                   message.createdAt
                 );
+
               box.appendChild(time);
             }
-            container.appendChild(box);
-            wrap.appendChild(container);
-            messagesDiv.appendChild(wrap);
+
+
+            /* =========================
+               MESSAGE STATUS
+            ========================= */
+
+            if(mine){
+
+              const status =
+                document.createElement(
+                  "div"
+                );
+
+              status.className =
+                "message-status";
+
+              if(message.read === true){
+
+                status.textContent =
+                  "Read";
+
+              }else if(
+                message.delivered === true
+              ){
+
+                status.textContent =
+                  "Delivered";
+
+              }else{
+
+                status.textContent =
+                  "Sent";
+              }
+
+              container.appendChild(
+                box
+              );
+
+              container.appendChild(
+                status
+              );
+
+            }else{
+
+              container.appendChild(
+                box
+              );
+            }
+
+
+            wrap.appendChild(
+              container
+            );
+
+            messagesDiv.appendChild(
+              wrap
+            );
+
+
+            /* =========================
+               INCOMING MESSAGE STATUS
+            ========================= */
+
+            if(!mine){
+
+              if(
+                message.delivered !== true ||
+                message.read !== true
+              ){
+
+                markMessageRead(
+                  messageDoc
+                );
+              }
+            }
+
           }
         );
+
         messagesDiv.scrollTop =
           messagesDiv.scrollHeight;
+
       },
       error=>{
+
         console.error(
           "MESSAGE LISTEN ERROR:",
           error
@@ -1385,61 +2086,88 @@ function listenForMessages(){
       }
     );
 }
+
+
 /* =========================
    SEND
 ========================= */
+
 sendBtn.addEventListener(
   "click",
   sendMessage
 );
+
+
 messageInput.addEventListener(
   "keydown",
   event=>{
+
     if(event.key === "Enter"){
+
       event.preventDefault();
+
       sendMessage();
     }
   }
 );
+
+
 async function sendMessage(){
+
   const user =
     auth.currentUser;
+
   const text =
     messageInput.value.trim();
+
   if(!user){
+
     alert(
       "You are not logged in."
     );
+
     return;
   }
+
   if(!currentConversationId){
+
     alert(
       "Choose a person first."
     );
+
     return;
   }
+
   if(!text){
     return;
   }
+
   try{
+
     const conversationRef =
       doc(
         db,
         "conversations",
         currentConversationId
       );
+
     const conversationSnap =
       await getDoc(
         conversationRef
       );
+
     if(!conversationSnap.exists()){
+
       alert(
         "Conversation does not exist."
       );
+
       return;
     }
+
     const conversation =
       conversationSnap.data();
+
     if(
       !Array.isArray(
         conversation.participants
@@ -1448,11 +2176,19 @@ async function sendMessage(){
         user.uid
       )
     ){
+
       alert(
         "You are not allowed to use this conversation."
       );
+
       return;
     }
+
+
+    /* =========================
+       CREATE MESSAGE
+    ========================= */
+
     await addDoc(
       collection(
         db,
@@ -1461,56 +2197,84 @@ async function sendMessage(){
         "messages"
       ),
       {
+
         text:text,
+
         senderId:user.uid,
+
         createdAt:
-          serverTimestamp()
+          serverTimestamp(),
+
+        delivered:false,
+
+        read:false
+
       }
     );
+
+
     await setDoc(
       conversationRef,
       {
+
         lastMessage:text,
+
         updatedAt:
           serverTimestamp()
+
       },
       {
         merge:true
       }
     );
+
+
     messageInput.value = "";
+
     messageInput.focus();
+
   }catch(error){
+
     console.error(
       "SEND ERROR:",
       error
     );
+
     alert(
       "MESSAGE FAILED:\n\n" +
       error.message
     );
   }
 }
+
+
 /* =========================
    TIME
 ========================= */
+
 function formatTimestamp(
   timestamp
 ){
+
   if(
     !timestamp ||
     !timestamp.toDate
   ){
+
     return "";
   }
+
   const date =
     timestamp.toDate();
+
   const now =
     new Date();
+
   if(
     date.toDateString() ===
     now.toDateString()
   ){
+
     return date.toLocaleTimeString(
       [],
       {
@@ -1519,6 +2283,7 @@ function formatTimestamp(
       }
     );
   }
+
   return date.toLocaleDateString(
     [],
     {
@@ -1527,30 +2292,52 @@ function formatTimestamp(
     }
   );
 }
+
+
 /* =========================
    ERRORS
 ========================= */
+
 function friendlyError(error){
+
   switch(error.code){
+
     case "auth/email-already-in-use":
+
       return "That email already has an account.";
+
     case "auth/invalid-email":
+
       return "Please enter a valid email.";
+
     case "auth/invalid-credential":
+
       return "Incorrect email or password.";
+
     case "auth/user-not-found":
+
       return "Incorrect email or password.";
+
     case "auth/wrong-password":
+
       return "Incorrect email or password.";
+
     case "auth/weak-password":
+
       return "Password must be at least 6 characters.";
+
     case "auth/too-many-requests":
+
       return "Too many attempts. Try again later.";
+
     default:
+
       return error.message ||
         "Something went wrong.";
   }
 }
+
 </script>
+
 </body>
 </html>
